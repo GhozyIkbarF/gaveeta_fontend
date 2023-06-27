@@ -68,6 +68,10 @@ export default function Pegawai() {
               ),
           },
           {
+              Header: 'alamat',
+              accessor: 'address',
+          },
+          {
               Header: 'phone',
               accessor: 'phone',
           },
@@ -122,7 +126,7 @@ export default function Pegawai() {
   return (
     <>
     { loading && <Loading/>}
-      <Box p={5} pt='5'>
+      <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={5}>
           <TableContainer borderRadius={'md'} bgColor='white' shadow={'sm'} overflowX='auto' py='5' boxShadow='md'>
           <Text pl='5' fontWeight='bold' fontSize='lg'>Total jumlah pegawai: {data.length}</Text>
               <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p='5'>

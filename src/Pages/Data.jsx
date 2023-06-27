@@ -8,10 +8,10 @@ import {
     Th,
     Td,
     TableContainer,
+    useToast
 } from '@chakra-ui/react'
 import { useTable, usePagination, useGlobalFilter } from "react-table";
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import { useToast } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { formatMoneyIDR, formatToIDR, convertToIndonesianDate, getThisMonth } from '../validation/format';
@@ -24,19 +24,18 @@ import logoGaveeta from '../Assets/logo-gaveeta.png'
 export default function Data() {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
-    // const [payment, setPayment] = useState([])
+    const [company, setCompany] = useState([])
     let [pendapatan, setPendapatan] = useState(0)
-    // let pendapatan = 0;
 
+    console.log(data);
+    const toast = useToast();
     const {
         handleSubmit,
         setValue,
         register,
         watch,
-        formState: { errors, isSubmitting },
     } = useForm(
         {
-            //   resolver: yupResolver(CREATE_PESANAN_MASUK_VALIDATION),
             defaultValues: {
                 date: ''
             },
@@ -53,8 +52,17 @@ export default function Data() {
         setData([]);
         try {
             const res = await API.getOrderPerMonth(data);
-            setData(res.data);
+            setData(res.data.orderPerMonth);
+            setCompany(res.data.company);
         } catch (err) {
+            toast({
+                title: "Something went wrong",
+                description: "Something went wrong...",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "bottom-right",
+            });
             console.error(err);
         }
         setLoading(false)
@@ -134,14 +142,11 @@ export default function Data() {
         prepareRow,
         page,
         pageOptions,
-        pageCount,
-        gotoPage,
         nextPage,
         previousPage,
         canNextPage,
         canPreviousPage,
         state,
-        setGlobalFilter
     } = useTable(
         {
             columns,
@@ -151,7 +156,7 @@ export default function Data() {
         usePagination
     );
 
-    const { globalFilter, pageIndex } = state;
+    const { pageIndex } = state;
 
     const generatePDF = () => {
 
@@ -168,24 +173,24 @@ export default function Data() {
         doc.setFontSize(36);
 
         // Add institution name
-        doc.text('Gaveeta Packaging', doc.internal.pageSize.getWidth() / 4 + 6, 25, { align: 'left' });
+        doc.text(company.name, doc.internal.pageSize.getWidth() / 4 + 6, 25, { align: 'left' });
 
         // Set font styles for address, telephone, email, website
         doc.setFont('times', 'normal');
         doc.setFontSize(11);
 
         // Add address
-        const address = 'Garen RT 03/04 No. 50A, Pandeyan, Ngemplak, Boyolali, Jawa Tengah 57375';
+        const address = company.address;
         doc.text(address, doc.internal.pageSize.getWidth() / 4 + 6, 32, { align: 'left' });
 
         // Add telephone and email
-        const telephone = '0812 2617 4781';
-        const email = 'gaveeta.creative@gmail.com';
+        const telephone = company.phone;
+        const email = company.email;
         doc.text(`Telp: ${telephone}   Email: ${email}`, doc.internal.pageSize.getWidth() / 4 + 6, 37, { align: 'left' });
 
         // Add website and Facebook
-        const website = 'www.kotakkado.web.id';
-        const facebook = 'gaveeta aneka kado';
+        const website = company.website;
+        const facebook = company.facebook;
         doc.text(`Website: ${website}   Facebook: ${facebook}`, doc.internal.pageSize.getWidth() / 4 + 6, 42, { align: 'left' });
 
         doc.setLineWidth(1);

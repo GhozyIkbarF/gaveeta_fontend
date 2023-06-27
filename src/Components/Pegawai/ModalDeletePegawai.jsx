@@ -60,25 +60,24 @@ export default function AlertDeletePegawai({ onClose, isOpen }) {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Delete Customer
+              Delete Pegawai
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
+              Apa kamu yakin? Anda tidak dapat membatalkan tindakan ini setelahnya.
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button
                 ref={cancelRef}
-                colorScheme="red"
                 disabled={isFetching}
                 onClick={isFetching ? null : onClose}
-                variant="ghost"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleDelete}
+                colorScheme='red'
                 mr={3}
                 isLoading={isFetching}
                 type="submit"

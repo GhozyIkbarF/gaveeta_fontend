@@ -34,8 +34,6 @@ export default function ModalEdit({ data, isOpen, onClose }) {
     const [isSmallerThanSm] = useMediaQuery("(max-width: 640px)");
 
     const { triggerEditData } = useSelector(state => state.company)
-    console.log(triggerEditData);
-    console.log(data);
     const {
         register,
         handleSubmit,

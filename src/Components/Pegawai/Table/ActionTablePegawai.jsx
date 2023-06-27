@@ -48,14 +48,14 @@ export default function ActionTablePegawai(props) {
             align="flex-start"
             gap='2'
         >
-            <Button
+            {/* <Button
                 color='white'
                 bg={"blue.400"}
                 variant="no-effects"
                 onClick={ActionUpdate(id, 'edit')}
             >
                 <Icon as={FaEye} />
-            </Button>
+            </Button> */}
             <Button
                 color='white'
                 bg={textColor}

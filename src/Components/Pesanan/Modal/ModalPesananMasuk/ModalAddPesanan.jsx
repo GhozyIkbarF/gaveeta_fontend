@@ -147,7 +147,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
   useEffect(() => {
     setIsLoadingDesign(false)
     setIsLoadingModel(false)
-  },[finalDesign, finalModel])
+  }, [finalDesign, finalModel])
 
 
   async function onSubmit(data) {
@@ -235,23 +235,23 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
               <Wrap spacing='10px' justify={'space-between'}>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>nama pemesan</FormLabel>
-                  <Input type="text" name="name" {...register('name')} placeholder='Nama' />          
-                    {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text> }                
+                  <Input type="text" name="name" {...register('name')} placeholder='Nama' />
+                  {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Email</FormLabel>
-                  <Input type='email' name="email" {...register('email')} placeholder='Email' />                                                        
-                    {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text> }                
+                  <Input type='email' name="email" {...register('email')} placeholder='Email' />
+                  {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Phone</FormLabel>
-                  <Input type="number" name="phone" {...register('phone')} placeholder='Phone'/>                  
-                    {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text> }                                                      
+                  <Input type="number" name="phone" {...register('phone')} placeholder='Phone' />
+                  {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text>}
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
                   <FormLabel>Alamat</FormLabel>
-                  <Textarea type="text" name="address" {...register('address')} placeholder='Alamat'/>                  
-                    {errors.address && <Text color={'red'} fontSize={'sm'}>{errors.address.message}</Text> }                                                                                            
+                  <Textarea type="text" name="address" {...register('address')} placeholder='Alamat' />
+                  {errors.address && <Text color={'red'} fontSize={'sm'}>{errors.address.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Jumlah pesanan</FormLabel>
@@ -267,7 +267,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Deadline</FormLabel>
-                  <Input type="date" name="deadline" {...register('deadline')} placeholder='Deadline' min={getDateToday()}/>
+                  <Input type="date" name="deadline" {...register('deadline')} placeholder='Deadline' min={getDateToday()} />
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
                   <FormLabel>Description</FormLabel>
@@ -404,7 +404,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                 <Button colorScheme='blue' isLoading={isSubmitting} type="submit">
                   Save
                 </Button>
-              : null}
+                : null}
             </ModalFooter>
           </ModalContent>
         </form>

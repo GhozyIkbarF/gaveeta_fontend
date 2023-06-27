@@ -8,7 +8,6 @@ import {
     InputGroup,
     InputLeftElement,
     InputRightElement,
-    FormLabel,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -28,7 +27,6 @@ export default function ModalInputProgres(props) {
     const { isOpen, onClose } = props
     const initialRef = React.useRef(null);
     const [isSmallerThanSm] = useMediaQuery("(max-width: 640px)");
-    // const [sliderValue, setSliderValue] = useState(0)
     const [number, setNumber] = useState(0);
 
     const { dataDetailOrderProses, refreshActionOrderProses } = useSelector(state => state.pesananProses);
@@ -49,7 +47,6 @@ export default function ModalInputProgres(props) {
         formState: { isSubmitting },
     } = useForm(
         {
-            //   resolver: yupResolver(UPDATE_PESANAN_MASUK_VALIDATION),
             defaultValues: {
                 progres: 0,
             }
@@ -75,7 +72,6 @@ export default function ModalInputProgres(props) {
 
     }, [refreshActionOrderProses])
 
-    // Set default value for the slider
     useEffect(() => {
         if (number) setValue("progres", number);
     }, [number]);
@@ -118,7 +114,6 @@ export default function ModalInputProgres(props) {
             scrollBehavior={'outside'}
             isOpen={isOpen}
             onClose={close}
-            // closeOnOverlayClick={false}
             size={{ sm: 'full', md: 'lg' }}
             isCentered
         >
@@ -130,7 +125,7 @@ export default function ModalInputProgres(props) {
                         <Flex flexDir='column' pt={6} pb={2} gap='4'>
                             <Box>
                                 <Text>{`Jumlah pesanan ${dataDetailOrderProses.quantity} pcs`}</Text>
-                                <Text>{`Jumlah yang sudah selesai ${dataDetailOrderProses.progres} pcs`}</Text> 
+                                <Text>{`Jumlah yang sudah selesai ${!dataDetailOrderProses.progres ? 0 : dataDetailOrderProses.progres} pcs`}</Text> 
                             </Box>
                             <InputGroup size="md">
                                 <InputLeftElement children={<MdRemove/>} onClick={handleDecrement}  cursor='pointer'/>

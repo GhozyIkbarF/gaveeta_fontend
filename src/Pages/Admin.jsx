@@ -26,12 +26,15 @@ import {
   FiMenu,
   FiChevronDown,
 } from 'react-icons/fi';
+// import { FaChartBar, MdReport, IoIosPie } from 'react-icons/all';
+import { BsFillFileTextFill } from 'react-icons/bs';
 import {
   FaHome,
   FaShoppingCart,
   FaFolder,
   FaUsers,
   FaCog,
+  FaChartBar
 } from 'react-icons/fa';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
@@ -107,7 +110,7 @@ export default function SidebarWithHeader({ children }) {
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} handleLogout={handleLogout} />
-      <Box position='relative' px='5' ml={{ base: 0, xl: 60 }} bg='white' minH="100vh" display="flex" flexDirection="column">
+      <Box position='relative' px='5' ml={{ base: 0, xl: 60 }} bg='gray.460' minH="100vh" display="flex" flexDirection="column">
         {children}
       </Box>
     </Box>
@@ -148,11 +151,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', xl: 'none' }} onClick={onClose} />
       </Flex>
       <Flex flexDirection='column' mt='5' gap='2'>
-        <NavLink to='/beranda'>
-          <Flex onClick={onClose} alignItems="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" _hover={{ bg: `${pathname === '/beranda' ? 'blue.500' : 'blue.200'}`, color: 'white', }} bg={pathname === '/beranda' ? 'blue.500' : ''} color={pathname === '/beranda' ? 'white' : ''}
+        <NavLink to='/dashboard'>
+          <Flex onClick={onClose} alignItems="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" _hover={{ bg: `${pathname === '/dashboard' ? 'blue.500' : 'blue.200'}`, color: 'white', }} bg={pathname === '/dashboard' ? 'blue.500' : ''} color={pathname === '/dashboard' ? 'white' : ''}
             {...rest}>
             <Icon mr="4" mb='1' fontSize="16" _groupHover={{ color: 'white', }} as={FaHome} />
-            Beranda
+            Dashboard
           </Flex>
         </NavLink>
         <NavLink>
@@ -187,7 +190,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <NavLink to='/data'>
           <Flex onClick={onClose} alignItems="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" _hover={{ bg: `${pathname === '/data' ? 'blue.500' : 'blue.200'}`, color: 'white', }} bg={pathname === '/data' ? 'blue.500' : ''} color={pathname === '/data' ? 'white' : ''}
             {...rest}>
-            <Icon mr="4" mb='1' fontSize="16" _groupHover={{ color: 'white', }} as={FaFolder} />
+            <Icon mr="4" mb='1' fontSize="16" _groupHover={{ color: 'white', }} as={BsFillFileTextFill} />
             Laporan
           </Flex>
         </NavLink>

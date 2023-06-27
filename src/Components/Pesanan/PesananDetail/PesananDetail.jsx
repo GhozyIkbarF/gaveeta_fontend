@@ -44,6 +44,8 @@ export default function PesananDetail() {
     const [data, setData] = useState([]);
     const [designs, setDesigns] = useState([]);
     const [models, setModels] = useState([]);
+    const [displayAction, setDisplayAction] = useState(true);
+    
  
     const { actionDetailOrder, refreshDetailPesanan } = useSelector(state => state.pesananDetail);
     
@@ -54,6 +56,7 @@ export default function PesananDetail() {
     const navigate = useNavigate();
 
     const getDataInit = async () => {
+        setDisplayAction(false)
         try {
             const res = await API.getOrderDetail(id);
             setData(res.data);
@@ -65,6 +68,7 @@ export default function PesananDetail() {
         } catch (err) {
             console.error(err);
         }
+        setDisplayAction(true)
         setIsLoading(true);
     };
 
@@ -132,17 +136,14 @@ export default function PesananDetail() {
     }
 
     return (
-        <>
-            <Flex mt='5' w='full' flexDirection='column' justifyContent='center' align='center' >
-                <Flex w={{ base: 'full', lg: '80%' }} justifyContent='space-between' px='5' align='center'>
+        <Box px={{ base: 0, lg:5 }}>
+            <Flex mt={{ base: 5, lg:10 }} pt={5} w='full' minH={'80vh'} flexDirection='column'  align='center' bgColor={'white'} >
+                <Flex w={{ base: 'full', lg: '90%' }} justifyContent='space-between' px={{ base: 0, lg:5 }} align='center'>
                     <Button onClick={() => navigate(-1)} fontWeight='bold' variant="no-effects" gap='2'><FaArrowLeft /> <Text display={{ base: 'none', md: 'block' }}>Kembali</Text></Button>
                     {data.status === 'masuk' && <Text fontWeight='bold'>Detail pesanan masuk</Text>}
                     {data.status === 'proses' && <Text fontWeight='bold'>Detail pesanan proses</Text>}
                     <Box>
-                        <Button fontWeight='bold' fontSize='md' variant="no-effects" color='blue.500' gap='1' onClick={handleAction()}>
-                            {/* <AiOutlineEllipsis />  */}
-                            Action
-                        </Button>
+                        {!displayAction ? null : <Button fontWeight='bold' fontSize='md' variant="no-effects" color='blue.500' gap='1' onClick={handleAction()}>Action</Button>}
                         {actionDetailOrder === '2action' && <ModalActionDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} status={data.status} />}
                         {actionDetailOrder === 'proses' &&
                             (
@@ -156,20 +157,7 @@ export default function PesananDetail() {
                     </Box>
                 </Flex>
                 {isLoading ?
-                    <Flex flexDirection='column' px='5' py="8" bgColor='white' borderRadius={'md'} w={{ base: 'full', lg: '80%' }}>
-                        <Box mb='10'>
-                            <Flex w='full' flexDirection='column' align='center' justifyContent='center'>
-                                <Text fontSize={{ base: "xl", md: '4xl', lg: '6xl' }} fontWeight='bold'>{data.name}</Text>
-                                <Flex gap='3'>
-                                    <Text>
-                                        {data.email}
-                                    </Text>
-                                    <Text>
-                                        {data.phone}
-                                    </Text>
-                                </Flex>
-                            </Flex>
-                        </Box>
+                    <Flex flexDirection='column' px='5' py="8" bgColor='white' borderRadius={'md'} w={{ base: 'full', lg: '90%' }}>
                         <Tabs align='center'>
                             <TabList gap='2'>
                                 <Tab fontWeight='bold' gap='1'><MdDescription /> Data</Tab>
@@ -180,6 +168,18 @@ export default function PesananDetail() {
                                 <TabPanel align='start'>
                                     <Flex>
                                         <Flex w='96%' flexDirection='column' justifyContent='start' align='start'>
+                                            <Flex w='full' flexDirection='column' mb='5'>
+                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Nama</Text>
+                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.name}</Text>
+                                            </Flex>
+                                            <Flex w='full' flexDirection='column' mb='5'>
+                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Nomer HP</Text>
+                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.phone}</Text>
+                                            </Flex>
+                                            <Flex w='full' flexDirection='column' mb='5'>
+                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Email</Text>
+                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{!data.email ? 'Tidak ada' : `${data.email}`}</Text>
+                                            </Flex>
                                             <Flex w='full' flexDirection='column' mb='5'>
                                                 <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Alamat</Text>
                                                 <Text fontSize={{ base: 'md', md: 'lg' }}>{data.address}</Text>
@@ -308,6 +308,6 @@ export default function PesananDetail() {
                 }
 
             </Flex>
-        </>
+        </ Box>
     )
 }

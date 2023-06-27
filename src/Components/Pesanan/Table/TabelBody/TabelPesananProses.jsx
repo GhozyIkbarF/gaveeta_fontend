@@ -141,7 +141,7 @@ export default function TabelPesananProses() {
     return (
         <>
         {loading && <Loading/>}
-        <Box mt='5' p='5'>
+        <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={5}>
             <TableContainer px='5' py="8" bgColor='white' shadow={'lg'} borderRadius={'md'} overflowX='auto'>
                 <Text pl='5' fontSize='lg'>Total Pesanan Proses: {data.length}</Text>
                 <Flex w='auto' p='5'>

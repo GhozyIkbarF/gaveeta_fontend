@@ -47,7 +47,7 @@ export default function Login() {
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
-            window.location.pathname = "/beranda";
+            window.location.pathname = "/dashboard";
         } else {
             setOpen(true);
         }

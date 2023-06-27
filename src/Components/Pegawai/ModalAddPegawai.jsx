@@ -66,7 +66,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
       const formData = new FormData();
       formData.append('name', data.name);
       formData.append('phone', data.phone);
-      formData.append('email',  data.email);
+      formData.append('email', data.email);
       formData.append('address', data.address);
       formData.append('gender', data.gender);
       formData.append('photo', data.photo[0]);
@@ -75,7 +75,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
       toast({
         title: "Create pegawai success",
         status: "success",
-        duration: 6000,
+        duration: 2000,
         isClosable: true,
         position: "bottom-right",
       });
@@ -85,13 +85,13 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         title: "Create pewagai failed",
         description: "Something went wrong...",
         status: "error",
-        duration: 6000,
+        duration: 2000,
         isClosable: true,
         position: "bottom-right",
       });
     }
   }
-  
+
   const removeSelectedImage = () => {
     setValue('photo', '');
   };
@@ -100,17 +100,18 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
     <>
       <Modal
         initialFocusRef={initialRef}
+        scrollBehavior={'inside'}
         isOpen={isOpen}
         onClose={close}
         size={{ sm: 'full', md: '2xl', xl: '3xl' }}
       >
         <ModalOverlay
-        bg='blackAlpha.300'
-        backdropFilter='blur(10px)'/>
-        <ModalContent>
-          <ModalHeader borderBottom='1px' borderColor='gray.100'>Tambah pegawai</ModalHeader>
-          <ModalCloseButton onClose={close}/>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          bg='blackAlpha.300'
+          backdropFilter='blur(10px)' />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalContent>
+            <ModalHeader borderBottom='1px' borderColor='gray.100'>Tambah pegawai</ModalHeader>
+            <ModalCloseButton onClose={close} />
             <ModalBody pb={6}>
               <Wrap spacing='30px' justify={'space-between'}>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
@@ -151,10 +152,8 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                     {photo && (
                       <Box>
                         <Image
-                          // className="w-full object-contain h-80 rounded-lg"
-                          // boxSize='150px'
                           borderRadius='lg'
-                          h='80'
+                          h='auto'
                           w='full'
                           objectFit='cover'
                           src={URL.createObjectURL(photo[0])}
@@ -201,16 +200,9 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                 variant="ghost"
               >Cancel</Button>
             </ModalFooter>
-          </form>
-        </ModalContent>
+          </ModalContent>
+        </form>
       </Modal>
     </>
   )
 }
-
-
- // name: data.name,
-        // phone: data.phone,
-        // email: data.email,
-        // address: data.address,
-        // gender: data.gender

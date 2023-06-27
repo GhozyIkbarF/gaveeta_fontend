@@ -21,7 +21,7 @@ export default function AppRoute() {
       <Box>
         <Routes>
           <Route exact path="/" element={<Login />} />
-          <Route path="/beranda" element={<SidebarWithHeader children={<Beranda />} />} />
+          <Route path="/dashboard" element={<SidebarWithHeader children={<Beranda />} />} />
           <Route path="/pesanan_masuk" element={<SidebarWithHeader children={<TabelPesananMasuk />} />} />
           <Route path="/pesanan_proses" element={<SidebarWithHeader children={<TabelPesananProses />} />} />
           <Route path="/pesananmasuk_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />

@@ -219,7 +219,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                 <WrapItem w='full'>
                                     <UnorderedList>
                                         <ListItem>Sebelum pesanan diproses pastikan bahwa data pesanan yang anda masukkan sebelumnya sudah lengkap dan benar!!!</ListItem>
-                                        <ListItem>Pesanan akan masuk ke tabel pesanan proses</ListItem>
+                                        <ListItem>{status == 'masuk' ? 'Pesanan akan masuk ke tabel pesanan proses' : 'Pesanan akan masuk ke tabel pesanan selesai'}</ListItem>
                                     </UnorderedList>
                                 </WrapItem>
                                 {status === 'masuk' ?

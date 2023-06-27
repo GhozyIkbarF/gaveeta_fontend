@@ -19,6 +19,7 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
     const initialRef = React.useRef(null)
     const [isSmallerThanSm] = useMediaQuery("(max-width: 640px)");
     const { dataDetailOrder } = useSelector(state => state.pesananDetail)
+    console.log(dataDetailOrder);
 
     const dispatch = useDispatch();
 
@@ -60,24 +61,24 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
         doc.setFontSize(36);
 
         // Add institution name
-        doc.text('Gaveeta Packaging', doc.internal.pageSize.getWidth() / 4 + 6, 25, { align: 'left' });
+        doc.text(`${dataDetailOrder.company.name}`, doc.internal.pageSize.getWidth() / 4 + 6, 25, { align: 'left' });
 
         // Set font styles for address, telephone, email, website
         doc.setFont('times', 'normal');
         doc.setFontSize(11);
 
         // Add address
-        const address = 'Garen RT 03/04 No. 50A, Pandeyan, Ngemplak, Boyolali, Jawa Tengah 57375';
+        const address = dataDetailOrder.company.address;
         doc.text(address, doc.internal.pageSize.getWidth() / 4 + 6, 32, { align: 'left' });
 
         // Add telephone and email
-        const telephone = '0812 2617 4781';
-        const email = 'gaveeta.creative@gmail.com';
+        const telephone = dataDetailOrder.company.phone;
+        const email = dataDetailOrder.company.email
         doc.text(`Telp: ${telephone}   Email: ${email}`, doc.internal.pageSize.getWidth() / 4 + 6, 37, { align: 'left' });
 
         // Add website and Facebook
-        const website = 'www.kotakkado.web.id';
-        const facebook = 'gaveeta aneka kado';
+        const website = dataDetailOrder.company.website;
+        const facebook = dataDetailOrder.company.facebook;
         doc.text(`Website: ${website}   Facebook: ${facebook}`, doc.internal.pageSize.getWidth() / 4 + 6, 42, { align: 'left' });
 
         doc.setLineWidth(1);
@@ -90,34 +91,51 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
 
         doc.setFont('times', 'normal');
         doc.setFontSize(12);
-       
-        
+
+
         const totalBiaya = value.quantity * value.pricePerItem;
 
         const tableContent = [
-          ['Nama', ':', value.name],
-          ['No. Hp', ':', value.phone],
-          ['Alamat', ':', value.address],
-          ['Deskripsi', ':', value.description ? value.description : 'deskripsi kosong'],
-          ['Jumlah', ':', value.quantity ? `${value.quantity} pcs` : 0],
-          ['Deadline', ':', value.deadline ? convertToIndonesianDate(value.deadline) : 'deadline belum ditentukan'],
-          ['Harga peritem', ':', value.pricePerItem ? formatToIDR(value.pricePerItem) : 'harga peritem belum ditentukan'],
-          ['Uang muka', ':', value.payment ? formatToIDR(value.payment) : 0],
+            ['Nama', ':', value.name],
+            ['No. Hp', ':', value.phone],
+            ['Alamat', ':', value.address],
+            ['Deskripsi', ':', value.description ? value.description : 'deskripsi kosong'],
+            ['Jumlah', ':', value.quantity ? `${value.quantity} pcs` : 0],
+            ['Deadline', ':', value.deadline ? convertToIndonesianDate(value.deadline) : 'deadline belum ditentukan'],
+            ['Harga peritem', ':', value.pricePerItem ? formatToIDR(value.pricePerItem) : 'harga peritem belum ditentukan'],
         ];
-        
-        if (dataDetailOrder.shippingCost == null) {
-          tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
-          tableContent.push(['Keterangan', ':', 'total biaya belum termasuk ongkos kirim']);
-        } else if (dataDetailOrder.shippingCost === 0) {
-          tableContent.push(['Ongkos kirim', ':', 'Gratis']);
-          tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
-          tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
-        } else if (dataDetailOrder.shippingCost > 0) {
-          tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
-          tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + dataDetailOrder.shippingCost) : 'total biaya belum ditentukan']);
-          tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
+
+        if (dataDetailOrder.status !== 'selesai') {
+            if (dataDetailOrder.shippingCost == null) {
+                tableContent.push(['Uang muka', ':', value.payment ? formatToIDR(value.payment) : 0]);
+                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
+                tableContent.push(['Keterangan', ':', 'total biaya belum termasuk ongkos kirim']);
+            } else if (dataDetailOrder.shippingCost === 0) {
+                tableContent.push(['Uang muka', ':', value.payment ? formatToIDR(value.payment) : 0]);
+                tableContent.push(['Ongkos kirim', ':', 'Gratis']);
+                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
+                tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
+            } else if (dataDetailOrder.shippingCost > 0) {
+                tableContent.push(['Uang muka', ':', value.payment ? formatToIDR(value.payment) : 0]);
+                tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
+                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + dataDetailOrder.shippingCost) : 'total biaya belum ditentukan']);
+                tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
+            }
+        } else {
+            if (dataDetailOrder.shippingCost == null) {
+                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
+                tableContent.push(['Keterangan', ':', 'total biaya belum termasuk ongkos kirim']);
+            } else if (dataDetailOrder.shippingCost === 0) {
+                tableContent.push(['Ongkos kirim', ':', 'Gratis']);
+                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
+                tableContent.push(['Keterangan', ':', 'lunas']);
+            } else if (dataDetailOrder.shippingCost > 0) {
+                tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
+                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + dataDetailOrder.shippingCost) : 'total biaya belum ditentukan']);
+                tableContent.push(['Keterangan', ':', 'lunas']);
+            }
         }
-        
+
         doc.autoTable({
             body: tableContent,
             head: false,
@@ -127,12 +145,12 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                 fontSize: 12,
             },
             columnStyles: {
-                0: { cellWidth: 30, fontWeight: 'bold'},
+                0: { cellWidth: 30, fontWeight: 'bold' },
                 1: { cellWidth: 5 },
                 2: { cellWidth: 125, halign: 'left' },
             },
             startY: 57,
-            margin:{left: 25, }
+            margin: { left: 25, }
         });
 
         // Save the PDF with a file name

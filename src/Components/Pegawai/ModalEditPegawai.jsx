@@ -31,7 +31,7 @@ import { object } from 'yup';
 export default function ModalEditPegawai({ isOpen, onClose }) {
     const [divisi, setDivisi] = useState('Programmer')
     const [profilePicture, setProfilePicture] = useState()
-    const initialRef = React.useRef(null)
+    const btnRef = React.useRef(null);
     const { dataEditPegawai,  refreshEditPegawai } = useSelector(state => state.pegawai)
 
 
@@ -136,8 +136,10 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
             setProfilePicture(
                 <Box>
                     <Image
-                        w='full'
-                        objectFit='cover'
+                         borderRadius='lg'
+                         h='auto'
+                         w='full'
+                         objectFit='cover'
                         src={URL.createObjectURL(photo[0])}
                         alt="ssadas"
                     />
@@ -149,9 +151,10 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
             <Box>
                 <Center>
                 <Image
-                    w={{base:'full', md:'50%'}}
-                    h='80'
-                    objectFit='contain'
+                    borderRadius='lg'
+                    h='auto'
+                    w='full'
+                    objectFit='cover'
                     src={photo}
                     alt="ssadas"
                 />
@@ -173,18 +176,20 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
     return (
         <>
             <Modal
-                initialFocusRef={initialRef}
+                finalFocusRef={btnRef}
+                scrollBehavior={'inside'}
                 isOpen={isOpen}
                 onClose={close}
-                size={{ sm: 'full', md: '2xl', xl: '3xl' }}
+                closeOnOverlayClick={false}
+                size={{ sm: 'full', md: '2xl' }}
             >
                 <ModalOverlay
                 bg='blackAlpha.300'
                 backdropFilter='blur(10px)' />
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <ModalContent>
-                    <ModalHeader>Edit your account</ModalHeader>
+                    <ModalHeader borderBottom='1px' borderColor='gray.100'>Edit your account</ModalHeader>
                     <ModalCloseButton onClose={close} />
-                    <form onSubmit={handleSubmit(onSubmit)}>
                         <ModalBody pb={6}>
                             <Wrap spacing='30px' justify={'space-between'}>
                                 <WrapItem w={{ base: 'full', md: '45%' }}>
@@ -269,7 +274,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                             </Wrap>
                         </ModalBody>
 
-                        <ModalFooter>
+                        <ModalFooter borderTop='1px' borderColor='gray.100'>
                             <Button
                                 colorScheme='blue'
                                 mr={3}
@@ -285,8 +290,8 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                 Cancel
                             </Button>
                         </ModalFooter>
-                    </form>
                 </ModalContent>
+                </form>
             </Modal>
         </>
     )

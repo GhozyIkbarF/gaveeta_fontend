@@ -9,6 +9,7 @@ import { useDisclosure } from '@chakra-ui/react'
 import API from '../../../../Service';
 import { actionPesananMasuk, setDataOrder } from '../../../../Features/Pesanan/PesananMasuk';
 import ActionOrder from '../Row/ActionOrder';
+import RowDesign from '../Row/RowDesign';
 import ModalAddPesananMasuk from '../../Modal/ModalPesananMasuk/ModalAddPesanan';
 import AlertDeletePesananMasuk from '../../Modal/ModalDeletePesanan';
 import Loading from '../../../Loading';
@@ -76,6 +77,12 @@ export default function TabelPesananMasuk() {
                 accessor: 'description',
             },
             {
+                Header: 'design',
+                Cell: ({ cell: { row } }) => (
+                    <RowDesign link={row.original.designs} onOpen={onOpen} id={row.original.id} />
+                )
+            },
+            {
                 Header: 'action',
                 Cell: ({ row }) => (
                     <ActionOrder id={row.original.id} onOpen={onOpen} />
@@ -119,7 +126,7 @@ export default function TabelPesananMasuk() {
     return (
         <>
         {loading && <Loading/>}
-        <Box mt='5' p='5' >
+        <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={5}>
             <TableContainer overflowX='auto' px='5' py="8" bgColor='white' shadow={'lg'} borderRadius={'md'}>
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Masuk: {data.length}</Text>
                 <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p='5'>
@@ -233,6 +240,7 @@ export default function TabelPesananMasuk() {
                 </Flex>
                 {actionOrderMasuk === 'create' && (<ModalAddPesananMasuk isOpen={isOpen} onClose={onClose} />)}
                 {actionOrderMasuk === 'delete' && <AlertDeletePesananMasuk onClose={onClose} isOpen={isOpen} />}
+                {/* {actionOrderProses === 'design' && (<ModalDesign onClose={onClose} isOpen={isOpen} />)} */}
             </TableContainer>
         </Box>
         </>
