@@ -70,7 +70,7 @@ export default function Login() {
                 position: "top-right",
             });
             reset();
-            window.location.pathname = "/beranda"
+            window.location.pathname = "/dashboard"
         } catch (error) {
             toast({
                 title: "Login failed",
