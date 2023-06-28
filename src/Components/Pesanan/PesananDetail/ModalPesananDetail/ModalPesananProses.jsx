@@ -141,7 +141,6 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
             setCheckDP(false)
             setCheckLunas(true)
         } else if (dataDetailOrder.status === 'proses' && data.payment < totalHarga || data.payment > totalHarga) {
-            // setValue('endDate',)
             setCheckDP(false)
             setCheckLunas(true)
         } else if (finalBuktiBayar.length < 1) {
@@ -192,10 +191,10 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
     };
 
 
-    const handleToggleBuktiBayar = (e) => {
-        e.preventDefault();
-        setKonfirBuktiBayar(false)
-    }
+    // const handleToggleBuktiBayar = (e) => {
+    //     e.preventDefault();
+    //     setKonfirBuktiBayar(false)
+    // }
     const handleToggleTotalHarga = (e) => {
         e.preventDefault();
         setKonfirTotalHarga(false)
@@ -241,6 +240,12 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                             <Flex flexDirection='column' w='full'>
                                                 <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Uang muka:</Text>
                                                 {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(DP)}</Text>}
+                                            </Flex>
+                                        </WrapItem>
+                                        <WrapItem w={{ base: 'full', md: '40%' }}>
+                                            <Flex flexDirection='column' w='full'>
+                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Kurang bayar:</Text>
+                                                {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(totalHarga - DP)}</Text>}
                                             </Flex>
                                         </WrapItem>
                                     </>

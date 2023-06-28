@@ -19,9 +19,8 @@ import {
   Image,
   Textarea,
 } from '@chakra-ui/react'
-// import webpConverter from 'webp-converter';
 import { MdInsertPhoto } from "react-icons/md";
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import API from '../../Service'
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
@@ -185,7 +184,6 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                         />
                         <p className="font-semibold">Photo</p>
                       </label> : null}
-
                   </FormControl>
                 </WrapItem>
               </Wrap>

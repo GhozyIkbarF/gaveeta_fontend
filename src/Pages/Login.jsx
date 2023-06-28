@@ -3,7 +3,6 @@ import {
     Flex,
     FormControl,
     FormLabel,
-    Heading,
     Input,
     Stack,
     Image,
@@ -14,7 +13,6 @@ import {
 } from '@chakra-ui/react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import logoGaveeta from '../Assets/logo-gaveeta.png';
 import API from '../Service';
@@ -22,8 +20,6 @@ import API from '../Service';
 export default function Login() {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [open, setOpen] = useState(false);
-    // const userId = localStorage.getItem('userId');
-    // const navigate = useNavigate();
     const toast = useToast();
 
 
@@ -93,7 +89,6 @@ export default function Login() {
 
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <Stack spacing={4} w={'full'} maxW={'md'}>
-                                    {/* <Heading fontSize={'2xl'}>Sign in to admin gaveeta</Heading> */}
                                     <FormControl id="email">
                                         <FormLabel>Email address</FormLabel>
                                         <Input type="email" id="email" {...register('email')} required />
@@ -112,13 +107,6 @@ export default function Login() {
                                         </InputGroup>
                                     </FormControl>
                                     <Stack spacing={6}>
-                                        {/* <Stack
-                                direction={{ base: 'column', sm: 'row' }}
-                                align={'start'}
-                                justify={'space-between'}>
-                                <Checkbox>Remember me</Checkbox>
-                                <Link color={'blue.500'}>Forgot password?</Link>
-                            </Stack> */}
                                         <Button colorScheme={'blue'} variant={'solid'} type="submit" isLoading={isSubmitting}>
                                             Sign in
                                         </Button>
@@ -130,9 +118,6 @@ export default function Login() {
                             <Image
                                 alt={'Login Image'}
                                 objectFit={'contain'}
-                                // src={
-                                //     'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80'
-                                // }
                                 src={logoGaveeta}
                             />
                         </Flex>
