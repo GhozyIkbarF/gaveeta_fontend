@@ -75,15 +75,6 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
     }
   };
 
-  // const handleChangeShippingCost = (event) => {
-  //   const formattedValue = formatInputMoneyIDR(event.target.value);
-  //   if (formattedValue == 'Rp. ') {
-  //     setShippingCost('')
-  //   } else {
-  //     setShippingCost(formattedValue);
-  //   }
-  // }
-
   useEffect(() => {
     setValue('id', dataDetailOrder.id);
     setValue('name', dataDetailOrder.name);
