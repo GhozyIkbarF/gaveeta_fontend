@@ -32,7 +32,7 @@ export default function ModalInputProgres(props) {
     const { dataDetailOrderProses, refreshActionOrderProses } = useSelector(state => state.pesananProses);
     const handleIncrement = () => {
         if(number < Number(dataDetailOrderProses.quantity)){
-            setNumber(Number(number) + 1);
+            setNumber(parseInt(number, 10) + 1);
         }
     };
 
@@ -129,7 +129,7 @@ export default function ModalInputProgres(props) {
                             </Box>
                             <InputGroup size="md">
                                 <InputLeftElement children={<MdRemove/>} onClick={handleDecrement}  cursor='pointer'/>
-                                <Input type='number' value={number} textAlign='center' />
+                                <Input type='number' value={number} textAlign='center'/>
                                 <InputRightElement children={<MdAdd />} onClick={handleIncrement} cursor='pointer'/>
                             </InputGroup>
                         </Flex>
