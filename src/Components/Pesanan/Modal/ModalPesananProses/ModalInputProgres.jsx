@@ -31,12 +31,15 @@ export default function ModalInputProgres(props) {
 
     const { dataDetailOrderProses, refreshActionOrderProses } = useSelector(state => state.pesananProses);
     const handleIncrement = () => {
-        if(number < Number(dataDetailOrderProses.quantity))
-        setNumber(number + 1);
+        if(number < Number(dataDetailOrderProses.quantity)){
+            setNumber(number + 1);
+        }
     };
 
     const handleDecrement = () => {
-        if(number !== 0) setNumber(number - 1);
+        if(number !== 0){
+            setNumber(number - 1);
+        }  
     };
 
     const {
@@ -73,7 +76,11 @@ export default function ModalInputProgres(props) {
     }, [refreshActionOrderProses])
 
     useEffect(() => {
-        if (number) setValue("progres", number);
+        if(number == 0){
+            setValue('progres', 0)
+        }else{
+            if (number) setValue("progres", number);
+        }
     }, [number]);
 
 
