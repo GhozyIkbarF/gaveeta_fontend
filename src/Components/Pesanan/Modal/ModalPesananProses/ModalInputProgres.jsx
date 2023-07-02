@@ -32,7 +32,7 @@ export default function ModalInputProgres(props) {
     const { dataDetailOrderProses, refreshActionOrderProses } = useSelector(state => state.pesananProses);
     const handleIncrement = () => {
         if(number < Number(dataDetailOrderProses.quantity)){
-            setNumber(number + 1);
+            setNumber(Number(number) + 1);
         }
     };
 
@@ -67,7 +67,7 @@ export default function ModalInputProgres(props) {
         setValue('id', dataDetailOrderProses.id);
         if (dataDetailOrderProses.progres !== null) {
             setValue('progres', dataDetailOrderProses.progres)
-            setNumber(dataDetailOrderProses.progres)
+            setNumber(Number(dataDetailOrderProses.progres))
         } else {
             setValue('progres', 0)
             setNumber(0)
