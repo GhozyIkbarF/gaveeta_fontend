@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState, useEffect, useMemo } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
 import { useDisclosure } from '@chakra-ui/react'
 import { Box, Text, Flex, Button, Input } from '@chakra-ui/react'
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Select } from '@chakra-ui/react'
@@ -19,9 +18,6 @@ export default function TabelPesananSelesai() {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
 
-    const { actionOrderSelesai }= useSelector(state => state.pesananSelesai)
-
-    const dispatch = useDispatch();
     const getDataInit = async () => {
         setLoading(true)
         try {
@@ -121,7 +117,7 @@ export default function TabelPesananSelesai() {
     return (
         <>
         {loading && <Loading/>}
-        <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={5}>
+        <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={{ base:0, lg:5 }}>
             <TableContainer px='5' py="8" bgColor='white' shadow={'lg'} borderRadius={'md'} overflowX='auto'>
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Selesai: {data.length}</Text>
                 <Flex w='auto' p='5'>

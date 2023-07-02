@@ -37,6 +37,7 @@ export default function Pegawai() {
       dispatch(setEmployes(res.data));
       setLoading(false)
   };
+  
   useEffect(() => {
       window.scrollTo(0, 0);
       getDataInit();
@@ -94,12 +95,9 @@ export default function Pegawai() {
       getTableProps,
       getTableBodyProps,
       headerGroups,
-      rows,
       prepareRow,
       page,
       pageOptions,
-      pageCount,
-      gotoPage,
       nextPage,
       previousPage,
       canNextPage,
@@ -126,10 +124,29 @@ export default function Pegawai() {
   return (
     <>
     { loading && <Loading/>}
-      <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={5}>
-          <TableContainer borderRadius={'md'} bgColor='white' shadow={'sm'} overflowX='auto' py='5' boxShadow='md'>
-          <Text pl='5' fontWeight='bold' fontSize='lg'>Total jumlah pegawai: {data.length}</Text>
-              <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p='5'>
+      <Box 
+        mt={{ base:0, lg:5 }} 
+        px={{ base:0, lg:5 }} 
+        pt={{ base:0, lg:5 }}>
+          <TableContainer 
+            borderRadius={'md'} 
+            bgColor='white' 
+            shadow={'sm'} 
+            overflowX='auto' 
+            py='5' 
+            boxShadow='md'>
+          <Text 
+            pl='5' 
+            fontWeight='bold' 
+            fontSize='lg'>
+                Total jumlah pegawai: {data.length}
+            </Text>
+              <Flex 
+                w='full' 
+                justifyContent='space-between' 
+                direction={{ base: 'column', md: 'row' }} 
+                gap='3' 
+                p='5'>
                   <Button
                       colorScheme='messenger'
                       onClick={handleAddPegawai('create')}
@@ -144,7 +161,10 @@ export default function Pegawai() {
                       onChange={(e) => setGlobalFilter(e.target.value)}
                   />
               </Flex>
-              <Table variant='simple' size='lg' {...getTableProps()}>
+              <Table 
+                variant='simple' 
+                size='lg' 
+                {...getTableProps()}>
                   <Thead>
                       {headerGroups.map((headerGroup) => (
                           <Tr {...headerGroup.getHeaderGroupProps()}>
@@ -167,7 +187,9 @@ export default function Pegawai() {
                       })}
                   </Tbody>
               </Table>
-              <Box my='2' pl='8'>
+              <Box 
+                my='2' 
+                pl='8'>
                   <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
                   <FaAngleLeft/>
                   </Button>

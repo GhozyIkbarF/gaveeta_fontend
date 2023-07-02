@@ -31,7 +31,7 @@ export default function Login() {
         handleSubmit,
         register,
         reset,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = useForm({
         defaultValues: {
             email: "",
@@ -82,21 +82,35 @@ export default function Login() {
 
     return (
         <>
-            <Stack minH={'100vh'} direction={'column-reverse' } justifyContent='center'>
+            <Stack 
+                minH={'100vh'} 
+                direction={'column-reverse' } 
+                justifyContent='center'>
                 {open ?
                     <>
-                        <Flex align={'center'} justify={'center'}>
-
+                        <Flex 
+                        align={'center'} 
+                        justify={'center'}>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <Stack spacing={4} w={'full'} maxW={'md'}>
+                                <Stack 
+                                    spacing={4} 
+                                    w={'full'} 
+                                    maxW={'md'}>
                                     <FormControl id="email">
                                         <FormLabel>Email address</FormLabel>
-                                        <Input type="email" id="email" {...register('email')} required />
+                                        <Input 
+                                            type="email" 
+                                            id="email" 
+                                            {...register('email')} 
+                                            required />
                                     </FormControl>
                                     <FormControl id="password">
                                         <FormLabel>Password</FormLabel>
                                         <InputGroup>
-                                            <Input type={passwordVisible ? "text" : "password"} id="password" {...register('password')} required />
+                                            <Input 
+                                                type={passwordVisible ? "text" : "password"} 
+                                                id="password" {...register('password')} 
+                                                required/>
                                             <InputRightElement>
                                                 <IconButton
                                                     variant="ghost"
@@ -107,7 +121,11 @@ export default function Login() {
                                         </InputGroup>
                                     </FormControl>
                                     <Stack spacing={6}>
-                                        <Button colorScheme={'blue'} variant={'solid'} type="submit" isLoading={isSubmitting}>
+                                        <Button 
+                                            colorScheme={'blue'} 
+                                            variant={'solid'} 
+                                            type="submit" 
+                                            isLoading={isSubmitting}>
                                             Sign in
                                         </Button>
                                     </Stack>
@@ -123,7 +141,11 @@ export default function Login() {
                         </Flex>
                     </>
                     :
-                    <Flex w='full' justifyContent='center' align='center' h='full'>
+                    <Flex 
+                        w='full' 
+                        justifyContent='center' 
+                        align='center' 
+                        h='full'>
                         <Image
                             h='44'
                             w='44'

@@ -24,7 +24,6 @@ import { Spinner } from '@chakra-ui/react'
 // icon
 import { MdDescription, MdPhoto } from 'react-icons/md';
 import { FaPencilAlt, FaArrowLeft, FaCube } from "react-icons/fa";
-import { AiOutlineEllipsis } from 'react-icons/ai';
 
 
 //modal
@@ -137,7 +136,7 @@ export default function PesananDetail() {
 
     return (
         <Box px={{ base: 0, lg:5 }}>
-            <Flex mt={{ base: 5, lg:10 }} pt={5} w='full' minH={'80vh'} flexDirection='column'  align='center' bgColor={'white'} >
+            <Flex mt={{ base: 0, lg:10 }} pt={5} w='full' minH={'80vh'} flexDirection='column'  align='center' bgColor={'white'} >
                 <Flex w={{ base: 'full', lg: '90%' }} justifyContent='space-between' px={{ base: 0, lg:5 }} align='center'>
                     <Button onClick={() => navigate(-1)} fontWeight='bold' variant="no-effects" gap='2'><FaArrowLeft /> <Text display={{ base: 'none', md: 'block' }}>Kembali</Text></Button>
                     {data.status === 'masuk' && <Text fontWeight='bold'>Detail pesanan masuk</Text>}

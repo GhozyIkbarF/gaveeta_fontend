@@ -126,7 +126,7 @@ export default function TabelPesananMasuk() {
     return (
         <>
         {loading && <Loading/>}
-        <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={5}>
+        <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={{ base:0, lg:5 }}>
             <TableContainer overflowX='auto' px='5' py="8" bgColor='white' shadow={'lg'} borderRadius={'md'}>
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Masuk: {data.length}</Text>
                 <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p='5'>

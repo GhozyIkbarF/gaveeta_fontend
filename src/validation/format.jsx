@@ -24,13 +24,6 @@ export const formatToIDR = (num) => {
     });
   }
 
-  // export const formatInputInterger = (num) => {
-  //   if (num) {
-  //   const newValue = num.replace(/\D/g, "")
-  //   return newValue
-  //   }
-  // };
-
   export const formatInputMoneyIDR = (num) => {
     if (num) {
     const regex = /\B(?=(\d{3})+(?!\d))/g;

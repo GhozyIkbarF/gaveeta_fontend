@@ -31,7 +31,7 @@ export default function ModalInputProgres(props) {
 
     const { dataDetailOrderProses, refreshActionOrderProses } = useSelector(state => state.pesananProses);
     const handleIncrement = () => {
-        if(number < dataDetailOrderProses.quantity)
+        if(number < Number(dataDetailOrderProses.quantity))
         setNumber(number + 1);
     };
 
@@ -41,7 +41,6 @@ export default function ModalInputProgres(props) {
 
     const {
         handleSubmit,
-        register,
         setValue,
         reset,
         formState: { isSubmitting },
@@ -63,11 +62,12 @@ export default function ModalInputProgres(props) {
 
     useEffect(() => {
         setValue('id', dataDetailOrderProses.id);
-        if (dataDetailOrderProses.progres) {
+        if (dataDetailOrderProses.progres !== null) {
             setValue('progres', dataDetailOrderProses.progres)
             setNumber(dataDetailOrderProses.progres)
         } else {
             setValue('progres', 0)
+            setNumber(0)
         }
 
     }, [refreshActionOrderProses])
@@ -100,13 +100,6 @@ export default function ModalInputProgres(props) {
             });
         }
     }
-
-    const labelStyles = {
-        mt: '2',
-        ml: '-2.5',
-        fontSize: 'sm',
-    }
-
 
     return (
         <Modal

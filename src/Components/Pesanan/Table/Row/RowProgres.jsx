@@ -19,8 +19,6 @@ export default function RowProgres(props) {
     const ActionShowProgres = ({idPesanan, action}) => (e) => {
         e.preventDefault();
         dispatch(actionPesananProses(action))
-        // dispatch(IdActionPegawai(idPegawai))
-        // onOpen()
     }
     return (
         <Box cursor='pointer' onClick={ActionShowProgres(id, 'progres')}>

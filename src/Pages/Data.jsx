@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Flex, Text, Input, FormLabel, InputGroup, Button } from '@chakra-ui/react'
 import {
+    Box,
+    Flex,
+    Text,
+    Input,
+    FormLabel,
+    InputGroup,
+    Button,
     Table,
     Thead,
     Tbody,
@@ -10,11 +16,20 @@ import {
     TableContainer,
     useToast
 } from '@chakra-ui/react'
-import { useTable, usePagination, useGlobalFilter } from "react-table";
+import {
+    useTable,
+    usePagination,
+    useGlobalFilter
+} from "react-table";
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { formatMoneyIDR, formatToIDR, convertToIndonesianDate, getThisMonth } from '../validation/format';
+import {
+    formatMoneyIDR,
+    formatToIDR,
+    convertToIndonesianDate,
+    getThisMonth
+} from '../validation/format';
 import Loading from '../Components/Loading';
 import API from '../Service';
 import jsPDF from 'jspdf'
@@ -47,6 +62,7 @@ export default function Data() {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const dateToday = `${year}-${month}`;
 
+    //function get api
     const getDataInit = async (data) => {
         setLoading(true)
         setData([]);
@@ -92,7 +108,10 @@ export default function Data() {
                 Header: 'Nama',
                 accessor: 'name',
                 Cell: ({ cell: { row } }) => (
-                    <Flex align="center" minWidth="100%" flexWrap="nowrap">
+                    <Flex
+                        align="center"
+                        minWidth="100%"
+                        flexWrap="nowrap">
                         <Flex direction="column">
                             <Text
                                 fontSize="md"
@@ -236,21 +255,57 @@ export default function Data() {
     return (
         <>
             {loading && <Loading />}
-            <Box position='relative' pt='5' borderRadius='lg'  bg='white' w='full' mt='5'>
-                <Flex flexDirection='column' align='center'>
+            <Box
+                position='relative'
+                pt='5'
+                borderRadius='lg'
+                bg='white'
+                w='full'
+                mt={{ base: 0, lg: 5 }}
+                minH={'95vh'}>
+                <Flex
+                    flexDirection='column'
+                    align='center'>
                     <form onSubmit={handleSubmit(getDataInit)}>
-                        <FormLabel textAlign='center' htmlFor="date">Cari pesanan perbulan</FormLabel>
+                        <FormLabel
+                            textAlign='center'
+                            htmlFor="date">
+                            Cari pesanan perbulan
+                        </FormLabel>
                         <InputGroup>
-                            <Input type="month" id="date" name="date" {...register('date')} borderEndRadius='none' max={getThisMonth()} />
-                            <Button color='white' bgColor='teal' cursor='pointer' type="submit" borderLeftRadius='none'>Cari</Button>
+                            <Input
+                                type="month"
+                                id="date"
+                                name="date"
+                                {...register('date')}
+                                borderEndRadius='none'
+                                max={getThisMonth()} />
+                            <Button
+                                color='white'
+                                bgColor='teal'
+                                cursor='pointer'
+                                type="submit"
+                                borderLeftRadius='none'
+                            >
+                                Cari
+                            </Button>
                         </InputGroup>
                     </form>
                 </Flex>
                 <Box p='5'>
-                    <TableContainer py="8" bgColor='white' borderRadius={'md'} overflowX='auto'>
+                    <TableContainer
+                        py="8"
+                        bgColor='white'
+                        borderRadius={'md'}
+                        overflowX='auto'>
                         {data.length !== 0 &&
                             <>
-                                <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p='5'>
+                                <Flex
+                                    w='full'
+                                    justifyContent='space-between'
+                                    direction={{ base: 'column', md: 'row' }}
+                                    gap='3'
+                                    p='5'>
                                     <Button
                                         bgColor='teal'
                                         color='white'
@@ -261,7 +316,10 @@ export default function Data() {
                                 </Flex>
                             </>
                         }
-                        <Table variant='simple' size='lg' {...getTableProps()}>
+                        <Table
+                            variant='simple'
+                            size='lg'
+                            {...getTableProps()}>
                             <Thead bg='blackAlpha.900' >
                                 {headerGroups.map((headerGroup) => (
                                     <Tr {...headerGroup.getHeaderGroupProps()} >
@@ -309,10 +367,15 @@ export default function Data() {
                         </Table>
                         {data.length !== 0 &&
                             <>
-                                <Flex px='7' py='5' justifyContent='space-between'>
+                                <Flex
+                                    px='7'
+                                    py='5'
+                                    justifyContent='space-between'>
                                 </Flex>
                                 <Box my='3' pl='7'>
-                                    <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                                    <Button
+                                        onClick={() => previousPage()}
+                                        disabled={!canPreviousPage}>
                                         <FaAngleLeft />
                                     </Button>
                                     <span>
@@ -321,13 +384,23 @@ export default function Data() {
                                             {pageIndex + 1} of {pageOptions.length}
                                         </strong>{' '}
                                     </span>
-                                    <Button onClick={() => nextPage()} disabled={!canNextPage}>
+                                    <Button
+                                        onClick={() => nextPage()}
+                                        disabled={!canNextPage}>
                                         <FaAngleRight />
                                     </Button>
                                 </Box>
                             </>
                         }
-                        {data.length < 1 && <Text textAlign={'center'} fontWeight={'bold'} fontSize={{ base:'xl', md: '3xl' }} mt={20}>data pesanan kosong</Text>}
+                        {data.length < 1 &&
+                            <Text
+                                textAlign={'center'}
+                                fontWeight={'bold'}
+                                fontSize={{ base: 'xl', md: '3xl' }}
+                                mt={20}>
+                                data pesanan kosong
+                            </Text>
+                        }
                     </TableContainer>
                 </Box>
             </Box>

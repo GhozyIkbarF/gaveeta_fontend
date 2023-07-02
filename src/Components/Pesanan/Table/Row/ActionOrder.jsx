@@ -51,7 +51,6 @@ export default function ActionOrder(props) {
                 variant="no-effects"
                 onClick={ActionDetail(id)}
             >
-                {/* <Icon as={FaEye} me="4px" /> */}
                 detail and action
             </Button>
             {pathname === '/pesanan_proses' && 
@@ -65,8 +64,6 @@ export default function ActionOrder(props) {
                 <Icon as={FaPencilAlt} me="4px" />
             </Button>
             }
-            {/* {pathname === '/pesanan_selesai' && 
-            } */}
         </Flex>
     );
 }

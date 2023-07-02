@@ -12,7 +12,7 @@ import PesananDetail from "../Components/Pesanan/PesananDetail/PesananDetail";
 import Data from "../Pages/Data";
 import Setting from "../Pages/Setting";
 import OutRoute from "../Pages/OutRoute";
-
+import Invoice from "../Components/Pesanan/PesananDetail/Invoice";
 
 export default function AppRoute() {
 
@@ -27,6 +27,7 @@ export default function AppRoute() {
           <Route path="/pesananmasuk_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
           <Route path="/pesananproses_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
           <Route path="/pesanan_selesai" element={<SidebarWithHeader children={<TabelPesananSelesai />} />} />
+          {/* <Route path="/pesananmasuk_invoice/:id" element={<SidebarWithHeader children={<Invoice />} />} /> */}
           <Route path="/pegawai" element={<SidebarWithHeader children={<Pegawai />} />} />
           <Route path="/data" element={<SidebarWithHeader children={<Data />} />} />
           <Route path="/setting" element={<SidebarWithHeader children={<Setting />} />} />

@@ -46,11 +46,24 @@ export default function Setting() {
             w='full' 
             bgColor={'white'} 
             minH="50vh"
-            mt={5} 
+            mt={{ base:0, lg:5 }} 
             py={{ base: 10, md: 18 }} 
             px='5'>
-                <Text fontWeight={'bold'} fontSize={{ base: '2xl', lg: '6xl' }} textAlign={'center'} mb={{ base: 5, md: 10 }}>Data perusahaan</Text>
-                <Flex flexDir='column' w='full' align='start' fontSize={{ base: 'lg', lg: 'xl' }} pl={{ base: 0, lg: 20 }} overflowX={'scroll'}>
+                <Text 
+                    fontWeight={'bold'} 
+                    fontSize={{ base: '2xl', lg: '6xl' }} 
+                    textAlign={'center'} 
+                    mb={{ base: 5, md: 10 }}
+                >
+                    Data perusahaan
+                </Text>
+                <Flex 
+                    flexDir='column' 
+                    w='full' align='start' 
+                    fontSize={{ base: 'lg', lg: 'xl' }} 
+                    pl={{ base: 0, lg: 20 }} 
+                    overflowX={'scroll'}
+                >
                     <table className="table-auto mb-5">
                         <tbody>
                             <tr>

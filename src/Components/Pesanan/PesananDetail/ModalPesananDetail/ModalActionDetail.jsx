@@ -4,24 +4,28 @@ import {
     ModalContent,
     Button,
 } from '@chakra-ui/react'
+import { Box, Text, Table, Thead, Tbody, Tr, Th, Td, Flex } from '@chakra-ui/react';
 import { useMediaQuery } from "@chakra-ui/react";
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useRef } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector, } from 'react-redux';
 import { setActionDetailOrder } from '../../../../Features/Pesanan/PesananDetail';
 import { formatToIDR, convertToIndonesianDate } from '../../../../validation/format';
 import jsPDF from 'jspdf'
 import 'jspdf-autotable';
 import logoGaveeta from '../../../../Assets/logo-gaveeta.png'
-
+import { useReactToPrint } from 'react-to-print';
+// import Invoice from '../Invoice';
 
 
 export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
     const initialRef = React.useRef(null)
+    const componentRef = useRef();
     const [isSmallerThanSm] = useMediaQuery("(max-width: 640px)");
     const { dataDetailOrder } = useSelector(state => state.pesananDetail)
-    console.log(dataDetailOrder);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleProses = () => {
         onClose();
@@ -45,6 +49,15 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
         dispatch(setActionDetailOrder("delete"));
         onOpen();
     };
+    const Invoice = () => {
+        navigate(`/pesananmasuk_invoice/${dataDetailOrder.id}`);
+    };
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: 'invoice',
+        pageStyle: 'print',
+    });
 
     const generatePDF = (value) => {
 
@@ -163,7 +176,6 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
         onClose()
     }
 
-
     return (
         <Modal
             initialFocusRef={initialRef}
@@ -228,11 +240,22 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                         fontWeight='bold'
                         borderBottom='1px'
                         variant="no-effects"
-                        onClick={handlePDF}
+                        onClick={Invoice}
                     >
                         Print laporan
                     </Button> : null
                 }
+
+                {/* <Button
+                    py='6'
+                    borderRadius="0"
+                    fontWeight='bold'
+                    borderBottom='1px'
+                    variant="no-effects"
+                    onClick={Invoice}
+                >
+                    print invoce
+                </Button> */}
                 <Button
                     py='6'
                     borderRadius="0"

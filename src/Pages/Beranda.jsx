@@ -359,13 +359,19 @@ const StatsCard = ({ title, stat, icon, url }) => {
           transform: "scale(0.9)",
         }}
       >
-        <Flex justifyContent={'space-between'} borderBottom='1px' _hover={{
+        <Flex 
+          justifyContent={'space-between'} 
+          borderBottom='1px' _hover={{
         }}>
           <Box pl={{ base: 2, md: 4 }}>
-            <StatLabel fontWeight={'medium'} isTruncated>
+            <StatLabel 
+              fontWeight={'medium'} 
+              isTruncated>
               {title}
             </StatLabel>
-            <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
+            <StatNumber 
+              fontSize={'2xl'} 
+              fontWeight={'medium'}>
               {stat}
             </StatNumber>
           </Box>
