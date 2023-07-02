@@ -97,6 +97,26 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
     }
   }
 
+  const Download = () => {
+    fetch(image, {
+      method: "GET",
+      headers: {}
+    })
+      .then(response => {
+        response.arrayBuffer().then(function (buffer) {
+          const url = window.URL.createObjectURL(new Blob([buffer]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "image.png"); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <Modal
@@ -113,23 +133,46 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
           <ModalContent maxW={isSmallerThanSm ? '320px' : 'lg'}>
 
             {typeImage === 'design' ?
-              <ModalHeader justifyItems='center' borderBottom='1px' borderColor='gray.100'>Desain pesanan</ModalHeader>
+              <ModalHeader 
+                justifyItems='center' 
+                borderBottom='1px' 
+                borderColor='gray.100'>
+                  Desain pesanan
+              </ModalHeader>
               :
-              <ModalHeader justifyItems='center' borderBottom='1px' borderColor='gray.100'>Model pesanan</ModalHeader>
+              <ModalHeader 
+                justifyItems='center' 
+                borderBottom='1px' 
+                borderColor='gray.100'>
+                  Model pesanan
+              </ModalHeader>
             }
             <ModalCloseButton onClose={close} />
             <ModalBody>
-            <Image
-              h='auto'
-              w='full'
-              objectFit='cover'
-              src={image}
-              alt="ssadas"
-            />
+              <Image
+                h='auto'
+                w='full'
+                objectFit='cover'
+                src={image}
+                alt="ssadas"
+              />
             </ModalBody>
-            <ModalFooter gap='3' borderTop='1px' borderColor='gray.100'>
-              <Button colorScheme='red' isLoading={isSubmitting} type="submit">
-                Delete
+            <ModalFooter 
+              gap='3' 
+              borderTop='1px' 
+              borderColor='gray.100'>
+              <Button  
+                colorScheme='blue' 
+                isLoading={isSubmitting} 
+                onClick={Download}
+                >
+                  Download
+              </Button>
+              <Button  
+                colorScheme='red' 
+                isLoading={isSubmitting} 
+                type="submit">
+                  Delete
               </Button>
             </ModalFooter>
           </ModalContent>

@@ -96,7 +96,7 @@ export default function Data() {
         let totalPendapatan = 0;
         if (data.length !== 0) {
             data.forEach(element => {
-                totalPendapatan += element.payment;
+                 totalPendapatan +=  parseInt(element.payment, 10);
             });
         }
         setPendapatan(totalPendapatan);
