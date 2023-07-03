@@ -143,7 +143,7 @@ export default function TabelPesananProses() {
         {loading && <Loading/>}
         <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={{ base:0, lg:5 }}>
             <TableContainer px='5' py="8" bgColor='white' shadow={'lg'} borderRadius={'md'} overflowX='auto'>
-                <Text pl='5' fontSize='lg'>Total Pesanan Proses: {data.length}</Text>
+                <Text pl='5' fontSize='lg' fontWeight={'bold'}>Total Pesanan Proses: {data.length}</Text>
                 <Flex w='auto' p='5'>
                     <Select
                         borderEndRadius='none'

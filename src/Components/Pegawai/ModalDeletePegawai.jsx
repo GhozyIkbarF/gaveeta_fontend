@@ -30,7 +30,7 @@ export default function AlertDeletePegawai({ onClose, isOpen }) {
       toast({
         title: "Delete Pegawai success",
         status: "success",
-        duration: 4000,
+        duration: 2000,
         isClosable: true,
         position: "bottom-right",
       });
@@ -41,7 +41,7 @@ export default function AlertDeletePegawai({ onClose, isOpen }) {
         title: "Delete Pegawai failed",
         description: "Something went wrong...",
         status: "error",
-        duration: 4000,
+        duration: 2000,
         isClosable: true,
         position: "bottom-right",
       });

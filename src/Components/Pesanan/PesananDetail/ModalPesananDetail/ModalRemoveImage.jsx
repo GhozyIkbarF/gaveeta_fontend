@@ -96,27 +96,64 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
       }
     }
   }
+  // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  // const Download = () => {
+  //   fetch(proxyUrl + image, {
+  //     method: "GET",
+  //     headers: {}
+  //   })
+  //     .then(response => {
+  //       response.arrayBuffer().then(function (buffer) {
+  //         const url = window.URL.createObjectURL(new Blob([buffer]));
+  //         const link = document.createElement("a");
+  //         link.href = url;
+  //         link.setAttribute("download", "image.png"); //or any other extension
+  //         document.body.appendChild(link);
+  //         link.click();
+  //       });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
-  const Download = () => {
-    fetch(image, {
-      method: "GET",
-      headers: {}
-    })
-      .then(response => {
-        response.arrayBuffer().then(function (buffer) {
-          const url = window.URL.createObjectURL(new Blob([buffer]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", "image.png"); //or any other extension
-          document.body.appendChild(link);
-          link.click();
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  // const getDesign = async () => {
+  //   try {
+  //     const res = await API.getOrderDesign(IdRemoveImage);
+  //     const contentType = res.headers.get('content-type');
+  //     const blob = await res.arrayBuffer();
+  //     const file = new Blob([blob], { type: contentType });
+  //     const url = window.URL.createObjectURL(file);
+  //     const link = document.createElement('a');
+  //     link.href = url;
+  //     link.setAttribute('download', 'image.png'); 
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  const getDesign = async () => {
+    try {
+      const res = await API.getOrderDesign(IdRemoveImage, { responseType: 'arraybuffer' });
+      const contentType = res.headers.get('content-type');
+      const file = new Blob([res.data], { type: contentType });
+      const url = window.URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'image.webp');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error(err);
+    }
   };
-
+  
+  
+  
   return (
     <>
       <Modal
@@ -161,13 +198,13 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
               gap='3' 
               borderTop='1px' 
               borderColor='gray.100'>
-              <Button  
+              {/* <Button  
                 colorScheme='blue' 
                 isLoading={isSubmitting} 
-                onClick={Download}
+                onClick={getDesign}
                 >
                   Download
-              </Button>
+              </Button> */}
               <Button  
                 colorScheme='red' 
                 isLoading={isSubmitting} 

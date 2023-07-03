@@ -95,7 +95,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
             toast({
                 title: "Edit pegawai success",
                 status: "success",
-                duration: 4000,
+                duration: 2000,
                 isClosable: true,
                 position: "bottom-right",
             });
@@ -106,7 +106,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                 title: "Edit pegawai failed",
                 description: "Something went wrong...",
                 status: "error",
-                duration: 4000,
+                duration: 2000,
                 isClosable: true,
                 position: "bottom-right",
             });

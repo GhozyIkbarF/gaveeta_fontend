@@ -240,12 +240,11 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                         fontWeight='bold'
                         borderBottom='1px'
                         variant="no-effects"
-                        onClick={Invoice}
+                        onClick={handlePDF}
                     >
                         Print laporan
                     </Button> : null
                 }
-
                 {/* <Button
                     py='6'
                     borderRadius="0"

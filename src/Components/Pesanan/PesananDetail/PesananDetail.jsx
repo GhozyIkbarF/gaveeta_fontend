@@ -58,6 +58,7 @@ export default function PesananDetail() {
         setDisplayAction(false)
         try {
             const res = await API.getOrderDetail(id);
+            console.log(res.data);
             setData(res.data);
             setDesigns(res.data.designs);
             setModels(res.data.model_orders);

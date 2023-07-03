@@ -13,6 +13,7 @@ const getAllOrderMasuk = () => Get('ordersMasuk')
 const getAllOrderProses = () => Get('ordersProses')
 const getAllOrderSelesai = () => Get('ordersSelesai')
 const getOrderDetail = (id) => Get(`orderDetail/${id}`)
+const getOrderDesign = (id) => Get(`orderDesign/${id}`)
 const getAllPegawai = () => Get('employes')
 const getPegawai = (id) => Get(`employe/${id}`)
 const getCompany = () => Get(`company`)
@@ -62,6 +63,7 @@ const API = {
     getAllOrderProses,
     getAllOrderSelesai,
     getOrderDetail,
+    getOrderDesign,
     getAllPegawai,
     getPegawai,
     getCompany,
