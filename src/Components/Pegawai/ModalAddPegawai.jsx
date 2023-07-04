@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -18,16 +19,19 @@ import {
   Center,
   Image,
   Textarea,
+  Spinner,
 } from '@chakra-ui/react'
 import { MdInsertPhoto } from "react-icons/md";
-import React from 'react'
+import React, {useEffect, useState}from 'react'
 import API from '../../Service'
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { changeDataPegawai } from '../../Features/Pegawai';
 
 export default function ModalEditPegawai({ isOpen, onClose }) {
-  const initialRef = React.useRef(null)
+  const initialRef = React.useRef(null);
+  const [finalPhoto, setFinalPhoto] = useState('');
+  const [isLoadingPhoto, setIsLoadingPhoto] = useState(false)
 
   const dispatch = useDispatch();
   const {
@@ -39,7 +43,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
     formState: { errors, isSubmitting },
   } = useForm(
     {
-      // resolver: yupResolver(CREATE_POST_VALIDATION),
+
       defaultValues: {
         name: "",
         phone: "",
@@ -54,22 +58,48 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
   const photo = watch("photo");
 
   const close = () => {
+    setFinalPhoto(false)
     onClose();
     reset();
   };
+
+  useEffect(() => {
+    const changeExtentionDesign = async () => {
+      if (photo.length === 0) return;
+      setIsLoadingPhoto(true)
+      const image = await createImageBitmap(photo[0]);
+      const canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      canvas.getContext('2d').drawImage(image, 0, 0);
+      canvas.toBlob((blob) => {
+        if (photo[0]) {
+          const file = new File([blob], photo[0].name, { type: 'image/webp' });
+          setFinalPhoto(file)
+        }
+      }, 'image/webp');
+    }
+
+    changeExtentionDesign();
+  }, [photo]);
+
+  useEffect(() => {
+    setIsLoadingPhoto(false)
+  }, [finalPhoto])
 
 
   const toast = useToast();
   async function onSubmit(data) {
     try {
+      console.log(finalPhoto);
       const formData = new FormData();
       formData.append('name', data.name);
       formData.append('phone', data.phone);
       formData.append('email', data.email);
       formData.append('address', data.address);
       formData.append('gender', data.gender);
-      formData.append('photo', data.photo[0]);
-      const res = await API.createPegawai(formData)
+      formData.append('photo', finalPhoto);
+      await API.createPegawai(formData)
       dispatch(changeDataPegawai())
       toast({
         title: "Create pegawai success",
@@ -93,6 +123,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
 
   const removeSelectedImage = () => {
     setValue('photo', '');
+    setFinalPhoto('')
   };
 
   return (
@@ -146,16 +177,20 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                     <Textarea type="text" id="address" {...register('address')} placeholder='Alamat' required />
                   </FormControl>
                 </WrapItem>
+                {isLoadingPhoto ?
+                    <Flex w='full' justifyContent='center' align='center' h='80'>
+                      <Spinner />
+                    </Flex>: null}
                 <WrapItem w='100%'>
                   <FormControl>
-                    {photo && (
+                    {finalPhoto && (
                       <Box>
                         <Image
                           borderRadius='lg'
                           h='auto'
                           w='full'
                           objectFit='cover'
-                          src={URL.createObjectURL(photo[0])}
+                          src={URL.createObjectURL(finalPhoto)}
                           alt="ssadas"
                         />
                         <Center>
@@ -189,9 +224,9 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
               </Wrap>
             </ModalBody>
             <ModalFooter borderTop='1px' borderColor='gray.100'>
-              <Button colorScheme='blue' mr={3} isLoading={isSubmitting} type="submit">
+              {isLoadingPhoto ? null : <Button colorScheme='blue' mr={3} isLoading={isSubmitting} type="submit">
                 Save
-              </Button>
+              </Button>}
               <Button
                 disabled={isSubmitting}
                 onClick={isSubmitting ? null : close}

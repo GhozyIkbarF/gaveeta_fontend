@@ -5,8 +5,6 @@ import { AiOutlineWarning } from 'react-icons/ai';
 export default function Deadline(props) {
     const { deadline } = props
 
-    console.log(deadline)
-
     const deadlineParts = deadline.split('/');
     const formattedDeadline = `${deadlineParts[2]}/${deadlineParts[1]}/${deadlineParts[0]}`;
     const warningDeadline = new Date(formattedDeadline);

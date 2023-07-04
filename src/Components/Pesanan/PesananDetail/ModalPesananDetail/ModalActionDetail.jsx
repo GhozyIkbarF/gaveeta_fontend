@@ -131,7 +131,7 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
             } else if (dataDetailOrder.shippingCost > 0) {
                 tableContent.push(['Uang muka', ':', value.payment ? formatToIDR(value.payment) : 0]);
                 tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
-                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + dataDetailOrder.shippingCost) : 'total biaya belum ditentukan']);
+                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + parseInt(dataDetailOrder.shippingCost)) : 'total biaya belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
             }
         } else {
@@ -144,7 +144,7 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                 tableContent.push(['Keterangan', ':', 'lunas']);
             } else if (dataDetailOrder.shippingCost > 0) {
                 tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
-                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + dataDetailOrder.shippingCost) : 'total biaya belum ditentukan']);
+                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + parseInt(dataDetailOrder.shippingCost)) : 'total biaya belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'lunas']);
             }
         }

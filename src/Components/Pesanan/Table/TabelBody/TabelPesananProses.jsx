@@ -25,7 +25,6 @@ export default function TabelPesananProses() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
-    console.log(data);
 
     const { actionOrderProses, refreshOrderProses } = useSelector(state => state.pesananProses);
 

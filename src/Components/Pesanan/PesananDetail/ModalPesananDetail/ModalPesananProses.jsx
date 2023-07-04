@@ -26,7 +26,7 @@ import { MdInsertPhoto } from "react-icons/md";
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import API from '../../../../Service';
-import { formatInputMoneyIDR, formatMoneyIDR, getDateToday } from '../../../../validation/format';
+import { formatInputMoneyIDR, formatMoneyIDR, formatToIDR, getDateToday } from '../../../../validation/format';
 import { useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
 
@@ -35,13 +35,13 @@ import { useSelector } from 'react-redux';
 export default function ModalPesananProses({ isOpen, onClose, status, totalHarga, DP }) {
     const initialRef = React.useRef(null)
     const [isLoading, setIsLoading] = useState(false)
-    const [konfirBuktiBayar, setKonfirBuktiBayar] = useState(false)
     const [konfirTotalHarga, setKonfirTotalHarga] = useState(false)
     const [finalBuktiBayar, setFinalBuktiBayar] = useState('')
     const [money, setMoney] = useState("");
     const [checkDP, setCheckDP] = useState(false)
     const [checkBP, setCheckBP] = useState(false)
     const [checkLunas, setCheckLunas] = useState(false)
+    const [checkOngkir, setCheckOngkir] = useState(false)
 
     const [isSmallerThanSm] = useMediaQuery("(max-width: 640px)");
     const { dataDetailOrder } = useSelector(state => state.pesananDetail)
@@ -55,7 +55,6 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
         formState: { isSubmitting },
     } = useForm(
         {
-            // resolver: yupResolver(CREATE_POST_VALIDATION),
             defaultValues: {
                 name: dataDetailOrder.name,
                 phone: dataDetailOrder.phone,
@@ -140,10 +139,16 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
         } else if (dataDetailOrder.status === 'masuk' && Number(data.payment) > totalHarga) {
             setCheckDP(false)
             setCheckLunas(true)
-        } else if (dataDetailOrder.status === 'proses' && data.payment < totalHarga || data.payment > totalHarga) {
+        } else if (dataDetailOrder.status === 'proses' && dataDetailOrder.shippingCost == null) {
+            setCheckDP(false)
+            setCheckLunas(false)
+            setCheckOngkir(true)
+        }else if (dataDetailOrder.status === 'proses' && data.payment < (totalHarga+ parseInt(dataDetailOrder.shippingCost)) || data.payment > (totalHarga+ parseInt(dataDetailOrder.shippingCost))) {
+            setCheckOngkir(false)
             setCheckDP(false)
             setCheckLunas(true)
         } else if (finalBuktiBayar.length < 1) {
+            setCheckOngkir(false)
             setCheckDP(false)
             setCheckLunas(false)
             setCheckBP(true)
@@ -190,15 +195,12 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
         setFinalBuktiBayar('')
     };
 
-
-    // const handleToggleBuktiBayar = (e) => {
-    //     e.preventDefault();
-    //     setKonfirBuktiBayar(false)
-    // }
     const handleToggleTotalHarga = (e) => {
         e.preventDefault();
         setKonfirTotalHarga(false)
     }
+
+    console.log(dataDetailOrder.shippingCost);
     return (
         <>
             <Modal
@@ -215,37 +217,50 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                         <ModalHeader fontSize={{ base: 'md', md: 'lg' }}>Proses pesanan</ModalHeader>
                         <ModalBody pb={5}>
                             <Wrap spacing='10px' justify={'space-between'}>
-                                <WrapItem w='full'>
+                                <WrapItem w='full' display={'flex'} flexDir={'column'}>
                                     <UnorderedList>
                                         <ListItem>Sebelum pesanan diproses pastikan bahwa data pesanan yang anda masukkan sebelumnya sudah lengkap dan benar!!!</ListItem>
                                         <ListItem>{status == 'masuk' ? 'Pesanan akan masuk ke tabel pesanan proses' : 'Pesanan akan masuk ke tabel pesanan selesai'}</ListItem>
                                     </UnorderedList>
+                                    {status === 'proses' && checkOngkir ? <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} color={'red'}>Tentukan ongkir terlebih dahulu</Text>: null}
                                 </WrapItem>
                                 {status === 'masuk' ?
                                     <WrapItem w='full'>
                                         <Flex flexDirection='column' w='full'>
                                             <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Harga total:</Text>
-                                            {totalHarga === 0 ? <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>tentukan jumlah dan harga peritem dahulu</Text> : <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(totalHarga)}</Text>}
+                                            <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{totalHarga === 0 ? 'tentukan jumlah dan harga peritem dahulu' : formatToIDR(totalHarga)}</Text>
                                         </Flex>
                                     </WrapItem>
                                     :
                                     <>
-                                        <WrapItem w={{ base: 'full', md: '40%' }}>
-                                            <Flex flexDirection='column' w='full'>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Harga total:</Text>
-                                                {totalHarga === 0 ? <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>tentukan jumlah dan harga peritem dahulu</Text> : <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(totalHarga)}</Text>}
-                                            </Flex>
-                                        </WrapItem>
                                         <WrapItem w={{ base: 'full', md: '45%' }}>
                                             <Flex flexDirection='column' w='full'>
                                                 <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Uang muka:</Text>
-                                                {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(DP)}</Text>}
+                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatToIDR(DP)}</Text>
+                                            </Flex>
+                                        </WrapItem>
+                                        <WrapItem w={{ base: 'full', md: '40%' }}>
+                                            <Flex flexDirection='column' w='full'>
+                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Biaya ongkir:</Text>
+                                                {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{dataDetailOrder.shippingCost ? formatToIDR(dataDetailOrder.shippingCost) : 'biaya ongkir belum ditentukan'}</Text>}
+                                            </Flex>
+                                        </WrapItem>
+                                        <WrapItem w={{ base: 'full', md: '40%' }}>
+                                            <Flex flexDirection='column' w='full'>
+                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Harga total:</Text>
+                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>
+                                                    {totalHarga === 0
+                                                        ? 'Tentukan jumlah dan harga per item terlebih dahulu'
+                                                        : dataDetailOrder.shippingCost !== null
+                                                            ? formatToIDR(totalHarga + parseInt(dataDetailOrder.shippingCost))
+                                                            : formatToIDR(totalHarga)}
+                                                </Text>
                                             </Flex>
                                         </WrapItem>
                                         <WrapItem w={{ base: 'full', md: '40%' }}>
                                             <Flex flexDirection='column' w='full'>
                                                 <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Kurang bayar:</Text>
-                                                {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(totalHarga - DP)}</Text>}
+                                                {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatToIDR(totalHarga - DP)}</Text>}
                                             </Flex>
                                         </WrapItem>
                                     </>

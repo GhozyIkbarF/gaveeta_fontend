@@ -19,6 +19,8 @@ import {
     useToast,
     Textarea,
     Avatar,
+    Spinner,
+    Flex
 } from '@chakra-ui/react'
 import { MdInsertPhoto } from "react-icons/md";
 import React, { useState, useEffect } from 'react'
@@ -31,8 +33,10 @@ import { object } from 'yup';
 export default function ModalEditPegawai({ isOpen, onClose }) {
     const [divisi, setDivisi] = useState('Programmer')
     const [profilePicture, setProfilePicture] = useState()
+    const [finalPhoto, setFinalPhoto] = useState('')
+    const [isLoadingPhoto, setIsLoadingPhoto] = useState(false)
     const btnRef = React.useRef(null);
-    const { dataEditPegawai,  refreshEditPegawai } = useSelector(state => state.pegawai)
+    const { dataEditPegawai, refreshEditPegawai } = useSelector(state => state.pegawai)
 
 
     const {
@@ -44,14 +48,14 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
-            id:"",
-            name: "",           
+            id: "",
+            name: "",
             phone: "",
             email: "",
             gender: "",
-            address:"",
+            address: "",
             photo: "",
-          },
+        },
     });
 
     const dispatch = useDispatch();
@@ -60,6 +64,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
     const photo = watch("photo");
 
     const close = () => {
+        setIsLoadingPhoto(false)
         onClose();
         reset();
     };
@@ -74,20 +79,24 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         setValue('photo', dataEditPegawai.photo);
     }, [refreshEditPegawai]);
 
+    useEffect(() => {
+        setIsLoadingPhoto(false)
+    }, [finalPhoto])
+
 
     async function onSubmit(data) {
         try {
             const formData = new FormData();
             formData.append('name', data.name);
             formData.append('phone', data.phone);
-            formData.append('email',  data.email);
+            formData.append('email', data.email);
             formData.append('address', data.address);
             formData.append('gender', data.gender);
-            if(typeof(data.photo) != 'string'){
-                formData.append('photo', photo[0]);
-            }else if(data.photo == ''){
+            if (typeof (data.photo) != 'string') {
+                formData.append('photo', photo);
+            } else if (data.photo == '') {
                 formData.append('photo', 'hapus foto');
-            }else{
+            } else {
                 formData.append('photo', data.photo);
             }
             const res = await API.updatePegawai(data.id, formData)
@@ -130,17 +139,38 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
             </Center>
         )
     }
-    
+
+    const handleChange = (event) => {
+        const photo = event.target.files
+        const changeExtentionDesign = async () => {
+            setProfilePicture(null)
+            setIsLoadingPhoto(true)
+            const image = await createImageBitmap(photo[0]);
+            setIsLoadingPhoto(false)
+            const canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            canvas.getContext('2d').drawImage(image, 0, 0);
+            canvas.toBlob((blob) => {
+                if (photo[0]) {
+                    const file = new File([blob], photo[0].name, { type: 'image/webp' });
+                    setValue('photo', file)
+                }
+            }, 'image/webp');
+        }
+        changeExtentionDesign();
+    };
+
     useEffect(() => {
         if (typeof (photo) == 'object') {
             setProfilePicture(
                 <Box>
                     <Image
-                         borderRadius='lg'
-                         h='auto'
-                         w='full'
-                         objectFit='cover'
-                        src={URL.createObjectURL(photo[0])}
+                        borderRadius='lg'
+                        h='auto'
+                        w='full'
+                        objectFit='cover'
+                        src={URL.createObjectURL(photo)}
                         alt="ssadas"
                     />
                     <ButtonDelete />
@@ -148,19 +178,19 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
             )
         } else if (typeof (photo) == 'string' && photo != '') {
             setProfilePicture(
-            <Box>
-                <Center>
-                <Image
-                    borderRadius='lg'
-                    h='auto'
-                    w='full'
-                    objectFit='cover'
-                    src={photo}
-                    alt="ssadas"
-                />
-                </Center>
-                <ButtonDelete />
-            </Box>)
+                <Box>
+                    <Center>
+                        <Image
+                            borderRadius='lg'
+                            h='auto'
+                            w='full'
+                            objectFit='cover'
+                            src={photo}
+                            alt="ssadas"
+                        />
+                    </Center>
+                    <ButtonDelete />
+                </Box>)
         } else {
             setProfilePicture(
                 <Box>
@@ -184,12 +214,12 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                 size={{ sm: 'full', md: '2xl' }}
             >
                 <ModalOverlay
-                bg='blackAlpha.300'
-                backdropFilter='blur(10px)' />
+                    bg='blackAlpha.300'
+                    backdropFilter='blur(10px)' />
                 <form onSubmit={handleSubmit(onSubmit)}>
-                <ModalContent>
-                    <ModalHeader borderBottom='1px' borderColor='gray.100'>Edit your account</ModalHeader>
-                    <ModalCloseButton onClose={close} />
+                    <ModalContent>
+                        <ModalHeader borderBottom='1px' borderColor='gray.100'>Edit Pegawai</ModalHeader>
+                        <ModalCloseButton onClose={close} />
                         <ModalBody pb={6}>
                             <Wrap spacing='30px' justify={'space-between'}>
                                 <WrapItem w={{ base: 'full', md: '45%' }}>
@@ -251,6 +281,10 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                         />
                                     </FormControl>
                                 </WrapItem>
+                                {isLoadingPhoto ?
+                                    <Flex w='full' justifyContent='center' align='center' h='80'>
+                                        <Spinner />
+                                    </Flex> : null}
                                 <WrapItem w='100%'>
                                     <FormControl>
                                         {profilePicture}
@@ -261,7 +295,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                             >
                                                 <MdInsertPhoto />
                                                 <Input
-                                                    {...register("photo")}
+                                                    onChange={handleChange}
                                                     type="file"
                                                     id="fileInput"
                                                     className="hidden"
@@ -290,7 +324,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                 Cancel
                             </Button>
                         </ModalFooter>
-                </ModalContent>
+                    </ModalContent>
                 </form>
             </Modal>
         </>

@@ -17,8 +17,6 @@ import { rootImg } from "../../../Service/Config";
 export default function ActionTablePegawai(props) {
     const { onOpen, id } = props;
     const textColor = useColorModeValue("gray.500", "white");
-    // const titleColor = useColorModeValue("gray.700", "white");
-    // const borderColor = useColorModeValue("gray.200", "gray.600");
 
     const { employes } = useSelector(state => state.pegawai)
     const dispatch = useDispatch()
@@ -34,7 +32,6 @@ export default function ActionTablePegawai(props) {
     const ActionUpdate = (idPegawai, action) => (e) => {
         e.preventDefault();
         const filterData = employes.filter((value) => value.id === idPegawai)
-        console.log(filterData[0]);
         dispatch(actionPegawai(action))
         dispatch(IdActionPegawai(idPegawai))
         dispatch(setDataEditPegawai(filterData[0]))
@@ -48,14 +45,6 @@ export default function ActionTablePegawai(props) {
             align="flex-start"
             gap='2'
         >
-            {/* <Button
-                color='white'
-                bg={"blue.400"}
-                variant="no-effects"
-                onClick={ActionUpdate(id, 'edit')}
-            >
-                <Icon as={FaEye} />
-            </Button> */}
             <Button
                 color='white'
                 bg={textColor}
