@@ -23,7 +23,6 @@ export default function TabelPesananMasuk() {
     const [data, setData] = useState([])
 
     const { pathname } = useLocation();
-    console.log(pathname);
 
     const { actionOrderMasuk, refreshOrderMasuk } = useSelector(state => state.pesananMasuk);
     const { actionOrderProses } = useSelector(state => state.pesananProses);

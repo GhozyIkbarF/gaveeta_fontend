@@ -140,14 +140,14 @@ export default function PesananDetail() {
             <Flex mt={{ base: 0, lg:10 }} pt={5} w='full' minH={'80vh'} flexDirection='column'  align='center' bgColor={'white'} >
                 <Flex w={{ base: 'full', lg: '90%' }} justifyContent='space-between' px={{ base: 0, lg:5 }} align='center'>
                     <Button onClick={() => navigate(-1)} fontWeight='bold' variant="no-effects" gap='2'><FaArrowLeft /> <Text display={{ base: 'none', md: 'block' }}>Kembali</Text></Button>
-                    <Text fontWeight='bold'>
+                    {/* <Text fontWeight='bold'>
                         {data.status === 'masuk'
                         ? 'Detail pesanan masuk'
                         : data.status === 'proses'
                         ? 'Detail pesanan proses'
                         :'Detail pesanan selesai'}
-                    </Text>
-                    {/* {data.status === 'proses' && <Text fontWeight='bold'>Detail pesanan proses</Text>} */}
+                    </Text> */}
+                    <Text fontWeight='bold'>Detail Pesanan</Text>
                     <Box>
                         {!displayAction ? null : <Button fontWeight='bold' fontSize='md' variant="no-effects" color='blue.500' gap='1' onClick={handleAction()}>Aksi</Button>}
                         {actionDetailOrder === '2action' && <ModalActionDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} status={data.status} />}
@@ -192,41 +192,42 @@ export default function PesananDetail() {
                                             </Flex>
                                             <Flex w='full' flexDirection='column' mb='5'>
                                                 <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Deskripsi</Text>
-                                                {!data.description ? <Text fontSize={{ base: 'md', md: 'lg' }}>deskripsi pesanan belum dibuat</Text> : <Text fontSize={{ base: 'md', md: 'lg' }}>{data.description}</Text>}
+                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{!data.description ? 'deskripsi pesanan belum dibuat': data.description}</Text>
                                             </Flex>
-                                            {data.status === 'proses' &&
+                                            {data.status === 'proses' ?
                                                 <Flex w='full' flexDirection='column' mb='5'>
                                                     <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Progres</Text>
                                                     <Progres progres={data.progres || 0} quantity={data.quantity}  />
-                                                </Flex>
+                                                </Flex> : null
                                             }
                                             <Flex w='full' flexDirection='column' mb='5'>
                                                 <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Jumlah</Text>
-                                                {data.quantity == null || data.quantity < 1 ? <Text fontSize={{ base: 'md', md: 'lg' }}>jumlah belum ditetapkan</Text> : <Text fontSize={{ base: 'md', md: 'lg' }}>{`${data.quantity} pieces`}</Text>}
+                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.quantity == null || data.quantity < 1 ? 'jumlah belum ditetapkan' : `${data.quantity} pieces`}</Text>
                                             </Flex>
                                             <Flex w='full' flexDirection='column' mb='5'>
                                                 <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Ukuran</Text>
-                                                {!data.size ? <Text fontSize={{ base: 'md', md: 'lg' }}>ukuran belum ditetapkan</Text> : <Text fontSize={{ base: 'md', md: 'lg' }}>{data.size}</Text>}
+                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{!data.size ? 'ukuran belum ditetapkan' : data.size}</Text>
                                             </Flex>
                                             <Flex w='full' flexDirection='column' mb='5'>
                                                 <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Deadline</Text>
-                                                {!data.deadline ? <Text fontSize={{ base: 'md', md: 'lg' }}>deadline belum ditetapkan</Text> : <Text fontSize={{ base: 'md', md: 'lg' }}>{convertToIndonesianDate(data.deadline)}</Text>}
+                                                 <Text fontSize={{ base: 'md', md: 'lg' }}>{!data.deadline ? 'deadline belum ditetapkan' : convertToIndonesianDate(data.deadline)}</Text>
                                             </Flex>
                                             <Flex w='full' flexDirection='column' mb='5'>
                                                 <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Harga peritem</Text>
-                                                {data.pricePerItem == null || data.pricePerItem < 1 ? <Text fontSize={{ base: 'md', md: 'lg' }}>harga belum ditetapkan</Text> : <Text fontSize={{ base: 'md', md: 'lg' }}>{formatMoneyIDR(data.pricePerItem)}</Text>}
+                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.pricePerItem == null || data.pricePerItem < 1 ? 'harga belum ditetapkan' : formatMoneyIDR(data.pricePerItem)}</Text>
                                             </Flex>
                                             <Flex w='full' flexDirection='column' mb='5'>
                                                 <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Total Harga</Text>
-                                                {totalHarga == null || totalHarga < 1 ? <Text fontSize={{ base: 'md', md: 'lg' }}>tentukan jumlah dan harga peritem dahulu</Text> : <Text fontSize={{ base: 'md', md: 'lg' }}>{formatMoneyIDR(totalHarga)}</Text>}
+                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{totalHarga == null || totalHarga < 1 ? 'tentukan jumlah dan harga peritem dahulu' : formatMoneyIDR(totalHarga)}</Text>
                                             </Flex>
                                             {data.status === 'proses' &&
                                                 <Flex w='full' flexDirection='column' mb='5'>
                                                     <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Uang muka</Text>
-                                                    {data.payment == null || data.payment < 1 ? <Text fontSize={{ base: 'md', md: 'lg' }}>tentukan jumlah dan harga peritem dahulu</Text> : <Text fontSize={{ base: 'md', md: 'lg' }}>{formatMoneyIDR(data.payment)}</Text>}
+                                                    <Text fontSize={{ base: 'md', md: 'lg' }}>{data.payment == null || data.payment < 1 ? 'tentukan jumlah dan harga peritem dahulu' : formatMoneyIDR(data.payment)}</Text>
                                                 </Flex>
                                             }
-                                            {data.status === 'masuk' &&  <Flex w='full' flexDirection='column' mb='5'>
+                                            {data.status === 'masuk' &&  
+                                                <Flex w='full' flexDirection='column' mb='5'>
                                                 <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Di input pada</Text>
                                                 <Text fontSize={{ base: 'md', md: 'lg' }}>{indonesiaDateTimeString}</Text>
                                             </Flex>
@@ -242,8 +243,20 @@ export default function PesananDetail() {
                                     {actionDetailOrder === 'edit' && (<ModalEditPesananMasuk onClose={onClose} isOpen={isOpen} />)}
                                 </TabPanel>
                                 <TabPanel>
-                                    <Flex mb='5' w='full' align='center' justifyContent='space-between' flexDirection={{ base: 'column', md: 'row' }} gap={{ base: '3', md: '0' }}>
-                                        <Text fontWeight='bold' display={{ base: 'none', md: 'block' }}>koleksi desain pesanan</Text>
+                                    <Flex 
+                                        mb='5' 
+                                        w='full' 
+                                        align='center' 
+                                        justifyContent='space-between' 
+                                        flexDirection={{ base: 'column', md: 'row' }} 
+                                        gap={{ base: '3', md: '0' }}
+                                    >
+                                        <Text 
+                                            fontWeight='bold' 
+                                            display={{ base: 'none', md: 'block' }}
+                                        >
+                                                koleksi desain pesanan
+                                        </Text>
                                         <Button
                                             color='blue.500'
                                             bg='transparent'
@@ -255,7 +268,12 @@ export default function PesananDetail() {
                                             + Desain Baru
                                         </Button>
                                     </Flex>
-                                    <SimpleGrid w='full' columns={3} gap={1} justify='center'>
+                                    <SimpleGrid 
+                                        w='full' 
+                                        columns={3} 
+                                        gap={1} 
+                                        justify='center'
+                                    >
                                         {designs.map((design, i) =>
                                             <Image
                                                 key={i}
@@ -272,8 +290,20 @@ export default function PesananDetail() {
                                     </SimpleGrid>
                                 </TabPanel>
                                 <TabPanel>
-                                    <Flex mb='5' w='full' align='center' justifyContent='space-between' flexDirection={{ base: 'column', md: 'row' }} gap={{ base: '3', md: '0' }}>
-                                        <Text fontWeight='bold' display={{ base: 'none', md: 'block' }}>koleksi model pesanan</Text>
+                                    <Flex 
+                                        mb='5' 
+                                        w='full' 
+                                        align='center' 
+                                        justifyContent='space-between' 
+                                        flexDirection={{ base: 'column', md: 'row' }} 
+                                        gap={{ base: '3', md: '0' }}
+                                    >
+                                        <Text 
+                                            fontWeight='bold' 
+                                            display={{ base: 'none', md: 'block' }}
+                                            >
+                                                koleksi model pesanan
+                                        </Text>
                                         <Button
                                             color='blue.500'
                                             bg='transparent'

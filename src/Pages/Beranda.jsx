@@ -35,7 +35,6 @@ export default function Beranda() {
   const [inputDateStartValue, setInputStartEndValue] = useState('2022-01-01')
   const [displayButton, setDisplayButton] = useState(false);
 
-  console.log(ordersByMonth);
   const dateToday = getDateToday();
   const currentDate = new Date();
   const this_year = currentDate.getFullYear();

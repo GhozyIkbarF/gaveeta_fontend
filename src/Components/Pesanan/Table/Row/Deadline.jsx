@@ -14,10 +14,21 @@ export default function Deadline(props) {
 
     return (
         <Flex justify='center' align='center' gap='2'>
-            <AiOutlineWarning color={color} />
-            {deadline !== null ? 
-            <Text>{deadline}</Text> : <Text>deadline belum ditenttukan</Text>}
-            
+            <Tooltip 
+                hasArrow 
+                label={color === 'red' ? 'mendekati deadline': 'belum mendekati deadline'} 
+                bg='gray.300' 
+                color='black' 
+                placement='top'
+            >
+                <span tabIndex={0}>
+                    <AiOutlineWarning 
+                        color={color}
+                        cursor={'pointer'} 
+                    />
+                </span>
+            </Tooltip>
+            <Text>{deadline !== null ? deadline : 'deadline belum ditentukan'}</Text>
         </Flex>
 
     )

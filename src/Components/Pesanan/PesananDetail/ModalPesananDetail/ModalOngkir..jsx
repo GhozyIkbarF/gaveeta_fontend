@@ -16,10 +16,6 @@ import {
     FormLabel,
     VStack
 } from '@chakra-ui/react'
-import {
-    ListItem,
-    UnorderedList,
-} from '@chakra-ui/react'
 import { Radio, RadioGroup } from '@chakra-ui/react'
 import { useMediaQuery } from "@chakra-ui/react";
 import React, { useState, useEffect } from 'react'
@@ -41,7 +37,6 @@ export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
         reset,
         register,
         setValue,
-        watch,
         formState: { isSubmitting },
     } = useForm(
         {
@@ -62,7 +57,6 @@ export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
     async function onSubmit(value) {
         try {
             await API.updateShippingCost(value)
-            // console.log(value)
             toast({
                 title: "Delete design success",
                 status: "success",

@@ -209,7 +209,7 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                                 <WrapItem w={{ base: 'full' }}>
                                     <FormControl>
                                         <FormLabel>Edit uang muka</FormLabel>
-                                        <Input type="text" value={money} onChange={handleChangeMoney} placeholder='masukkan nominal' required />
+                                        <Input type="number" value={money} onChange={handleChangeMoney} placeholder='masukkan nominal' required />
                                         {checkDP && <Text color='red'>minimal DP 1/2 dari total harga</Text> }                                       
                                     </FormControl>
                                 </WrapItem>
