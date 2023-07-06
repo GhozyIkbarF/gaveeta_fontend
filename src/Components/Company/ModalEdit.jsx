@@ -99,7 +99,7 @@ export default function ModalEdit({ data, isOpen, onClose }) {
         return (
             <Wrap spacing='10px' justify={'space-between'}>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
-                    <FormLabel>nama pemesan</FormLabel>
+                    <FormLabel>nama perusahaan</FormLabel>
                     <Input type="text" name="name" {...register('name')} placeholder='Nama' required />
                     <FormErrorMessage>
                         {/* {errors.name && errors.name.message} */}
@@ -162,7 +162,6 @@ export default function ModalEdit({ data, isOpen, onClose }) {
                             <DrawerBody>
                                 <EditInput />
                             </DrawerBody>
-
                             <DrawerFooter borderTop='1px' borderColor='gray.100'>
                                 <Button
                                     variant='outline'

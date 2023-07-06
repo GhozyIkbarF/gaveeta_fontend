@@ -6,6 +6,9 @@ export const CREATE_PESANAN_MASUK_VALIDATION = Yup.object().shape({
     "domain",
     "Unsupported email provider",
     (value) => {
+      if(value == null) {
+        return true
+      }
       if (value) {
         const supportedProviders = ["gmail.com", "yahoo.com", "yahoo.co.id", "hotmail.com"];
         const domain = value.split("@")[1];
