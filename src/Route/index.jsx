@@ -24,8 +24,7 @@ export default function AppRoute() {
           <Route path="/dashboard" element={<SidebarWithHeader children={<Beranda />} />} />
           <Route path="/pesanan_masuk" element={<SidebarWithHeader children={<TabelPesananMasuk />} />} />
           <Route path="/pesanan_proses" element={<SidebarWithHeader children={<TabelPesananProses />} />} />
-          <Route path="/pesananmasuk_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
-          <Route path="/pesananproses_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
+          <Route path="/pesanan_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
           <Route path="/pesanan_selesai" element={<SidebarWithHeader children={<TabelPesananSelesai />} />} />
           {/* <Route path="/pesananmasuk_invoice/:id" element={<SidebarWithHeader children={<Invoice />} />} /> */}
           <Route path="/pegawai" element={<SidebarWithHeader children={<Pegawai />} />} />

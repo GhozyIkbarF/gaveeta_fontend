@@ -24,7 +24,7 @@ export default function ActionOrder(props) {
 
     const ActionDetail =(id) => (e) => {
         e.preventDefault();
-        navigate(`/pesananproses_detail/${id}`)
+        navigate(`/pesanan_detail/${id}`)
     }
 
 
