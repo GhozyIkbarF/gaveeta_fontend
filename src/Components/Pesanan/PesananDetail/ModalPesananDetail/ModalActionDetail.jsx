@@ -242,7 +242,7 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                         variant="no-effects"
                         onClick={handlePDF}
                     >
-                        Print laporan
+                        Cetak laporan
                     </Button> : null
                 }
                 {/* <Button
@@ -262,7 +262,7 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                     variant="no-effects"
                     onClick={handleDelete}
                 >
-                    Delete pesanan
+                    Hapus pesanan
                 </Button>
                 <Button
                     py='6'

@@ -146,7 +146,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
               <Wrap spacing='30px' justify={'space-between'}>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
-                    <FormLabel>nama</FormLabel>
+                    <FormLabel>Nama</FormLabel>
                     <Input type="text" id="name" {...register('name')} placeholder='Nama' required />
                   </FormControl>
                 </WrapItem>
@@ -158,13 +158,13 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>No Hp</FormLabel>
                     <Input type="text" id="phone" {...register('phone')} placeholder='Phone' required />
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
-                    <FormLabel>Gender</FormLabel>
+                    <FormLabel>Jenis kelamin</FormLabel>
                     <Select name='gender' {...register('gender')} required>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
@@ -199,7 +199,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                             className=" text-white w-full cursor-pointer mt-1 p-15"
                             colorScheme="red"
                           >
-                            Remove Image
+                            Hapus foto
                           </Button>
                         </Center>
                       </Box>
@@ -217,21 +217,23 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                           className="hidden"
                           accept="image/*"
                         />
-                        <p className="font-semibold">Photo</p>
+                        <p className="font-semibold">Foto</p>
                       </label> : null}
                   </FormControl>
                 </WrapItem>
               </Wrap>
             </ModalBody>
             <ModalFooter borderTop='1px' borderColor='gray.100'>
-              {isLoadingPhoto ? null : <Button colorScheme='blue' mr={3} isLoading={isSubmitting} type="submit">
-                Save
-              </Button>}
               <Button
                 disabled={isSubmitting}
                 onClick={isSubmitting ? null : close}
                 variant="ghost"
-              >Cancel</Button>
+              >
+                Batal
+              </Button>
+              {isLoadingPhoto ? null : <Button colorScheme='blue' mr={3} isLoading={isSubmitting} type="submit">
+                Simpan
+              </Button>}
             </ModalFooter>
           </ModalContent>
         </form>

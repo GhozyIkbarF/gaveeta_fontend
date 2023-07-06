@@ -84,7 +84,7 @@ import {
                   disabled={isFetching}
                   onClick={isFetching ? null : onClose}
                 >
-                  Cancel
+                  Batal
                 </Button>
                 <Button
                   colorScheme='red'
@@ -94,7 +94,7 @@ import {
                   ml={3}
                   onClick={handleDelete}
                 >
-                  Delete
+                  Hapus
                 </Button>
               </AlertDialogFooter>
             </AlertDialogContent>

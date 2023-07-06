@@ -150,7 +150,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
               <Wrap spacing='10px' justify={'space-between'}>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
-                    <FormLabel>nama pemesan</FormLabel>
+                    <FormLabel>Nama</FormLabel>
                     <Input type="text" name="name" {...register('name')} placeholder='Nama'  />
                     {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text> }
                   </FormControl>
@@ -164,7 +164,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>No HP</FormLabel>
                     <Input type="number" name="phone" {...register('phone')} placeholder='Phone'  />
                     {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text> }                                                                    
                   </FormControl>
@@ -201,7 +201,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
                 </WrapItem>
                 <WrapItem w='100%'>
                   <FormControl>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>Deskripsi</FormLabel>
                     <Textarea type="text" name="description" {...register('description')} placeholder='Description' />
                   </FormControl>
                 </WrapItem>
@@ -212,7 +212,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
                 disabled={isSubmitting}
                 onClick={isSubmitting ? null : close}
               >
-                Cancel
+                Batal
               </Button>
               <Button
                 colorScheme='blue'
@@ -220,7 +220,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
                 isLoading={isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </ModalFooter>
           </ModalContent>

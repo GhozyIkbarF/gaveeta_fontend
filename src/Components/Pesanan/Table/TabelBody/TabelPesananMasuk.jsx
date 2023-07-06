@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Text, Flex, Button, Input } from '@chakra-ui/react'
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Select } from '@chakra-ui/react'
@@ -7,12 +7,14 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
 import { useDisclosure } from '@chakra-ui/react'
 import API from '../../../../Service';
-import { actionPesananMasuk, setDataOrder } from '../../../../Features/Pesanan/PesananMasuk';
+import { actionPesananMasuk, actionOrderProses, setDataOrder } from '../../../../Features/Pesanan/PesananMasuk';
 import ActionOrder from '../Row/ActionOrder';
 import RowDesign from '../Row/RowDesign';
 import ModalAddPesananMasuk from '../../Modal/ModalPesananMasuk/ModalAddPesanan';
 import AlertDeletePesananMasuk from '../../Modal/ModalDeletePesanan';
+import ModalDesign from '../../Modal/ModalPesananProses/ModalDesign';
 import Loading from '../../../Loading';
+import { actionPesananProses } from '../../../../Features/Pesanan/PesananProses';
 
 
 export default function TabelPesananMasuk() {
@@ -20,7 +22,12 @@ export default function TabelPesananMasuk() {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
 
+    const { pathname } = useLocation();
+    console.log(pathname);
+
     const { actionOrderMasuk, refreshOrderMasuk } = useSelector(state => state.pesananMasuk);
+    const { actionOrderProses } = useSelector(state => state.pesananProses);
+
     const dispatch = useDispatch();
 
     const getDataInit = async () => {
@@ -41,6 +48,7 @@ export default function TabelPesananMasuk() {
 
     const handleAddPesananMasuk = (action) => (e) => {
         e.preventDefault();
+        dispatch(actionPesananProses(action))
         dispatch(actionPesananMasuk(action))
         onOpen()
     }
@@ -69,7 +77,7 @@ export default function TabelPesananMasuk() {
                 ),
             },
             {
-                Header: 'phone',
+                Header: 'No HP',
                 accessor: 'phone',
             },
             {
@@ -77,13 +85,13 @@ export default function TabelPesananMasuk() {
                 accessor: 'description',
             },
             {
-                Header: 'design',
+                Header: 'desain',
                 Cell: ({ cell: { row } }) => (
                     <RowDesign link={row.original.designs} onOpen={onOpen} id={row.original.id} />
                 )
             },
             {
-                Header: 'action',
+                Header: 'Aksi',
                 Cell: ({ row }) => (
                     <ActionOrder id={row.original.id} onOpen={onOpen} />
                 )
@@ -240,7 +248,7 @@ export default function TabelPesananMasuk() {
                 </Flex>
                 {actionOrderMasuk === 'create' && (<ModalAddPesananMasuk isOpen={isOpen} onClose={onClose} />)}
                 {actionOrderMasuk === 'delete' && <AlertDeletePesananMasuk onClose={onClose} isOpen={isOpen} />}
-                {/* {actionOrderProses === 'design' && (<ModalDesign onClose={onClose} isOpen={isOpen} />)} */}
+                {actionOrderProses === 'design' && pathname === '/pesanan_masuk' ? <ModalDesign onClose={onClose} isOpen={isOpen} /> : null}
             </TableContainer>
         </Box>
         </>

@@ -49,6 +49,13 @@ export const getDateToday = () => {
     return dateToday
 }
 
+export const formatDateDMY = (param) => {
+  const parts = param.split('-');
+  const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+  return formattedDate
+
+}
+
 export const  getThisMonth = () => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();

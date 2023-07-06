@@ -20,6 +20,7 @@ import {
 } from 'react-icons/fa';
 import Loading from '../Components/Loading';
 import API from '../Service';
+import { formatDateDMY } from '../validation/format';
 import { getDateToday } from '../validation/format';
 import { Link } from 'react-router-dom';
 
@@ -34,7 +35,7 @@ export default function Beranda() {
   const [inputDateStartValue, setInputStartEndValue] = useState('2022-01-01')
   const [displayButton, setDisplayButton] = useState(false);
 
-
+  console.log(ordersByMonth);
   const dateToday = getDateToday();
   const currentDate = new Date();
   const this_year = currentDate.getFullYear();
@@ -73,7 +74,7 @@ export default function Beranda() {
     const res = await API.getNumbersOrderPerYear(data);
     setOrdersByMonth(res.data.orderByMonth)
     setYear(data)
-    setRangeTrafics(`January - December ${data}`)
+    setRangeTrafics(`Januari - Desember ${data}`)
   };
   
   const getOrdersPerDay = async () => {
@@ -83,7 +84,7 @@ export default function Beranda() {
     const res = await API.getOrdersPerDay(formData);
     if(res){
       setOrdersByMonth(res.data)
-      setRangeTrafics(`${inputDateStartValue} - ${inputDateEndValue}`)
+      setRangeTrafics(`${formatDateDMY(inputDateStartValue)} - ${formatDateDMY(inputDateEndValue)}`)
       setInputDateEndValue('')
       setDisplayButton(false)
     }
@@ -94,7 +95,7 @@ export default function Beranda() {
     window.scrollTo(0, 0);
     setLoading(true)
     getOrderCount();
-    setRangeTrafics(`January - December ${this_year}`)
+    setRangeTrafics(`Januari - Desember ${this_year}`)
   }, [])
 
   const handleDisplayButton = () => {
@@ -113,7 +114,12 @@ export default function Beranda() {
       chartInstance.current.destroy();
     }
     let delayed;
-    const label = ordersByMonth.map(value => value.label)
+    let label;
+    if(selectDataChart === 'Year'){
+      label = ['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'];
+    }else{
+      label = ordersByMonth.map(value => value.label)
+    }
     const value = ordersByMonth.map(value => value.total_amount)
     const ctx = chartContainer.current.getContext('2d');
     chartInstance.current = new Chart(ctx, {
@@ -124,7 +130,6 @@ export default function Beranda() {
           {
             label: 'jumlah order',
             data: value,
-            // data: [12, 23, 21, 25, 15, 23, 19, 28, 18, 22, 20, 29],
             backgroundColor: [
               'rgba(201, 203, 207, 0.7)',
               'rgba(255, 26, 104, 0.7)',
@@ -189,19 +194,19 @@ export default function Beranda() {
             spacing={5}
           >
             <StatsCard
-              title={'Total order masuk'}
+              title={'Total pesanan masuk'}
               stat={data.masuk}
               icon={<FaShoppingCart size={'2.5em'} />}
               url={'/pesanan_masuk'}
             />
             <StatsCard
-              title={'Total order proses'}
+              title={'Total pesanan proses'}
               stat={data.proses}
               icon={<FaCheck size={'2.5em'} />}
               url={'/pesanan_proses'}
             />
             <StatsCard
-              title={'Total order selesai'}
+              title={'Total pesanan selesai'}
               stat={data.selesai}
               icon={<BsFillClipboardFill size={'2.5em'} />}
               url={'/pesanan_selesai'}
@@ -252,8 +257,8 @@ export default function Beranda() {
                 overflowY={'scroll'}
               >
                 <Select 
-                  minW={'78px'} 
-                  maxW={'80px'} 
+                  minW={'85px'} 
+                  maxW={'95px'} 
                   value={selectDataChart} 
                   onChange={(e) => { 
                     handleSelectDataChart(e); 
@@ -264,8 +269,8 @@ export default function Beranda() {
                     }
                   }}
                 >
-                  <option value='Year'>Year</option>
-                  <option value='Day'>Day</option>
+                  <option value='Year'>Tahun</option>
+                  <option value='Day'>Hari</option>
                 </Select>
                 {selectDataChart === 'Day' ?
                   <Flex gap={1} align={'center'}>
@@ -279,7 +284,7 @@ export default function Beranda() {
                         handleChangeInputDateStart(e);
                         setDisplayButton(false);
                       }} />
-                    <Text>until</Text>
+                    <Text>-</Text>
                     <Input 
                       type="date" 
                       id="myDate" 

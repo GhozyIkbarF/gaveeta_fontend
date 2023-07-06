@@ -234,7 +234,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
             <ModalBody pb={6}>
               <Wrap spacing='10px' justify={'space-between'}>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
-                  <FormLabel>nama pemesan</FormLabel>
+                  <FormLabel>Nama</FormLabel>
                   <Input type="text" name="name" {...register('name')} placeholder='Nama' />
                   {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text>}
                 </WrapItem>
@@ -244,7 +244,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                   {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
-                  <FormLabel>Phone</FormLabel>
+                  <FormLabel>No HP</FormLabel>
                   <Input type="number" name="phone" {...register('phone')} placeholder='Phone' />
                   {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text>}
                 </WrapItem>
@@ -270,7 +270,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                   <Input type="date" name="deadline" {...register('deadline')} placeholder='Deadline' min={getDateToday()} />
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Deskripsi</FormLabel>
                   <Textarea type="text" name="description" {...register('description')} placeholder='Description' />
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
@@ -298,7 +298,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                         p='15'
                         colorScheme="red"
                       >
-                        Remove design
+                        Hapus desain
                       </Button>
                     </>
 
@@ -329,7 +329,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                       <Text
                         fontWeight='bold'
                       >
-                        Design
+                        Desain
                       </Text>
                     </FormLabel> : null}
                 </WrapItem>
@@ -358,7 +358,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                         p='15'
                         colorScheme="red"
                       >
-                        Remove model
+                        Hapus model
                       </Button>
                     </>
                   )}
@@ -398,11 +398,11 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                 disabled={isSubmitting}
                 onClick={isSubmitting ? null : close}
               >
-                Cancel
+                Batal
               </Button>
               {!isLoadingDesign && !isLoadingModel ?
                 <Button colorScheme='blue' isLoading={isSubmitting} type="submit">
-                  Save
+                  Simpan
                 </Button>
                 : null}
             </ModalFooter>

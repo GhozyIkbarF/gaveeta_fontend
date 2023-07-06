@@ -140,10 +140,16 @@ export default function PesananDetail() {
             <Flex mt={{ base: 0, lg:10 }} pt={5} w='full' minH={'80vh'} flexDirection='column'  align='center' bgColor={'white'} >
                 <Flex w={{ base: 'full', lg: '90%' }} justifyContent='space-between' px={{ base: 0, lg:5 }} align='center'>
                     <Button onClick={() => navigate(-1)} fontWeight='bold' variant="no-effects" gap='2'><FaArrowLeft /> <Text display={{ base: 'none', md: 'block' }}>Kembali</Text></Button>
-                    {data.status === 'masuk' && <Text fontWeight='bold'>Detail pesanan masuk</Text>}
-                    {data.status === 'proses' && <Text fontWeight='bold'>Detail pesanan proses</Text>}
+                    <Text fontWeight='bold'>
+                        {data.status === 'masuk'
+                        ? 'Detail pesanan masuk'
+                        : data.status === 'proses'
+                        ? 'Detail pesanan proses'
+                        :'Detail pesanan selesai'}
+                    </Text>
+                    {/* {data.status === 'proses' && <Text fontWeight='bold'>Detail pesanan proses</Text>} */}
                     <Box>
-                        {!displayAction ? null : <Button fontWeight='bold' fontSize='md' variant="no-effects" color='blue.500' gap='1' onClick={handleAction()}>Action</Button>}
+                        {!displayAction ? null : <Button fontWeight='bold' fontSize='md' variant="no-effects" color='blue.500' gap='1' onClick={handleAction()}>Aksi</Button>}
                         {actionDetailOrder === '2action' && <ModalActionDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} status={data.status} />}
                         {actionDetailOrder === 'proses' &&
                             (
@@ -160,9 +166,9 @@ export default function PesananDetail() {
                     <Flex flexDirection='column' px='5' py="8" bgColor='white' borderRadius={'md'} w={{ base: 'full', lg: '90%' }}>
                         <Tabs align='center'>
                             <TabList gap='2'>
-                                <Tab fontWeight='bold' gap='1'><MdDescription /> Data</Tab>
-                                <Tab fontWeight='bold' gap='1'><MdPhoto /> Design</Tab>
-                                <Tab fontWeight='bold' gap='1'><FaCube /> Model</Tab>
+                                <Tab fontWeight='bold' gap='1'>Data</Tab>
+                                <Tab fontWeight='bold' gap='1'>Desain</Tab>
+                                <Tab fontWeight='bold' gap='1'>Model</Tab>
                             </TabList>
                             <TabPanels>
                                 <TabPanel align='start'>
@@ -185,7 +191,7 @@ export default function PesananDetail() {
                                                 <Text fontSize={{ base: 'md', md: 'lg' }}>{data.address}</Text>
                                             </Flex>
                                             <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Description</Text>
+                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Deskripsi</Text>
                                                 {!data.description ? <Text fontSize={{ base: 'md', md: 'lg' }}>deskripsi pesanan belum dibuat</Text> : <Text fontSize={{ base: 'md', md: 'lg' }}>{data.description}</Text>}
                                             </Flex>
                                             {data.status === 'proses' &&
@@ -229,7 +235,7 @@ export default function PesananDetail() {
                                         <Flex>
                                             <Button fontWeight='bold' variant="no-effects" color={{ base: 'black', md: 'blue.500' }} gap='1' onClick={ActionUpdate(id)}>
                                                 <Icon as={FaPencilAlt} display={{ base: 'block', md: 'none' }} />
-                                                <Text display={{ base: 'none', md: 'block' }}>Edit</Text>
+                                                <Text display={{ base: 'none', md: 'block' }}>Ubah</Text>
                                             </Button>
                                         </Flex>
                                     </Flex>

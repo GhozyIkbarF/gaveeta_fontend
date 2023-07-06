@@ -295,7 +295,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                                         className=" text-white w-full cursor-pointer mt-1 p-15"
                                                         colorScheme="red"
                                                     >
-                                                        Remove bukti payment
+                                                        Remove bukti pembayaran
                                                     </Button>
                                                 </Center>
                                             </Box>
@@ -314,9 +314,9 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                                         className="hidden"
                                                         accept="image/*"
                                                     />
-                                                    <p className="font-semibold">Bukti payment</p>
+                                                    <p className="font-semibold">Bukti pembayaran</p>
                                                 </label>
-                                                {checkBP && <Text color='red'>sertakan bukti payment</Text>}
+                                                {checkBP && <Text color='red'>sertakan bukti pembayaran</Text>}
                                             </Flex>
                                             : null}
                                     </FormControl>

@@ -139,14 +139,14 @@ export default function ModalInputProgres(props) {
                             disabled={isSubmitting}
                             onClick={isSubmitting ? null : close}
                         >
-                            Cancel
+                            Batal
                         </Button>
                         <Button
                             colorScheme='blue'
                             isLoading={isSubmitting}
                             type="submit"
                         >
-                            Save
+                            Simpan
                         </Button>
                     </ModalFooter>
                 </form>

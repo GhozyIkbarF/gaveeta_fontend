@@ -73,7 +73,7 @@ export default function AlertDeletePegawai({ onClose, isOpen }) {
                 disabled={isFetching}
                 onClick={isFetching ? null : onClose}
               >
-                Cancel
+                Batal
               </Button>
               <Button
                 onClick={handleDelete}
@@ -83,7 +83,7 @@ export default function AlertDeletePegawai({ onClose, isOpen }) {
                 type="submit"
                 ml={3}
               >
-                Delete
+                Hapus
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

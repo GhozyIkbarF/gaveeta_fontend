@@ -61,7 +61,7 @@ export default function TabelPesananSelesai() {
                 ),
             },
             {
-                Header: 'phone',
+                Header: 'No Hp',
                 accessor: 'phone',
             },
             {
@@ -69,13 +69,13 @@ export default function TabelPesananSelesai() {
                 accessor: 'description',
             },
             {
-                Header: 'design',
+                Header: 'desain',
                 Cell: ({ cell: { row } }) => (
                     <RowDesign link={row.original.designs} onOpen={onOpen} id={row.original.id} />
                 )
             },
             {
-                Header: 'action',
+                Header: 'Aksi',
                 Cell: ({ row }) => (
                     <ActionOrder id={row.original.id} onOpen={onOpen} />
                 )

@@ -125,7 +125,7 @@ export default function Data() {
                 ),
             },
             {
-                Header: 'phone',
+                Header: 'No Hp',
                 accessor: 'phone',
             },
             {

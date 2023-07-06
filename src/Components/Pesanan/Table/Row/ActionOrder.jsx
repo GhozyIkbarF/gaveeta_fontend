@@ -51,7 +51,7 @@ export default function ActionOrder(props) {
                 variant="no-effects"
                 onClick={ActionDetail(id)}
             >
-                detail and action
+                detail & aksi
             </Button>
             {pathname === '/pesanan_proses' && 
             <Button

@@ -134,7 +134,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                     className=" text-white w-full cursor-pointer mt-1 p-15"
                     colorScheme="red"
                 >
-                    Remove Image
+                    Hapus foto
                 </Button>
             </Center>
         )
@@ -224,7 +224,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                             <Wrap spacing='30px' justify={'space-between'}>
                                 <WrapItem w={{ base: 'full', md: '45%' }}>
                                     <FormControl>
-                                        <FormLabel>nama</FormLabel>
+                                        <FormLabel>Nama</FormLabel>
                                         <Input
                                             name="name"
                                             {...register('name')}
@@ -245,7 +245,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                 </WrapItem>
                                 <WrapItem w={{ base: 'full', md: '45%' }}>
                                     <FormControl>
-                                        <FormLabel>Phone</FormLabel>
+                                        <FormLabel>No HP</FormLabel>
                                         <Input
                                             name="phone"
                                             {...register('phone')}
@@ -266,8 +266,8 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                     <FormControl>
                                         <FormLabel>Gender</FormLabel>
                                         <Select name='gender' {...register('gender')}>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
+                                            <option value="Male">Laki-laki</option>
+                                            <option value="Female">Perempuan</option>
                                         </Select>
                                     </FormControl>
                                 </WrapItem>
@@ -301,7 +301,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                                     className="hidden"
                                                     accept="image/*"
                                                 />
-                                                <p className="font-semibold">Photo</p>
+                                                <p className="font-semibold">Foto</p>
                                             </label> : null}
                                     </FormControl>
                                 </WrapItem>
@@ -310,18 +310,18 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
 
                         <ModalFooter borderTop='1px' borderColor='gray.100'>
                             <Button
+                                disabled={isSubmitting}
+                                onClick={isSubmitting ? null : close}
+                            >
+                                Batal
+                            </Button>
+                            <Button
                                 colorScheme='blue'
                                 mr={3}
                                 isLoading={isSubmitting}
                                 type="submit"
                             >
-                                Save
-                            </Button>
-                            <Button
-                                disabled={isSubmitting}
-                                onClick={isSubmitting ? null : close}
-                            >
-                                Cancel
+                                Simpan
                             </Button>
                         </ModalFooter>
                     </ModalContent>
