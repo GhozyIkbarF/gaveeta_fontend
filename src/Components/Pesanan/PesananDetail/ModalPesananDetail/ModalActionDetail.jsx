@@ -3,10 +3,10 @@ import {
     ModalOverlay,
     ModalContent,
     Button,
+    useColorModeValue
 } from '@chakra-ui/react'
-import { Box, Text, Table, Thead, Tbody, Tr, Th, Td, Flex } from '@chakra-ui/react';
 import { useMediaQuery } from "@chakra-ui/react";
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, } from 'react-redux';
 import { setActionDetailOrder } from '../../../../Features/Pesanan/PesananDetail';
@@ -59,7 +59,8 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
         pageStyle: 'print',
     });
 
-    const generatePDF = (value) => {
+
+    const generatePDF = (dataDetailOrder) => {
 
         // Create a new jsPDF instance
         const doc = new jsPDF({
@@ -105,44 +106,39 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
         doc.setFont('times', 'normal');
         doc.setFontSize(12);
 
-
-        const totalBiaya = value.quantity * value.pricePerItem;
-
-        const tableContent = [
-            ['Nama', ':', value.name],
-            ['No. Hp', ':', value.phone],
-            ['Alamat', ':', value.address],
-            ['Deskripsi', ':', value.description ? value.description : 'deskripsi kosong'],
-            ['Jumlah', ':', value.quantity ? `${value.quantity} pcs` : 0],
-            ['Deadline', ':', value.deadline ? convertToIndonesianDate(value.deadline) : 'deadline belum ditentukan'],
-            ['Harga peritem', ':', value.pricePerItem ? formatToIDR(value.pricePerItem) : 'harga peritem belum ditentukan'],
+        const totalBiaya = dataDetailOrder.quantity * dataDetailOrder.pricePerItem;
+        let tableContent = [
+            ['Nama', ':', dataDetailOrder.name],
+            ['No. Hp', ':', dataDetailOrder.phone],
+            ['Alamat', ':', dataDetailOrder.address],
+            ['Deskripsi', ':', dataDetailOrder.description ? dataDetailOrder.description : 'deskripsi kosong'],
+            ['Jumlah', ':', dataDetailOrder.quantity ? `${dataDetailOrder.quantity} pcs` : 0],
+            ['Deadline', ':', dataDetailOrder.deadline ? convertToIndonesianDate(dataDetailOrder.deadline) : 'deadline belum ditentukan'],
+            ['Harga peritem', ':', dataDetailOrder.pricePerItem ? formatToIDR(dataDetailOrder.pricePerItem) : 'harga peritem belum ditentukan'],
         ];
 
         if (dataDetailOrder.status !== 'selesai') {
             if (dataDetailOrder.shippingCost == null) {
-                tableContent.push(['Uang muka', ':', value.payment ? formatToIDR(value.payment) : 0]);
+                tableContent.push(['Uang muka', ':', dataDetailOrder.payment ? formatToIDR(dataDetailOrder.payment) : 0]);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'total biaya belum termasuk ongkos kirim']);
-            } else if (dataDetailOrder.shippingCost === 0) {
-                tableContent.push(['Uang muka', ':', value.payment ? formatToIDR(value.payment) : 0]);
+            } else if (parseInt(dataDetailOrder.shippingCost) === 0) {
+                tableContent.push(['Uang muka', ':', dataDetailOrder.payment ? formatToIDR(dataDetailOrder.payment) : 0]);
                 tableContent.push(['Ongkos kirim', ':', 'Gratis']);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
-            } else if (dataDetailOrder.shippingCost > 0) {
-                tableContent.push(['Uang muka', ':', value.payment ? formatToIDR(value.payment) : 0]);
+            } else if (parseInt(dataDetailOrder.shippingCost) > 0) {
+                tableContent.push(['Uang muka', ':', dataDetailOrder.payment ? formatToIDR(dataDetailOrder.payment) : 0]);
                 tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + parseInt(dataDetailOrder.shippingCost)) : 'total biaya belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
             }
         } else {
-            if (dataDetailOrder.shippingCost == null) {
-                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
-                tableContent.push(['Keterangan', ':', 'total biaya belum termasuk ongkos kirim']);
-            } else if (dataDetailOrder.shippingCost === 0) {
+            if (parseInt(dataDetailOrder.shippingCost) === 0) {
                 tableContent.push(['Ongkos kirim', ':', 'Gratis']);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'lunas']);
-            } else if (dataDetailOrder.shippingCost > 0) {
+            } else if (parseInt(dataDetailOrder.shippingCost) > 0) {
                 tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + parseInt(dataDetailOrder.shippingCost)) : 'total biaya belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'lunas']);
@@ -185,7 +181,7 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
             isCentered
         >
             <ModalOverlay />
-            <ModalContent maxW={isSmallerThanSm ? '260px' : 'md'}>
+            <ModalContent maxW={isSmallerThanSm ? '260px' : 'md'} bg={useColorModeValue('white', '#1E2023')}>
                 {status === 'masuk' ? (
                     <Button
                         py='6'
@@ -245,19 +241,10 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                         Cetak laporan
                     </Button> : null
                 }
-                {/* <Button
-                    py='6'
-                    borderRadius="0"
-                    fontWeight='bold'
-                    borderBottom='1px'
-                    variant="no-effects"
-                    onClick={Invoice}
-                >
-                    print invoce
-                </Button> */}
                 <Button
                     py='6'
                     borderRadius="0"
+                    borderBottom={'1px'}
                     fontWeight='bold'
                     variant="no-effects"
                     onClick={handleDelete}
@@ -266,8 +253,6 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                 </Button>
                 <Button
                     py='6'
-                    borderTop='1px'
-                    borderColor='black'
                     borderRadius="0"
                     variant="no-effects"
                     color='red.500'

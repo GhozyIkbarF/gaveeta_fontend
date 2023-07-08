@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect, useMemo } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import { Box, Text, Flex, Button, Input } from '@chakra-ui/react'
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Select } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Select, useColorModeValue } from '@chakra-ui/react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
 import API from '../../../../Service';
@@ -118,7 +118,7 @@ export default function TabelPesananSelesai() {
         <>
         {loading && <Loading/>}
         <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={{ base:0, lg:5 }}>
-            <TableContainer px='5' py="8" bgColor='white' shadow={'lg'} borderRadius={'md'} overflowX='auto'>
+            <TableContainer px='5' py="8" bg={useColorModeValue('white', '#1E2023')} shadow={'lg'} borderRadius={'md'} overflowX='auto'>
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Selesai: {data.length}</Text>
                 <Flex w='auto' p='5'>
                     <Select

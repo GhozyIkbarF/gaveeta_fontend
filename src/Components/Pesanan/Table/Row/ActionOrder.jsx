@@ -13,7 +13,6 @@ import { actionPesananProses, setDataDetailOrderProses, setRefreshActionOrderPro
 
 export default function ActionOrder(props) {
     const { onOpen, id } = props;
-    const textColor = useColorModeValue("gray.500", "white");
 
     const pathname = useLocation().pathname;
 
@@ -46,9 +45,9 @@ export default function ActionOrder(props) {
         >
              <Button
                 color='white' 
-                p="3"
-                bg={"blue.400"}
+                bg={"#0078FF"}
                 variant="no-effects"
+                p={3}
                 onClick={ActionDetail(id)}
             >
                 detail & aksi
@@ -57,7 +56,7 @@ export default function ActionOrder(props) {
             <Button
                 color='white' 
                 p="3" 
-                bg={textColor}
+                bg='gray.500'
                 variant="no-effects"
                 onClick={handleSetProgres(id, 'setProgres')}
             > 

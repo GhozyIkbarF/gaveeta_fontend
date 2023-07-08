@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Text, Flex, Button, Input } from '@chakra-ui/react'
+import { Box, Text, Flex, Button, Input, useColorModeValue } from '@chakra-ui/react'
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Select } from '@chakra-ui/react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
@@ -134,11 +134,13 @@ export default function TabelPesananMasuk() {
         <>
         {loading && <Loading/>}
         <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={{ base:0, lg:5 }}>
-            <TableContainer overflowX='auto' px='5' py="8" bgColor='white' shadow={'lg'} borderRadius={'md'}>
+            <TableContainer overflowX='auto' px='5' py="8" bg={useColorModeValue('white', '#1E2023')} shadow={'lg'} borderRadius={'md'} >
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Masuk: {data.length}</Text>
                 <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p='5'>
                     <Button
-                        colorScheme='messenger'
+                        color='white' 
+                        bg={"#0078FF"}
+                        variant="no-effects"
                         onClick={handleAddPesananMasuk('create')}
                     >
                         Tambah Pesanan

@@ -17,13 +17,12 @@ import { formatMoneyIDR, convertToIndonesianDate } from '../../../validation/for
 
 //cakra component
 import { useDisclosure } from '@chakra-ui/react'
-import { Box, Text, Flex, Image, SimpleGrid, Button, Icon } from '@chakra-ui/react'
+import { Box, Text, Flex, Image, SimpleGrid, Button, Icon, useColorModeValue } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { Spinner } from '@chakra-ui/react'
 
 // icon
-import { MdDescription, MdPhoto } from 'react-icons/md';
-import { FaPencilAlt, FaArrowLeft, FaCube } from "react-icons/fa";
+import { FaPencilAlt, FaArrowLeft } from "react-icons/fa";
 
 
 //modal
@@ -44,8 +43,7 @@ export default function PesananDetail() {
     const [designs, setDesigns] = useState([]);
     const [models, setModels] = useState([]);
     const [displayAction, setDisplayAction] = useState(true);
-    
- 
+
     const { actionDetailOrder, refreshDetailPesanan } = useSelector(state => state.pesananDetail);
     
     const url = useLocation();
@@ -58,7 +56,6 @@ export default function PesananDetail() {
         setDisplayAction(false)
         try {
             const res = await API.getOrderDetail(id);
-            console.log(res.data);
             setData(res.data);
             setDesigns(res.data.designs);
             setModels(res.data.model_orders);
@@ -82,7 +79,6 @@ export default function PesananDetail() {
     }, [refreshDetailPesanan]);
 
     const totalHarga = (data.quantity * data.pricePerItem)
-
 
     //convert datetime to indonesia format-----
     const datetimeString = data.created_at;
@@ -137,16 +133,9 @@ export default function PesananDetail() {
 
     return (
         <Box px={{ base: 0, lg:5 }}>
-            <Flex mt={{ base: 0, lg:10 }} pt={5} w='full' minH={'80vh'} flexDirection='column'  align='center' bgColor={'white'} >
+            <Flex mt={{ base: 0, lg:10 }} pt={5} w='full' minH={'80vh'} flexDirection='column'  align='center' bg={useColorModeValue('white', '#1E2023')} >
                 <Flex w={{ base: 'full', lg: '90%' }} justifyContent='space-between' px={{ base: 0, lg:5 }} align='center'>
                     <Button onClick={() => navigate(-1)} fontWeight='bold' variant="no-effects" gap='2'><FaArrowLeft /> <Text display={{ base: 'none', md: 'block' }}>Kembali</Text></Button>
-                    {/* <Text fontWeight='bold'>
-                        {data.status === 'masuk'
-                        ? 'Detail pesanan masuk'
-                        : data.status === 'proses'
-                        ? 'Detail pesanan proses'
-                        :'Detail pesanan selesai'}
-                    </Text> */}
                     <Text fontWeight='bold'>Detail Pesanan</Text>
                     <Box>
                         {!displayAction ? null : <Button fontWeight='bold' fontSize='md' variant="no-effects" color='blue.500' gap='1' onClick={handleAction()}>Aksi</Button>}
@@ -163,7 +152,7 @@ export default function PesananDetail() {
                     </Box>
                 </Flex>
                 {isLoading ?
-                    <Flex flexDirection='column' px='5' py="8" bgColor='white' borderRadius={'md'} w={{ base: 'full', lg: '90%' }}>
+                    <Flex flexDirection='column' px='5' py="8" borderRadius={'md'} w={{ base: 'full', lg: '90%' }}>
                         <Tabs align='center'>
                             <TabList gap='2'>
                                 <Tab fontWeight='bold' gap='1'>Data</Tab>

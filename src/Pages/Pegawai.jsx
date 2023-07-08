@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useTable, usePagination, useGlobalFilter } from "react-table";
-import { Box, Text, Flex, Button, Input } from '@chakra-ui/react'
+import { Box, Text, Flex, Button, Input, useColorModeValue } from '@chakra-ui/react'
 import {
   Avatar,
   Table,
@@ -130,7 +130,7 @@ export default function Pegawai() {
         pt={{ base:0, lg:5 }}>
           <TableContainer 
             borderRadius={'md'} 
-            bgColor='white' 
+            bg={useColorModeValue('white', '#1E2023')} 
             shadow={'sm'} 
             overflowX='auto' 
             py='5' 
@@ -148,7 +148,9 @@ export default function Pegawai() {
                 gap='3' 
                 p='5'>
                   <Button
-                      colorScheme='messenger'
+                      color='white' 
+                      bg={"#0078FF"}
+                      variant="no-effects"
                       onClick={handleAddPegawai('create')}
                   >
                       Tambah Pesanan

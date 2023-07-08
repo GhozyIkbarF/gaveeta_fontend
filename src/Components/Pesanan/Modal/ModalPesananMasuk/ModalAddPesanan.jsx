@@ -13,11 +13,11 @@ import {
   Button,
   Input,
   FormLabel,
-  FormErrorMessage,
   Wrap,
   WrapItem,
   useToast,
   Textarea,
+  useColorModeValue
 } from '@chakra-ui/react'
 import { MdInsertPhoto } from "react-icons/md";
 import React, { useState, useEffect } from 'react'
@@ -228,7 +228,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
           bg='blackAlpha.300'
           backdropFilter='blur(10px)' />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalContent>
+          <ModalContent bg={useColorModeValue('white', '#1E2023')}>
             <ModalHeader borderBottom='1px' borderColor='gray.100'>Add order</ModalHeader>
             <ModalCloseButton onClose={close} />
             <ModalBody pb={6}>

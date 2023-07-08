@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   IconButton,
   Avatar,
   Box,
@@ -20,7 +21,8 @@ import {
   MenuItem,
   MenuList,
   Collapse,
-  useToast
+  useToast,
+  useColorMode
 } from '@chakra-ui/react';
 import {
   FiMenu,
@@ -32,6 +34,7 @@ import {
   FaUsers,
   FaCog,
 } from 'react-icons/fa';
+import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -79,8 +82,7 @@ export default function SidebarWithHeader({ children }) {
   }
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')} 
-  >
+    <Box minH="100vh" bg={useColorModeValue('gray.100', '#18191C')}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', xl: 'block' }}
@@ -108,7 +110,8 @@ export default function SidebarWithHeader({ children }) {
         position='relative' 
         px={{ base:0, lg:5 }} 
         ml={{ base: 0, xl: 60 }} 
-        bg='gray.460' 
+        // bg='gray.460'
+        bg={useColorModeValue('gray.100', '#18191C')} 
         minH="100vh" 
         display="flex" 
         flexDirection="column">
@@ -120,6 +123,7 @@ export default function SidebarWithHeader({ children }) {
 
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const [orderAddress, setOrderAddress] = useState('');
   const { pathname } = useLocation();
   let address = pathname.match(/pesanan/i)
@@ -137,13 +141,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue('white', 'gray.900')}
-      borderRightWidth="1px"
       w={{ base: 'full', xl: 60 }}
       pos="fixed"
       h="full"
       py={4}
-      bgColor='white'
+      borderRightWidth={{ base:1, lg:1 }}
+      bg={useColorModeValue('white', '#1E2023')}
+      borderRightColor={useColorModeValue('gray.200', 'transparent')}
       {...rest}>
       <Flex 
         h="20" 
@@ -337,6 +341,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
           </Flex>
         </NavLink>
       </Flex>
+      <Button
+        aria-label="Toggle Color Mode"
+        onClick={toggleColorMode}
+        _focus={{ boxShadow: 'none' }}
+        w="fit-content"
+      >
+        {colorMode === 'light' ? <BsMoonStarsFill /> : <BsSun />}
+      </Button>
     </Box>
   );
 };
@@ -356,9 +368,9 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth={{ base:2, lg:2 }}
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+      bg={useColorModeValue('white', '#1E2023')}
+      borderBottomColor={useColorModeValue('gray.200', 'transparent')}
       justifyContent={{ base: 'space-between', xl: 'flex-end' }}
       {...rest}>
       <IconButton
@@ -405,8 +417,7 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
               </HStack>
             </MenuButton>
             <MenuList
-              bg={useColorModeValue('white', 'gray.900')}
-              borderColor={useColorModeValue('gray.200', 'gray.700')}
+              // borderColor={useColorModeValue('gray.200', 'gray.700')}
               zIndex='tooltip'>
               <MenuItem>Settings</MenuItem>
               <MenuDivider />

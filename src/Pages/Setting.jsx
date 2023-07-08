@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Button, Flex, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import ModalEdit from '../Components/Company/ModalEdit';
@@ -44,7 +44,7 @@ export default function Setting() {
             <Box 
             position='relative' 
             w='full' 
-            bgColor={'white'} 
+            bg={useColorModeValue('white', '#1E2023')} 
             minH="50vh"
             mt={{ base:0, lg:5 }} 
             py={{ base: 10, md: 18 }} 
@@ -62,7 +62,7 @@ export default function Setting() {
                     w='full' align='start' 
                     fontSize={{ base: 'lg', lg: 'xl' }} 
                     pl={{ base: 0, lg: 20 }} 
-                    overflowX={'scroll'}
+                    // overflowX={'scroll'}
                 >
                     <table className="table-auto mb-5">
                         <tbody>

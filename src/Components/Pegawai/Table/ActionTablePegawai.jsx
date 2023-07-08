@@ -16,7 +16,6 @@ import { rootImg } from "../../../Service/Config";
 
 export default function ActionTablePegawai(props) {
     const { onOpen, id } = props;
-    const textColor = useColorModeValue("gray.500", "white");
 
     const { employes } = useSelector(state => state.pegawai)
     const dispatch = useDispatch()
@@ -47,7 +46,7 @@ export default function ActionTablePegawai(props) {
         >
             <Button
                 color='white'
-                bg={textColor}
+                bg={'gray.500'}
                 variant="no-effects"
                 onClick={ActionUpdate(id, 'edit')}
             >

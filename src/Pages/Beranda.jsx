@@ -11,6 +11,7 @@ import {
   StatLabel,
   StatNumber,
   Select,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { BsFillClipboardFill } from "react-icons/bs";
 import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from "@chakra-ui/react";
@@ -225,10 +226,10 @@ export default function Beranda() {
             w={{ base: 'full', md: '95%', lg: '70%' }}
             justifyContent='center'
             alignItems='center'
-            bg='white'
             borderRadius='lg'
             boxShadow='md'
-           
+            bg={useColorModeValue('white', '#1E2023')}
+            color={useColorModeValue('black', 'white')}
           >
             <Flex 
               w='full' 
@@ -236,6 +237,7 @@ export default function Beranda() {
               justifyContent='space-between' 
               pt='5' 
               px='4'
+              bg={'transparent'}
             >
               <Flex flexDir='column'>
                 <Text 
@@ -335,7 +337,6 @@ export default function Beranda() {
               </Flex>
             </Flex>
             <canvas
-              // id='myChart' 
               className='p-4'
               ref={chartContainer}
             />
@@ -352,12 +353,11 @@ const StatsCard = ({ title, stat, icon, url }) => {
   return (
     <Link to={url}>
       <Stat
-        bgColor='white'
         px={{ base: 2, md: 4 }}
         py={'5'}
         rounded={'lg'}
         boxShadow='md'
-        // border='1px'
+        bg={useColorModeValue('white', '#1E2023')}
         transition="all 0.2s ease-in-out"
         _hover={{
           transform: "scale(0.9)",

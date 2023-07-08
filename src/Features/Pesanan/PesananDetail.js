@@ -11,7 +11,7 @@ const pesananDetailSlice = createSlice({
         IdRemoveImage: 0,
         refreshDetailPesanan: false,
         refreshModalRemoveImage: false,
-
+        refreshModalAction: false,
     },
     reducers:{
         setDataDetailOrder:(state, action) => {
@@ -49,7 +49,7 @@ export const {
     setTypeDetailItem, 
     setIdRemoveImage, 
     setRefreshDetailPesanan, 
-    setRefreshModalRemoveImage 
+    setRefreshModalRemoveImage,
 } = pesananDetailSlice.actions;
 
 export default pesananDetailSlice.reducer;

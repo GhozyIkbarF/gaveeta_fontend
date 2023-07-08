@@ -28,7 +28,7 @@ code {
 ::-webkit-scrollbar-track {
   background-color: rgba(255, 255, 255);
 }
-@media print {
+/* @media print {
   .page-break {
     margin-top: 1rem;
     display: block;
@@ -37,4 +37,4 @@ code {
   @page {
     size: 200mm 235mm;
   }
-}
+} */

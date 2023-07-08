@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useDisclosure } from '@chakra-ui/react'
-import { Box, Text, Flex, Button, Input, Select } from '@chakra-ui/react'
+import { Box, Text, Flex, Button, Input, Select, useColorModeValue } from '@chakra-ui/react'
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer } from '@chakra-ui/react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
@@ -141,7 +141,7 @@ export default function TabelPesananProses() {
         <>
         {loading && <Loading/>}
         <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={{ base:0, lg:5 }}>
-            <TableContainer px='5' py="8" bgColor='white' shadow={'lg'} borderRadius={'md'} overflowX='auto'>
+            <TableContainer px='5' py="8" bg={useColorModeValue('white', '#1E2023')} shadow={'lg'} borderRadius={'md'} overflowX='auto'>
                 <Text pl='5' fontSize='lg' fontWeight={'bold'}>Total Pesanan Proses: {data.length}</Text>
                 <Flex w='auto' p='5'>
                     <Select

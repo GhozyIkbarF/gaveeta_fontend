@@ -14,7 +14,8 @@ import {
     Th,
     Td,
     TableContainer,
-    useToast
+    useToast,
+    useColorModeValue
 } from '@chakra-ui/react'
 import {
     useTable,
@@ -259,7 +260,7 @@ export default function Data() {
                 position='relative'
                 pt='5'
                 borderRadius='lg'
-                bg='white'
+                bg={useColorModeValue('white', '#1E2023')}
                 w='full'
                 mt={{ base: 0, lg: 5 }}
                 minH={'95vh'}>
@@ -295,7 +296,7 @@ export default function Data() {
                 <Box p='5'>
                     <TableContainer
                         py="8"
-                        bgColor='white'
+                        bg={useColorModeValue('white', '#1E2023')}
                         borderRadius={'md'}
                         overflowX='auto'>
                         {data.length !== 0 &&
