@@ -123,7 +123,6 @@ export default function SidebarWithHeader({ children }) {
 
 
 const SidebarContent = ({ onClose, ...rest }) => {
-  const { colorMode, toggleColorMode } = useColorMode();
   const [orderAddress, setOrderAddress] = useState('');
   const { pathname } = useLocation();
   let address = pathname.match(/pesanan/i)
@@ -195,7 +194,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
               Dashboard
           </Flex>
         </NavLink>
-        <NavLink>
+        {/* <NavLink> */}
           <Flex 
             flexDirection='column' 
             p="4" 
@@ -280,7 +279,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
               </Flex>
             </Collapse>
           </Flex>
-        </NavLink>
+        {/* </NavLink> */}
         <NavLink to='/data'>
           <Flex 
             onClick={onClose} 
@@ -347,9 +346,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
   );
 };
 
-
-
-
 const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
   return (
     <Flex
@@ -409,7 +405,6 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
               </HStack>
             </MenuButton>
             <MenuList
-              // borderColor={useColorModeValue('gray.200', 'gray.700')}
               zIndex='tooltip'>
               <MenuItem>Settings</MenuItem>
               <MenuDivider />

@@ -29,7 +29,6 @@ export default function Pegawai() {
     const [data, setData] = useState([])
     const dispatch = useDispatch()
     const { action, result } = useSelector(state => state.pegawai)
-    console.log(data);
 
     const getDataInit = async () => {
         setLoading(true)

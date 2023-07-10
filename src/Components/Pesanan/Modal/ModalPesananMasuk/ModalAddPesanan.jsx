@@ -213,7 +213,6 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
     setFinalModel('')
   };
 
-  console.log(errors);
   return (
     <>
       <Modal

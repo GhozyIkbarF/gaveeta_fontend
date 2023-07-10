@@ -261,7 +261,7 @@ export default function Data() {
                     borderRadius='lg'
                     bg={useColorModeValue('white', '#1E2023')}
                     w='full'
-                    minH={{ base:'100vh', lg:'fit-content' }}
+                    minH={{ base: '100vh', lg: 'fit-content' }}
                     p={5}
                     mt={{ base: 0, lg: 5 }}>
                     <TableContainer
@@ -271,15 +271,13 @@ export default function Data() {
                         overflowX='auto'>
                         <Text pl='5' fontWeight='bold' fontSize='lg'>Laporan Bulanan</Text>
                         <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p={5}>
-                            <Box>
-                                    <Button
-                                        colorScheme='green'
-                                        color='white'
-                                        onClick={handlePrintPDF}
-                                    >
-                                        cetak PDF
-                                    </Button> 
-                            </Box>
+                            <Button
+                                colorScheme='green'
+                                color='white'
+                                onClick={handlePrintPDF}
+                            >
+                                cetak PDF
+                            </Button>
                             <form onSubmit={handleSubmit(getDataInit)}>
                                 <InputGroup>
                                     <Input
