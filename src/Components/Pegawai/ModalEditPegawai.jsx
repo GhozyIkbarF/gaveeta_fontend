@@ -284,18 +284,18 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                         {profilePicture}
                                         {photo == '' ?
                                             <FormLabel
-                                            py='2'
-                                            htmlFor="fileInputDesign"
-                                            w='full'
-                                            bg='green.500'
-                                            cursor='pointer'
-                                            borderColor='white'
-                                            borderRadius='lg'
-                                            display='flex'
-                                            alignItems='center'
-                                            justifyContent='center'
-                                            color='white'
-                                          >
+                                                py='2'
+                                                htmlFor="fileInput"
+                                                w='full'
+                                                bg='green.500'
+                                                cursor='pointer'
+                                                borderColor='white'
+                                                borderRadius='lg'
+                                                display='flex'
+                                                alignItems='center'
+                                                justifyContent='center'
+                                                color='white'
+                                            >
                                                 <MdInsertPhoto />
                                                 <Input
                                                     onChange={handleChange}
@@ -303,9 +303,9 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                                     id="fileInput"
                                                     className="hidden"
                                                     accept="image/*"
-                                                    />
+                                                />
                                                 <p className="font-semibold">Foto</p>
-                                            </FormLabel>: null}
+                                            </FormLabel> : null}
                                     </FormControl>
                                 </WrapItem>
                             </Wrap>

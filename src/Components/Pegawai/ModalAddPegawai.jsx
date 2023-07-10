@@ -207,7 +207,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                     {photo == "" ?
                       <FormLabel
                         py='2'
-                        htmlFor="fileInputDesign"
+                        htmlFor="fileInput"
                         w='full'
                         bg='green.500'
                         cursor='pointer'

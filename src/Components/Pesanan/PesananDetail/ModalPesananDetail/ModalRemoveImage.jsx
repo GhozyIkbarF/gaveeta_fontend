@@ -96,25 +96,6 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
       }
     }
   }
-
-  const getDesign = async () => {
-    try {
-      const res = await API.getOrderDesign(IdRemoveImage, { responseType: 'arraybuffer' });
-      console.log(res);
-      const contentType = res.headers.get('content-type');
-      const file = new Blob([res.data], { type: contentType });
-      const url = window.URL.createObjectURL(file);
-      const link = document.createElement('a');
-      link.href = url;
-          link.setAttribute('download', 'image.png'); 
-      // link.setAttribute('download', 'image.webp');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (err) {
-      console.error(err);
-    }
-  };
   
   return (
     <>
@@ -160,13 +141,6 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
               gap='3' 
               borderTop='1px' 
               borderColor='gray.100'>
-              {/* <Button  
-                colorScheme='blue' 
-                isLoading={isSubmitting} 
-                onClick={getDesign}
-                >
-                  Download
-              </Button> */}
               <Button  
                 colorScheme='red' 
                 isLoading={isSubmitting} 
