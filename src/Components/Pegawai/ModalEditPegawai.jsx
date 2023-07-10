@@ -31,7 +31,6 @@ import API from '../../Service'
 import { object } from 'yup';
 
 export default function ModalEditPegawai({ isOpen, onClose }) {
-    const [divisi, setDivisi] = useState('Programmer')
     const [profilePicture, setProfilePicture] = useState()
     const [finalPhoto, setFinalPhoto] = useState('')
     const [isLoadingPhoto, setIsLoadingPhoto] = useState(false)
@@ -45,7 +44,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         setValue,
         watch,
         reset,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = useForm({
         defaultValues: {
             id: "",
@@ -228,6 +227,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                         <Input
                                             name="name"
                                             {...register('name')}
+                                            focusBorderColor='#00AA5D'
                                             required
                                         />
                                     </FormControl>
@@ -239,6 +239,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                             name="email"
                                             {...register('email')}
                                             type='email'
+                                            focusBorderColor='#00AA5D'
                                             required
                                         />
                                     </FormControl>
@@ -249,25 +250,17 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                         <Input
                                             name="phone"
                                             {...register('phone')}
+                                            focusBorderColor='#00AA5D'
                                             required
                                         />
                                     </FormControl>
                                 </WrapItem>
                                 <WrapItem w={{ base: 'full', md: '45%' }}>
                                     <FormControl>
-                                        <FormLabel>Divisi</FormLabel>
-                                        <Input
-                                            value={divisi}
-                                            onChange={(e) => setDivisi(e.target.value)}
-                                        />
-                                    </FormControl>
-                                </WrapItem>
-                                <WrapItem w={{ base: 'full', md: '45%' }}>
-                                    <FormControl>
                                         <FormLabel>Gender</FormLabel>
-                                        <Select name='gender' {...register('gender')}>
-                                            <option value="Male">Laki-laki</option>
-                                            <option value="Female">Perempuan</option>
+                                        <Select name='gender' {...register('gender')} focusBorderColor='#00AA5D'>
+                                            <option value="Laki-laki">Laki-laki</option>
+                                            <option value="Perempuan">Perempuan</option>
                                         </Select>
                                     </FormControl>
                                 </WrapItem>
@@ -277,6 +270,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                         <Textarea
                                             name="address"
                                             {...register('address')}
+                                            focusBorderColor='#00AA5D'
                                             required
                                         />
                                     </FormControl>
@@ -289,10 +283,19 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                     <FormControl>
                                         {profilePicture}
                                         {photo == '' ?
-                                            <label
-                                                htmlFor="fileInput"
-                                                className="bg-blue-500 cursor-pointer border-white rounded-lg h-10  flex items-center justify-center  text-white "
-                                            >
+                                            <FormLabel
+                                            py='2'
+                                            htmlFor="fileInputDesign"
+                                            w='full'
+                                            bg='green.500'
+                                            cursor='pointer'
+                                            borderColor='white'
+                                            borderRadius='lg'
+                                            display='flex'
+                                            alignItems='center'
+                                            justifyContent='center'
+                                            color='white'
+                                          >
                                                 <MdInsertPhoto />
                                                 <Input
                                                     onChange={handleChange}
@@ -300,15 +303,15 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                                     id="fileInput"
                                                     className="hidden"
                                                     accept="image/*"
-                                                />
+                                                    />
                                                 <p className="font-semibold">Foto</p>
-                                            </label> : null}
+                                            </FormLabel>: null}
                                     </FormControl>
                                 </WrapItem>
                             </Wrap>
                         </ModalBody>
 
-                        <ModalFooter borderTop='1px' borderColor='gray.100'>
+                        <ModalFooter borderTop='1px' gap={3} borderColor='gray.100'>
                             <Button
                                 disabled={isSubmitting}
                                 onClick={isSubmitting ? null : close}
@@ -316,7 +319,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                 Batal
                             </Button>
                             <Button
-                                colorScheme='blue'
+                                colorScheme='green'
                                 mr={3}
                                 isLoading={isSubmitting}
                                 type="submit"

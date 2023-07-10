@@ -129,7 +129,7 @@ export default function ModalInputProgres(props) {
                             </Box>
                             <InputGroup size="md">
                                 <InputLeftElement children={<MdRemove/>} onClick={handleDecrement}  cursor='pointer'/>
-                                <Input type='number' value={number} textAlign='center'/>
+                                <Input type='number' value={number} textAlign='center' focusBorderColor='#00AA5D'/>
                                 <InputRightElement children={<MdAdd />} onClick={handleIncrement} cursor='pointer'/>
                             </InputGroup>
                         </Flex>
@@ -142,7 +142,7 @@ export default function ModalInputProgres(props) {
                             Batal
                         </Button>
                         <Button
-                            colorScheme='blue'
+                            colorScheme='green'
                             isLoading={isSubmitting}
                             type="submit"
                         >

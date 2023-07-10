@@ -143,7 +143,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
             setCheckDP(false)
             setCheckLunas(false)
             setCheckOngkir(true)
-        }else if (dataDetailOrder.status === 'proses' && data.payment < (totalHarga+ parseInt(dataDetailOrder.shippingCost)) || data.payment > (totalHarga+ parseInt(dataDetailOrder.shippingCost))) {
+        } else if (dataDetailOrder.status === 'proses' && data.payment < (totalHarga + parseInt(dataDetailOrder.shippingCost)) || data.payment > (totalHarga + parseInt(dataDetailOrder.shippingCost))) {
             setCheckOngkir(false)
             setCheckDP(false)
             setCheckLunas(true)
@@ -222,7 +222,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                         <ListItem>Sebelum pesanan diproses pastikan bahwa data pesanan yang anda masukkan sebelumnya sudah lengkap dan benar!!!</ListItem>
                                         <ListItem>{status == 'masuk' ? 'Pesanan akan masuk ke tabel pesanan proses' : 'Pesanan akan masuk ke tabel pesanan selesai'}</ListItem>
                                     </UnorderedList>
-                                    {status === 'proses' && checkOngkir ? <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} color={'red'}>Tentukan ongkir terlebih dahulu</Text>: null}
+                                    {status === 'proses' && checkOngkir ? <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} color={'red'}>Tentukan ongkir terlebih dahulu</Text> : null}
                                 </WrapItem>
                                 {status === 'masuk' ?
                                     <WrapItem w='full'>
@@ -260,7 +260,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                         <WrapItem w={{ base: 'full', md: '40%' }}>
                                             <Flex flexDirection='column' w='full'>
                                                 <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Kurang bayar:</Text>
-                                                {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatToIDR(totalHarga - DP)}</Text>}
+                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{dataDetailOrder.shippingCost ? `${formatToIDR(totalHarga + parseInt(dataDetailOrder.shippingCost) - DP)}` : formatToIDR(totalHarga - DP)}</Text>
                                             </Flex>
                                         </WrapItem>
                                     </>
@@ -268,7 +268,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                 <WrapItem w={{ base: 'full' }}>
                                     <FormControl>
                                         {status === 'masuk' ? <FormLabel>Pembayaran awal</FormLabel> : <FormLabel>Pelunasan</FormLabel>}
-                                        <Input type="text" value={money} onChange={handleChangeMoney} placeholder='masukkan nominal' required />
+                                        <Input type="text" value={money} onChange={handleChangeMoney} placeholder='masukkan nominal' focusBorderColor='#00AA5D' required />
                                         {checkDP && <Text color='red'>minimal DP 1/2 dari total harga</Text>}
                                         {checkLunas && <Text color='red'>jumlah pembayaran tidak sesuai</Text>}
                                     </FormControl>
@@ -302,20 +302,29 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                         )}
                                         {finalBuktiBayar === "" ?
                                             <Flex flexDirection='column' w='full'>
-                                                <label
+                                                <FormLabel
+                                                    py='2'
                                                     htmlFor="fileInputDesign"
-                                                    className="bg-blue-500 cursor-pointer border-white rounded-lg h-10  flex items-center justify-center  text-white "
+                                                    w='full'
+                                                    bg='green.500'
+                                                    cursor='pointer'
+                                                    borderColor='white'
+                                                    borderRadius='lg'
+                                                    display='flex'
+                                                    alignItems='center'
+                                                    justifyContent='center'
+                                                    color='white'
                                                 >
-                                                    <MdInsertPhoto />
-                                                    <Input
-                                                        {...register("buktiBayar")}
-                                                        type="file"
-                                                        id="fileInputDesign"
-                                                        className="hidden"
-                                                        accept="image/*"
+                                                <MdInsertPhoto />
+                                                <Input
+                                                    {...register("buktiBayar")}
+                                                    type="file"
+                                                    id="fileInputDesign"
+                                                    className="hidden"
+                                                    accept="image/*"
                                                     />
-                                                    <p className="font-semibold">Bukti pembayaran</p>
-                                                </label>
+                                                <p className="font-semibold">Bukti pembayaran</p>
+                                                </FormLabel>
                                                 {checkBP && <Text color='red'>sertakan bukti pembayaran</Text>}
                                             </Flex>
                                             : null}

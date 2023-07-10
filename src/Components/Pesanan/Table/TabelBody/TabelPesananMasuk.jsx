@@ -133,17 +133,22 @@ export default function TabelPesananMasuk() {
     return (
         <>
         {loading && <Loading/>}
-        <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={{ base:0, lg:5 }}>
+        <Box 
+            mt={{ base:0, lg:5 }} 
+            mb={{ base:0, lg:10 }} 
+            px={{ base:0, lg:5 }} 
+            pt={{ base:0, lg:5 }}
+            minH={{ base:'100vh', lg:'fit-content' }}
+            bg={{ base:'white', lg:'transparent' }}
+        >
             <TableContainer overflowX='auto' px='5' py="8" bg={useColorModeValue('white', '#1E2023')} shadow={'lg'} borderRadius={'md'} >
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Masuk: {data.length}</Text>
                 <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p='5'>
                     <Button
-                        color='white' 
-                        bg={"#0078FF"}
-                        variant="no-effects"
+                        colorScheme='green'
                         onClick={handleAddPesananMasuk('create')}
                     >
-                        Tambah Pesanan
+                        + Pesanan 
                     </Button>
                     <Flex>
                         <Select
@@ -171,7 +176,7 @@ export default function TabelPesananMasuk() {
                     </Flex>
                 </Flex>
                 <Table variant='simple' size='lg' {...getTableProps()}>
-                    <Thead bg='blackAlpha.900' >
+                    <Thead bg={'blackAlpha.900'}>
                         {headerGroups.map((headerGroup) => (
                             <Tr {...headerGroup.getHeaderGroupProps()} >
                                 {headerGroup.headers.map((column, index) => (
@@ -179,8 +184,8 @@ export default function TabelPesananMasuk() {
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         color='white'
                                         textAlign={index !== 0 ? 'center' : 'left'}
-                                        borderTopLeftRadius={index === 0 ? 'lg' : 0}
-                                        borderTopRightRadius={index === headerGroup.headers.length - 1 ? 'lg' : 0}
+                                        borderLeftRadius={index === 0 ? 'lg' : 0}
+                                        borderRightRadius={index === headerGroup.headers.length - 1 ? 'lg' : 0}
                                     >
                                         {column.render("Header")}
                                         <span>

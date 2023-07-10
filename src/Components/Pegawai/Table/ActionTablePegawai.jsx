@@ -41,26 +41,11 @@ export default function ActionTablePegawai(props) {
     return (
         <Flex
             direction={{ sm: "column", md: "row" }}
-            align="flex-start"
-            gap='2'
+            justify={'center'}
+            gap='3'
         >
-            <Button
-                color='white'
-                bg={'gray.500'}
-                variant="no-effects"
-                onClick={ActionUpdate(id, 'edit')}
-            >
-                <Icon as={FaPencilAlt} />
-            </Button>
-            <Button
-                color='white'
-                bg="red.500"
-                variant="no-effects"
-                mb={{ sm: "10px", md: "0px" }}
-                onClick={ActionDelete(id, 'delete')}
-            >
-                <Icon as={FaTrashAlt} />
-            </Button>
+                <Icon as={FaPencilAlt} color='#8D96AA' cursor={'pointer'} onClick={ActionUpdate(id, 'edit')}/>
+                <Icon as={FaTrashAlt} color='#8D96AA' cursor={'pointer'} onClick={ActionDelete(id, 'delete')}/>
         </Flex>
     );
 }

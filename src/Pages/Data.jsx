@@ -97,7 +97,7 @@ export default function Data() {
         let totalPendapatan = 0;
         if (data.length !== 0) {
             data.forEach(element => {
-                 totalPendapatan +=  parseInt(element.payment, 10);
+                totalPendapatan += parseInt(element.payment, 10);
             });
         }
         setPendapatan(totalPendapatan);
@@ -256,67 +256,53 @@ export default function Data() {
     return (
         <>
             {loading && <Loading />}
-            <Box
-                position='relative'
-                pt='5'
-                borderRadius='lg'
-                bg={useColorModeValue('white', '#1E2023')}
-                w='full'
-                mt={{ base: 0, lg: 5 }}
-                minH={'95vh'}>
-                <Flex
-                    flexDirection='column'
-                    align='center'>
-                    <form onSubmit={handleSubmit(getDataInit)}>
-                        <FormLabel
-                            textAlign='center'
-                            htmlFor="date">
-                            Cari pesanan perbulan
-                        </FormLabel>
-                        <InputGroup>
-                            <Input
-                                type="month"
-                                id="date"
-                                name="date"
-                                {...register('date')}
-                                borderEndRadius='none'
-                                max={getThisMonth()} />
-                            <Button
-                                color='white'
-                                bgColor='teal'
-                                cursor='pointer'
-                                type="submit"
-                                borderLeftRadius='none'
-                            >
-                                Cari
-                            </Button>
-                        </InputGroup>
-                    </form>
-                </Flex>
-                <Box p='5'>
+            <Box p={{ base: 0, lg: 5 }} minH={{ base: '90vh', lg: 'min-content' }}>
+                <Box
+                    borderRadius='lg'
+                    bg={useColorModeValue('white', '#1E2023')}
+                    w='full'
+                    minH={{ base:'100vh', lg:'fit-content' }}
+                    p={5}
+                    mt={{ base: 0, lg: 5 }}>
                     <TableContainer
                         py="8"
                         bg={useColorModeValue('white', '#1E2023')}
                         borderRadius={'md'}
                         overflowX='auto'>
-                        {data.length !== 0 &&
-                            <>
-                                <Flex
-                                    w='full'
-                                    justifyContent='space-between'
-                                    direction={{ base: 'column', md: 'row' }}
-                                    gap='3'
-                                    p='5'>
+                        <Text pl='5' fontWeight='bold' fontSize='lg'>Laporan Bulanan</Text>
+                        <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p={5}>
+                            <Box>
                                     <Button
-                                        bgColor='teal'
+                                        colorScheme='green'
                                         color='white'
                                         onClick={handlePrintPDF}
                                     >
                                         cetak PDF
+                                    </Button> 
+                            </Box>
+                            <form onSubmit={handleSubmit(getDataInit)}>
+                                <InputGroup>
+                                    <Input
+                                        type="month"
+                                        id="date"
+                                        name="date"
+                                        {...register('date')}
+                                        borderEndRadius='none'
+                                        max={getThisMonth()}
+                                        focusBorderColor='#00AA5D'
+                                    />
+                                    <Button
+                                        color='white'
+                                        bgColor='black'
+                                        cursor='pointer'
+                                        type="submit"
+                                        borderLeftRadius='none'
+                                    >
+                                        Cari
                                     </Button>
-                                </Flex>
-                            </>
-                        }
+                                </InputGroup>
+                            </form>
+                        </Flex>
                         <Table
                             variant='simple'
                             size='lg'
@@ -328,8 +314,8 @@ export default function Data() {
                                             <Th
                                                 {...column.getHeaderProps()}
                                                 color='white'
-                                                borderTopLeftRadius={index === 0 ? 'lg' : 0}
-                                                borderTopRightRadius={index === headerGroup.headers.length - 1 ? 'lg' : 0}
+                                                borderLeftRadius={index === 0 ? 'lg' : 0}
+                                                borderRightRadius={index === headerGroup.headers.length - 1 ? 'lg' : 0}
                                             >
                                                 {column.render("Header")}
                                             </Th>

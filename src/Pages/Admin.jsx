@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Button,
+  Image,
   IconButton,
   Avatar,
   Box,
@@ -24,9 +25,7 @@ import {
   useToast,
   useColorMode
 } from '@chakra-ui/react';
-import {
-  FiMenu,
-} from 'react-icons/fi';
+import { FiMenu } from 'react-icons/fi';
 import { BsFillFileTextFill } from 'react-icons/bs';
 import {
   FaHome,
@@ -36,6 +35,7 @@ import {
 } from 'react-icons/fa';
 import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import Logo from '../Assets/logo-gaveeta.png'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import API from '../Service';
@@ -53,6 +53,7 @@ export default function SidebarWithHeader({ children }) {
     if (accessToken == null) {
       navigate('/');
     }
+
   }, [])
 
 
@@ -110,7 +111,6 @@ export default function SidebarWithHeader({ children }) {
         position='relative' 
         px={{ base:0, lg:5 }} 
         ml={{ base: 0, xl: 60 }} 
-        // bg='gray.460'
         bg={useColorModeValue('gray.100', '#18191C')} 
         minH="100vh" 
         display="flex" 
@@ -153,14 +153,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
         h="20" 
         alignItems="center" 
         mx="8" 
-        justifyContent="space-between" 
+        mb={10}
+        justifyContent="center" 
         gap='2'>
+          <Image src={Logo} alt="Image Description" h={24} mt={5} display={{ base:'none', xl:'block' }}/>
         <Text 
-          fontSize={{ base: 'xl', xl: '2xl' }} 
+          fontSize='xl'
           fontFamily="monospace" 
           fontWeight="bold" 
-          color='blue.500' 
-          w='full'>
+          w='full'
+          display={{ base:'block', xl:'none' }}>
           Gaveeta Packaging
         </Text>
         <CloseButton 
@@ -180,8 +182,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
             borderRadius="lg" 
             role="group" 
             cursor="pointer" 
-            _hover={{ bg: `${pathname === '/dashboard' ? 'blue.500' : 'blue.200'}`, color: 'white', }} 
-            bg={pathname === '/dashboard' ? 'blue.500' : ''} 
+            _hover={{ bg: `${pathname === '/dashboard' ? 'green.500' : 'green.200'}`, color: 'white', }} 
+            bg={pathname === '/dashboard' ? 'green.500' : ''} 
             color={pathname === '/dashboard' ? 'white' : ''}
             {...rest}>
             <Icon 
@@ -202,8 +204,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
             borderRadius="lg" 
             cursor="pointer" 
             onClick={handleToggle} 
-            _hover={{ bg: `${orderAddress === 'pesanan' ? 'blue.500' : 'blue.200'}`, color: 'white', }} 
-            bg={orderAddress === 'pesanan' ? 'blue.500' : ''} 
+            _hover={{ bg: `${orderAddress === 'pesanan' ? 'green.500' : 'green.200'}`, color: 'white', }} 
+            bg={orderAddress === 'pesanan' ? 'green.500' : ''} 
             color={orderAddress === 'pesanan' ? 'white' : ''} >
             <Flex 
               flexDirection='row' 
@@ -239,8 +241,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
                       pl='7' 
                       py='2' 
                       borderRadius="lg" 
-                      _hover={{ bg:'blue.500', color: 'white', }} 
-                      bg={pathname === '/pesanan_masuk' ? 'blue.200' : ''} 
+                      _hover={{ bg:'green.500', color: 'white', }} 
+                      bg={pathname === '/pesanan_masuk' ? 'green.200' : ''} 
                       color={pathname === '/pesanan_masuk' ? 'white' : ''}>
                         Pesanan masuk
                     </Flex>
@@ -255,8 +257,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
                       pl='7' 
                       py='2' 
                       borderRadius="lg" 
-                      _hover={{ bg:'blue.500', color: 'white', }} 
-                      bg={pathname === '/pesanan_proses' ? 'blue.200' : ''} 
+                      _hover={{ bg:'green.500', color: 'white', }} 
+                      bg={pathname === '/pesanan_proses' ? 'green.200' : ''} 
                       color={pathname === '/pesanan_proses' ? 'white' : ''}>
                         Pesanan proses
                     </Flex>
@@ -269,8 +271,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
                       pl='7' 
                       py='2' 
                       borderRadius="lg" 
-                      _hover={{ bg:'blue.500', color: 'white', }}
-                      bg={pathname === '/pesanan_selesai' ? 'blue.200' : ''} 
+                      _hover={{ bg:'green.500', color: 'white', }}
+                      bg={pathname === '/pesanan_selesai' ? 'green.200' : ''} 
                       color={pathname === '/pesanan_selesai' ? 'white' : ''}>
                         Pesanan selesai
                     </Flex>
@@ -288,8 +290,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
             borderRadius="lg" 
             role="group" 
             cursor="pointer" 
-            _hover={{ bg: `${pathname === '/data' ? 'blue.500' : 'blue.200'}`, 
-            color: 'white', }} bg={pathname === '/data' ? 'blue.500' : ''} 
+            _hover={{ bg: `${pathname === '/data' ? 'green.500' : 'green.200'}`, 
+            color: 'white', }} bg={pathname === '/data' ? 'green.500' : ''} 
             color={pathname === '/data' ? 'white' : ''}
             {...rest}>
             <Icon 
@@ -310,8 +312,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
             borderRadius="lg" 
             role="group"
             cursor="pointer" 
-            _hover={{ bg: `${pathname === '/pegawai' ? 'blue.500' : 'blue.200'}`, 
-            color: 'white', }} bg={pathname === '/pegawai' ? 'blue.500' : ''} 
+            _hover={{ bg: `${pathname === '/pegawai' ? 'green.500' : 'green.200'}`, 
+            color: 'white', }} bg={pathname === '/pegawai' ? 'green.500' : ''} 
             color={pathname === '/pegawai' ? 'white' : ''}
             {...rest}>
             <Icon 
@@ -332,8 +334,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
             borderRadius="lg" 
             role="group" 
             cursor="pointer" 
-            _hover={{ bg: `${pathname === '/setting' ? 'blue.500' : 'blue.200'}`, 
-            color: 'white', }} bg={pathname === '/setting' ? 'blue.500' : ''} 
+            _hover={{ bg: `${pathname === '/setting' ? 'green.500' : 'green.200'}`, 
+            color: 'white', }} bg={pathname === '/setting' ? 'green.500' : ''} 
             color={pathname === '/setting' ? 'white' : ''}
             {...rest}>
             <Icon mr="4" mb='1' fontSize="16" _groupHover={{ color: 'white', }} as={FaCog} />
@@ -341,14 +343,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
           </Flex>
         </NavLink>
       </Flex>
-      <Button
-        aria-label="Toggle Color Mode"
-        onClick={toggleColorMode}
-        _focus={{ boxShadow: 'none' }}
-        w="fit-content"
-      >
-        {colorMode === 'light' ? <BsMoonStarsFill /> : <BsSun />}
-      </Button>
     </Box>
   );
 };
@@ -380,7 +374,6 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-
       <Text
         display={{ base: 'flex', xl: 'none' }}
         fontSize="lg"
@@ -388,7 +381,6 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
         fontWeight="bold">
         Gaveeta Packaging
       </Text>
-
       <HStack spacing={{ base: '0', md: '6' }}>
         <Flex alignItems={'center'}>
           <Menu>
@@ -411,7 +403,7 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
                 </VStack>
                 <Avatar
                   size={'sm'}
-                  bgColor='blue.500'
+                  bgColor='green.500'
                   name='gaveeta'
                 />
               </HStack>

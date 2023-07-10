@@ -151,58 +151,58 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Nama</FormLabel>
-                    <Input type="text" name="name" {...register('name')} placeholder='Nama'  />
+                    <Input type="text" name="name" {...register('name')} focusBorderColor='#00AA5D'/>
                     {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text> }
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Email</FormLabel>
-                    <Input type="email" name="email" {...register('email')} placeholder='Email' />
+                    <Input type="email" name="email" {...register('email')} focusBorderColor='#00AA5D'/>
                     {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text>}
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>No HP</FormLabel>
-                    <Input type="number" name="phone" {...register('phone')} placeholder='Phone'  />
+                    <Input type="number" name="phone" {...register('phone')} focusBorderColor='#00AA5D'/>
                     {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text> }                                                                    
                   </FormControl>
                 </WrapItem>
                 <WrapItem w='100%'>
                   <FormControl>
                     <FormLabel>Alamat</FormLabel>
-                    <Textarea type="text" name="address" {...register('address')} placeholder='Alamat' />
+                    <Textarea type="text" name="address" {...register('address')} focusBorderColor='#00AA5D'/>
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Jumlah pesanan</FormLabel>
-                    <Input type="number" name="quantity" {...register('quantity')} placeholder='Jumlah pesanan' />
+                    <Input type="number" name="quantity" {...register('quantity')} focusBorderColor='#00AA5D'/>
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Harga peritem</FormLabel>
-                    <Input type="text" name="pricePeritem" value={pricePerItem} onChange={handleChangePricePerItem} placeholder='Harga peritem' />
+                    <Input type="text" name="pricePeritem" value={pricePerItem} onChange={handleChangePricePerItem} focusBorderColor='#00AA5D'/>
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Ukuran</FormLabel>
-                    <Input type="text" name="size" {...register('size')} placeholder='Size' />
+                    <Input type="text" name="size" {...register('size')} focusBorderColor='#00AA5D'/>
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Deadline</FormLabel>
-                    <Input type="date" name="deadline" {...register('deadline')} placeholder='Deadline' min={getDateToday()} />
+                    <Input type="date" name="deadline" {...register('deadline')} min={getDateToday()}  focusBorderColor='#00AA5D'/>
                   </FormControl>
                 </WrapItem>
                 <WrapItem w='100%'>
                   <FormControl>
                     <FormLabel>Deskripsi</FormLabel>
-                    <Textarea type="text" name="description" {...register('description')} placeholder='Description' />
+                    <Textarea type="text" name="description" {...register('description')} focusBorderColor='#00AA5D'/>
                   </FormControl>
                 </WrapItem>
               </Wrap>
@@ -215,7 +215,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
                 Batal
               </Button>
               <Button
-                colorScheme='blue'
+                colorScheme='green'
                 mr={3}
                 isLoading={isSubmitting}
                 type="submit"

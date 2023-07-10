@@ -23,6 +23,7 @@ import { Spinner } from '@chakra-ui/react'
 
 // icon
 import { FaPencilAlt, FaArrowLeft } from "react-icons/fa";
+import { FaEllipsisV } from 'react-icons/fa';
 
 
 //modal
@@ -133,12 +134,12 @@ export default function PesananDetail() {
 
     return (
         <Box px={{ base: 0, lg:5 }}>
-            <Flex mt={{ base: 0, lg:10 }} pt={5} w='full' minH={'80vh'} flexDirection='column'  align='center' bg={useColorModeValue('white', '#1E2023')} >
+            <Flex mt={{ base: 0, lg:10 }} pt={5} w='full' minH={{ base:'100vh', lg:'fit-content' }} flexDirection='column'  align='center' bg={useColorModeValue('white', '#1E2023')} borderRadius={{ base:'none', lg:'md' }}>
                 <Flex w={{ base: 'full', lg: '90%' }} justifyContent='space-between' px={{ base: 0, lg:5 }} align='center'>
-                    <Button onClick={() => navigate(-1)} fontWeight='bold' variant="no-effects" gap='2'><FaArrowLeft /> <Text display={{ base: 'none', md: 'block' }}>Kembali</Text></Button>
+                    <Button onClick={() => navigate(-1)} fontWeight='bold' variant="no-effects" gap='2'><FaArrowLeft /> <Text display={{ base: 'none', md: 'block' }}></Text></Button>
                     <Text fontWeight='bold'>Detail Pesanan</Text>
                     <Box>
-                        {!displayAction ? null : <Button fontWeight='bold' fontSize='md' variant="no-effects" color='blue.500' gap='1' onClick={handleAction()}>Aksi</Button>}
+                        {!displayAction ? null : <Button fontWeight='bold' fontSize='md' transform={{base: "rotate(0deg)", lg: "rotate(90deg)"}} variant="no-effects" gap='1' onClick={handleAction()}><FaEllipsisV /></Button>}
                         {actionDetailOrder === '2action' && <ModalActionDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} status={data.status} />}
                         {actionDetailOrder === 'proses' &&
                             (
@@ -153,7 +154,7 @@ export default function PesananDetail() {
                 </Flex>
                 {isLoading ?
                     <Flex flexDirection='column' px='5' py="8" borderRadius={'md'} w={{ base: 'full', lg: '90%' }}>
-                        <Tabs align='center'>
+                        <Tabs align='center' colorScheme='green'>
                             <TabList gap='2'>
                                 <Tab fontWeight='bold' gap='1'>Data</Tab>
                                 <Tab fontWeight='bold' gap='1'>Desain</Tab>
@@ -223,7 +224,7 @@ export default function PesananDetail() {
                                             }
                                         </Flex>
                                         <Flex>
-                                            <Button fontWeight='bold' variant="no-effects" color={{ base: 'black', md: 'blue.500' }} gap='1' onClick={ActionUpdate(id)}>
+                                            <Button fontWeight='bold' variant="no-effects" color={{ base: 'black', md: 'green.500' }} gap='1' onClick={ActionUpdate(id)}>
                                                 <Icon as={FaPencilAlt} display={{ base: 'block', md: 'none' }} />
                                                 <Text display={{ base: 'none', md: 'block' }}>Ubah</Text>
                                             </Button>
@@ -247,7 +248,7 @@ export default function PesananDetail() {
                                                 koleksi desain pesanan
                                         </Text>
                                         <Button
-                                            color='blue.500'
+                                            color='green.500'
                                             bg='transparent'
                                             fontWeight='bold'
                                             variant="no-effects"
@@ -294,7 +295,7 @@ export default function PesananDetail() {
                                                 koleksi model pesanan
                                         </Text>
                                         <Button
-                                            color='blue.500'
+                                            color='green.500'
                                             bg='transparent'
                                             fontWeight='bold'
                                             variant="no-effects"

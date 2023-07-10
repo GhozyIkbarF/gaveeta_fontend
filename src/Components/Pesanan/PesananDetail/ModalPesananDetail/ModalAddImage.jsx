@@ -8,6 +8,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  FormLabel,
   Button,
   Input,
   useToast,
@@ -64,7 +65,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
       canvas.height = image.height;
       canvas.getContext('2d').drawImage(image, 0, 0);
       canvas.toBlob((blob) => {
-        if(design[0]){
+        if (design[0]) {
           const file = new File([blob], design[0].name, { type: 'image/webp' });
           setFinalDesign(file)
         }
@@ -74,11 +75,11 @@ export default function ModalAddImage({ isOpen, onClose }) {
     changeExtentionDesign();
   }, [design]);
 
-  
+
   useEffect(() => {
     const changeExtentionModel = async () => {
       if (model.length === 0) return;
-      
+
       const image = await createImageBitmap(model[0]);
       setIsLoading(true)
       const canvas = document.createElement('canvas');
@@ -92,10 +93,10 @@ export default function ModalAddImage({ isOpen, onClose }) {
     }
     changeExtentionModel()
   }, [model])
-  
+
   useEffect(() => {
     setIsLoading(false)
-  },[finalDesign, finalModel])
+  }, [finalDesign, finalModel])
 
 
   const close = () => {
@@ -110,7 +111,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
 
   async function onSubmit(data) {
     try {
-      
+
       const formData = new FormData();
       if (typeImage === 'design') {
         if (typeof (data.design) != 'string') {
@@ -193,10 +194,10 @@ export default function ModalAddImage({ isOpen, onClose }) {
           <ModalContent maxW={isSmallerThanSm ? '320px' : 'lg'}>
             {typeImage === 'design' ? <ModalHeader fontSize={{ base: 'md', md: 'lg' }} borderBottom='1px' borderColor='gray.100'>Add new design</ModalHeader> : <ModalHeader fontSize={{ base: 'md', md: 'lg' }} borderBottom='1px' borderColor='gray.100'>Add new model</ModalHeader>}
             <ModalBody>
-              {isLoading && 
-              <Flex w='full' justifyContent='center' align='center' h='80'>
-                <Spinner />
-              </Flex>
+              {isLoading &&
+                <Flex w='full' justifyContent='center' align='center' h='80'>
+                  <Spinner />
+                </Flex>
               }
               {typeImage === 'design' ?
                 <Box align='center'>
@@ -220,9 +221,18 @@ export default function ModalAddImage({ isOpen, onClose }) {
                     </Box>
                   )}
                   {finalDesign === "" ?
-                    <label
+                    <FormLabel
+                      py='2'
                       htmlFor="fileInputDesign"
-                      className="bg-blue-500 cursor-pointer border-white rounded-lg h-10  flex items-center justify-center text-white w-11/12"
+                      w='full'
+                      bg='green.500'
+                      cursor='pointer'
+                      borderColor='white'
+                      borderRadius='lg'
+                      display='flex'
+                      alignItems='center'
+                      justifyContent='center'
+                      color='white'
                     >
                       <MdInsertPhoto />
                       <Input
@@ -234,7 +244,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
                         required
                       />
                       <p className="font-semibold">Design</p>
-                    </label> : null}
+                    </FormLabel> : null}
                 </Box>
                 :
                 <Box align='center'>
@@ -258,9 +268,18 @@ export default function ModalAddImage({ isOpen, onClose }) {
                     </Box>
                   )}
                   {finalModel === "" ?
-                    <label
+                    <FormLabel
+                      py='2'
                       htmlFor="fileInputDesign"
-                      className="bg-blue-500 cursor-pointer border-white rounded-lg h-10  flex items-center justify-center text-white w-11/12"
+                      w='full'
+                      bg='green.500'
+                      cursor='pointer'
+                      borderColor='white'
+                      borderRadius='lg'
+                      display='flex'
+                      alignItems='center'
+                      justifyContent='center'
+                      color='white'
                     >
                       <MdInsertPhoto />
                       <Input
@@ -272,7 +291,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
                         required
                       />
                       <p className="font-semibold">Model</p>
-                    </label> : null}
+                    </FormLabel> : null}
                 </Box>
               }
             </ModalBody>
@@ -286,23 +305,23 @@ export default function ModalAddImage({ isOpen, onClose }) {
               {
                 finalDesign &&
                 <Button
-                colorScheme='blue'
-                isLoading={isSubmitting}
-                type="submit"
-              >
-                Save
-              </Button>
+                  colorScheme='green'
+                  isLoading={isSubmitting}
+                  type="submit"
+                >
+                  Save
+                </Button>
               }
-              
+
               {
                 finalModel &&
                 <Button
-                colorScheme='blue'
-                isLoading={isSubmitting}
-                type="submit"
-              >
-                Save
-              </Button>
+                  colorScheme='green'
+                  isLoading={isSubmitting}
+                  type="submit"
+                >
+                  Save
+                </Button>
               }
             </ModalFooter>
           </ModalContent>

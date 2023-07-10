@@ -22,7 +22,7 @@ import {
   Spinner,
 } from '@chakra-ui/react'
 import { MdInsertPhoto } from "react-icons/md";
-import React, {useEffect, useState}from 'react'
+import React, { useEffect, useState } from 'react'
 import API from '../../Service'
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
@@ -147,40 +147,40 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Nama</FormLabel>
-                    <Input type="text" id="name" {...register('name')} placeholder='Nama' required />
+                    <Input type="text" id="name" {...register('name')} focusBorderColor='#00AA5D' required />
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Email</FormLabel>
-                    <Input type="email" id="email" {...register('email')} placeholder='Email' />
+                    <Input type="email" id="email" {...register('email')} focusBorderColor='#00AA5D' />
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>No Hp</FormLabel>
-                    <Input type="text" id="phone" {...register('phone')} placeholder='Phone' required />
+                    <Input type="text" id="phone" {...register('phone')} focusBorderColor='#00AA5D' required />
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Jenis kelamin</FormLabel>
-                    <Select name='gender' {...register('gender')} required>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
+                    <Select name='gender' {...register('gender')} focusBorderColor='#00AA5D' required>
+                      <option value="Laki -laki">Laki -laki</option>
+                      <option value="Perempuan">Perempuan</option>
                     </Select>
                   </FormControl>
                 </WrapItem>
                 <WrapItem w='full'>
                   <FormControl>
                     <FormLabel>Alamat</FormLabel>
-                    <Textarea type="text" id="address" {...register('address')} placeholder='Alamat' required />
+                    <Textarea type="text" id="address" {...register('address')} focusBorderColor='#00AA5D' required />
                   </FormControl>
                 </WrapItem>
                 {isLoadingPhoto ?
-                    <Flex w='full' justifyContent='center' align='center' h='80'>
-                      <Spinner />
-                    </Flex>: null}
+                  <Flex w='full' justifyContent='center' align='center' h='80'>
+                    <Spinner />
+                  </Flex> : null}
                 <WrapItem w='100%'>
                   <FormControl>
                     {finalPhoto && (
@@ -205,9 +205,18 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                       </Box>
                     )}
                     {photo == "" ?
-                      <label
-                        htmlFor="fileInput"
-                        className="bg-blue-500 cursor-pointer border-white rounded-lg h-10  flex items-center justify-center  text-white "
+                      <FormLabel
+                        py='2'
+                        htmlFor="fileInputDesign"
+                        w='full'
+                        bg='green.500'
+                        cursor='pointer'
+                        borderColor='white'
+                        borderRadius='lg'
+                        display='flex'
+                        alignItems='center'
+                        justifyContent='center'
+                        color='white'
                       >
                         <MdInsertPhoto />
                         <Input
@@ -218,12 +227,12 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                           accept="image/*"
                         />
                         <p className="font-semibold">Foto</p>
-                      </label> : null}
+                      </FormLabel> : null}
                   </FormControl>
                 </WrapItem>
               </Wrap>
             </ModalBody>
-            <ModalFooter borderTop='1px' borderColor='gray.100'>
+            <ModalFooter borderTop='1px' gap={3} borderColor='gray.100'>
               <Button
                 disabled={isSubmitting}
                 onClick={isSubmitting ? null : close}
@@ -231,7 +240,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
               >
                 Batal
               </Button>
-              {isLoadingPhoto ? null : <Button colorScheme='blue' mr={3} isLoading={isSubmitting} type="submit">
+              {isLoadingPhoto ? null : <Button colorScheme='green' mr={3} isLoading={isSubmitting} type="submit">
                 Simpan
               </Button>}
             </ModalFooter>

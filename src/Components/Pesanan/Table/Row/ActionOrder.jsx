@@ -44,23 +44,21 @@ export default function ActionOrder(props) {
             gap={{ base:'1', md:'2' }}
         >
              <Button
-                color='white' 
-                bg={"#0078FF"}
-                variant="no-effects"
+                colorScheme="gray"
                 p={3}
                 onClick={ActionDetail(id)}
             >
-                detail & aksi
+                Detail
             </Button>
             {pathname === '/pesanan_proses' && 
             <Button
-                color='white' 
+                colorScheme='green' 
+                color={'white'}
                 p="3" 
-                bg='gray.500'
-                variant="no-effects"
                 onClick={handleSetProgres(id, 'setProgres')}
             > 
-                <Icon as={FaPencilAlt} me="4px" />
+            Progres
+                {/* <Icon as={FaPencilAlt} me="4px" /> */}
             </Button>
             }
         </Flex>

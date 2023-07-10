@@ -117,7 +117,13 @@ export default function TabelPesananSelesai() {
     return (
         <>
         {loading && <Loading/>}
-        <Box mt={{ base:0, lg:5 }} px={{ base:0, lg:5 }} pt={{ base:0, lg:5 }}>
+        <Box 
+            minH={{ base:'100vh', lg:'fit-content' }}
+            bg={{ base:'white', lg:'transparent' }}
+            mt={{ base:0, lg:5 }} 
+            mb={{ base:0, lg:10 }} 
+            px={{ base:0, lg:5 }} 
+            pt={{ base:0, lg:5 }}>
             <TableContainer px='5' py="8" bg={useColorModeValue('white', '#1E2023')} shadow={'lg'} borderRadius={'md'} overflowX='auto'>
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Selesai: {data.length}</Text>
                 <Flex w='auto' p='5'>
@@ -153,8 +159,8 @@ export default function TabelPesananSelesai() {
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         color='white'
                                         textAlign={ index !== 0 ? 'center' : 'left' }
-                                        borderTopLeftRadius={ index === 0 ? 'lg': 0}
-                                        borderTopRightRadius={ index === headerGroup.headers.length - 1 ? 'lg' : 0}
+                                        borderLeftRadius={ index === 0 ? 'lg': 0}
+                                        borderRightRadius={ index === headerGroup.headers.length - 1 ? 'lg' : 0}
                                     >
                                         {column.render("Header")}
                                         <span>

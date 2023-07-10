@@ -235,43 +235,43 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
               <Wrap spacing='10px' justify={'space-between'}>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Nama</FormLabel>
-                  <Input type="text" name="name" {...register('name')} placeholder='Nama' />
+                  <Input type="text" name="name" {...register('name')} focusBorderColor='#00AA5D' />
                   {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Email</FormLabel>
-                  <Input type='email' name="email" {...register('email')} placeholder='Email' />
+                  <Input type='email' name="email" {...register('email')}  focusBorderColor='#00AA5D'/>
                   {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>No HP</FormLabel>
-                  <Input type="number" name="phone" {...register('phone')} placeholder='Phone' />
+                  <Input type="number" name="phone" {...register('phone')}  focusBorderColor='#00AA5D'/>
                   {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text>}
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
                   <FormLabel>Alamat</FormLabel>
-                  <Textarea type="text" name="address" {...register('address')} placeholder='Alamat' />
+                  <Textarea type="text" name="address" {...register('address')}  focusBorderColor='#00AA5D'/>
                   {errors.address && <Text color={'red'} fontSize={'sm'}>{errors.address.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Jumlah pesanan</FormLabel>
-                  <Input type="number" name="quantity" {...register('quantity')} placeholder='Jumlah pesanan' />
+                  <Input type="number" name="quantity" {...register('quantity')} focusBorderColor='#00AA5D'/>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Harga peritem</FormLabel>
-                  <Input type="text" name="pricePerItem" value={pricePerItem} onChange={handleChangePricePerItem} placeholder='Harga peritem' />
+                  <Input type="text" name="pricePerItem" value={pricePerItem} onChange={handleChangePricePerItem} focusBorderColor='#00AA5D'/>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Ukuran</FormLabel>
-                  <Input type="text" name="size" {...register('size')} placeholder='Size' />
+                  <Input type="text" name="size" {...register('size')} focusBorderColor='#00AA5D'/>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Deadline</FormLabel>
-                  <Input type="date" name="deadline" {...register('deadline')} placeholder='Deadline' min={getDateToday()} />
+                  <Input type="date" name="deadline" {...register('deadline')} placeholder='Deadline' min={getDateToday()}  focusBorderColor='#00AA5D'/>
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
                   <FormLabel>Deskripsi</FormLabel>
-                  <Textarea type="text" name="description" {...register('description')} placeholder='Description' />
+                  <Textarea type="text" name="description" {...register('description')} focusBorderColor='#00AA5D'/>
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
                   {isLoadingDesign &&
@@ -308,7 +308,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                       py='2'
                       htmlFor="fileInputDesign"
                       w='full'
-                      bg='blue.500'
+                      bg='green.500'
                       cursor='pointer'
                       borderColor='white'
                       borderRadius='lg'
@@ -367,7 +367,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                       py='2'
                       htmlFor="fileInputModel"
                       w='full'
-                      bg='blue.500'
+                      bg='green.500'
                       cursor='pointer'
                       borderColor='white'
                       borderRadius='lg'
@@ -401,7 +401,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                 Batal
               </Button>
               {!isLoadingDesign && !isLoadingModel ?
-                <Button colorScheme='blue' isLoading={isSubmitting} type="submit">
+                <Button colorScheme='green' isLoading={isSubmitting} type="submit">
                   Simpan
                 </Button>
                 : null}
