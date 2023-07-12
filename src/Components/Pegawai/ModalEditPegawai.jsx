@@ -28,7 +28,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form';
 import { changeDataPegawai } from '../../Features/Pegawai';
 import API from '../../Service'
-import { object } from 'yup';
 
 export default function ModalEditPegawai({ isOpen, onClose }) {
     const [profilePicture, setProfilePicture] = useState()

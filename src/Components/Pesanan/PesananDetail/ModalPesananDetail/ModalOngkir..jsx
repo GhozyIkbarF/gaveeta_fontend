@@ -21,20 +21,21 @@ import { useMediaQuery } from "@chakra-ui/react";
 import React, { useState, useEffect } from 'react'
 import API from '../../../../Service';
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setRefreshDetailPesanan } from '../../../../Features/Pesanan/PesananDetail';
+import { formatInputMoneyIDR, formatToIDR } from '../../../../validation/format';
 
 
 export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
     const initialRef = React.useRef(null)
     const [isSmallerThanSm] = useMediaQuery("(max-width: 640px)");
+    const [money, setMoney] = useState("");
     const [radioValue, setRadioValue] = useState(null)
 
     const dispatch = useDispatch();
     const {
         handleSubmit,
         reset,
-        register,
         setValue,
         formState: { isSubmitting },
     } = useForm(
@@ -57,22 +58,22 @@ export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
         try {
             await API.updateShippingCost(value)
             toast({
-                title: "Delete design success",
+                title: "Edit biaya ongkir success",
                 status: "success",
-                duration: 3000,
+                duration: 2000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top-right",
             });
             dispatch(setRefreshDetailPesanan())
             close();
         } catch (error) {
             toast({
-                title: "Delete model failed",
+                title: "Edit biaya ongkir failed",
                 description: "Something went wrong...",
                 status: "error",
-                duration: 3000,
+                duration: 2000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top-right",
             });
         }
     }
@@ -84,6 +85,7 @@ export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
         } if (shippingCost > 1) {
             setRadioValue('2')
             setValue('shippingCost', shippingCost)
+            setMoney(formatToIDR(shippingCost))
         }
     }, []);
 
@@ -98,6 +100,20 @@ export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
             setRadioValue(null)
         }
     }
+
+    const handleChangeMoney = (event) => {
+        const formattedValue = formatInputMoneyIDR(event.target.value);
+        if (formattedValue === 'Rp.') {
+            setMoney('')
+        } else {
+            setMoney(formattedValue);
+        }
+    };
+
+    useEffect(() => {
+        const formatMoney = Number(money.replace(/[^0-9]/g, ''))
+        setValue('shippingCost', formatMoney)
+    }, [money])
 
 
     return (
@@ -135,9 +151,10 @@ export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
                                         <FormControl>
                                             <FormLabel>Nominal</FormLabel>
                                             <Input
-                                                type="number"
-                                                {...register('shippingCost')}
+                                                value={money} 
+                                                onChange={handleChangeMoney}
                                                 placeholder='masukkan nominal'
+                                                focusBorderColor='#00AA5D'
                                                 required
                                             />
                                         </FormControl> : null
@@ -149,7 +166,7 @@ export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
                             <Button colorScheme='red' onClick={onClose}>
                                 Batal
                             </Button>
-                            <Button colorScheme='blue' isLoading={isSubmitting} type="submit">
+                            <Button colorScheme='green' isLoading={isSubmitting} type="submit">
                                 Edit
                             </Button>
                         </ModalFooter>

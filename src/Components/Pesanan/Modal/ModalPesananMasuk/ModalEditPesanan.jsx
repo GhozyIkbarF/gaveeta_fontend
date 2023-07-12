@@ -13,22 +13,9 @@ import {
   FormControl,
   FormLabel,
   Wrap,
-  Stack,
   WrapItem,
   useToast
 } from '@chakra-ui/react'
-import { Radio, RadioGroup } from '@chakra-ui/react'
-// import {
-//   Menu,
-//   MenuButton,
-//   MenuList,
-//   MenuItem,
-//   MenuItemOption,
-//   MenuGroup,
-//   MenuOptionGroup,
-//   MenuDivider,
-// } from '@chakra-ui/react'
-// import { ChevronDownIcon } from '@chakra-ui/icons';
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form';
@@ -44,7 +31,6 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
   const initialRef = React.useRef(null)
   const { dataDetailOrder, refreshDetailPesanan } = useSelector(state => state.pesananDetail)
   const [pricePerItem, setPricePerItem] = useState("");
-  const [shippingCost, setShippingCost] = useState("");
 
   const {
     register,
@@ -86,11 +72,6 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
     setValue('size', dataDetailOrder.size);
     setValue('deadline', dataDetailOrder.deadline);
     setValue('description', dataDetailOrder.description);
-    if (dataDetailOrder.status === 'proses') {
-      setValue('shippingCost', dataDetailOrder.shippingCost)
-      setShippingCost(formatToIDR(dataDetailOrder.shippingCost))
-    }
-
     setPricePerItem(formatToIDR(dataDetailOrder.pricePerItem))
   }, [refreshDetailPesanan]);
 
@@ -98,10 +79,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
     if (typeof pricePerItem === 'string') {
       setValue('pricePerItem', pricePerItem.replace(/[^0-9]/g, ''))
     }
-    if (typeof shippingCost === 'string') {
-      setValue('shippingCost', shippingCost.replace(/[^0-9]/g, ''))
-    }
-  }, [shippingCost, pricePerItem]);
+  }, [pricePerItem]);
 
 
   async function onSubmit(data) {
