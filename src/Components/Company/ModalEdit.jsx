@@ -42,11 +42,11 @@ export default function ModalEdit({ data, isOpen, onClose }) {
         formState: { isSubmitting },
     } = useForm(
         {
-            //   resolver: yupResolver(UPDATE_PESANAN_MASUK_VALIDATION),
             defaultValues: {
                 name: '',
                 address: "",
                 phone: '',
+                no_rek: '',
                 email: "",
                 website: "",
                 facebook: "",
@@ -65,12 +65,14 @@ export default function ModalEdit({ data, isOpen, onClose }) {
         setValue('name', data.name);
         setValue('address', data.address);
         setValue('phone', data.phone);
+        setValue('no_rek', data.no_rek);
         setValue('email', data.email);
         setValue('website', data.website);
         setValue('facebook', data.facebook);
     },[triggerEditData])
 
     async function onSubmit(data) {
+        console.log(data.no_rek);
         try {
             const res = await API.updateCompany(data)
             dispatch(setRefreshEditCompany())
@@ -101,44 +103,30 @@ export default function ModalEdit({ data, isOpen, onClose }) {
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                     <FormLabel>nama perusahaan</FormLabel>
                     <Input type="text" name="name" {...register('name')} placeholder='Nama' required />
-                    <FormErrorMessage>
-                        {/* {errors.name && errors.name.message} */}
-                    </FormErrorMessage>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                     <FormLabel>phone</FormLabel>
                     <Input type="text" name="phone" {...register('phone')} placeholder='phone' required />
-                    <FormErrorMessage>
-                        {/* {errors.phone && errors.phone.message} */}
-                    </FormErrorMessage>
+                </WrapItem>
+                <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
+                    <FormLabel>No Rekening</FormLabel>
+                    <Input type="text" name="no_rek" {...register('no_rek')} placeholder='no rekening' required />
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                     <FormLabel>Email</FormLabel>
                     <Input type='email' name="email" {...register('email')} placeholder='Email' required />
-                    <FormErrorMessage>
-                        {/* {errors.email && errors.email.message} */}
-                    </FormErrorMessage>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                     <FormLabel>Website</FormLabel>
                     <Input type='text' name="website" {...register('website')} placeholder='Website' required />
-                    <FormErrorMessage>
-                        {/* {errors.website && errors.website.message} */}
-                    </FormErrorMessage>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                     <FormLabel>Facebook</FormLabel>
                     <Input type='text' name="facebook" {...register('facebook')} placeholder='Facebook' required />
-                    <FormErrorMessage>
-                        {/* {errors.facebook && errors.facebook.message} */}
-                    </FormErrorMessage>
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
                     <FormLabel>Alamat</FormLabel>
                     <Textarea type="text" name="address" {...register('address')} placeholder='Alamat' required />
-                    <FormErrorMessage>
-                        {/* {errors.address && errors.address.message} */}
-                    </FormErrorMessage>
                 </WrapItem>
             </Wrap>
         )
@@ -171,7 +159,7 @@ export default function ModalEdit({ data, isOpen, onClose }) {
                                 >
                                     Cancel
                                 </Button>
-                                <Button colorScheme='blue' isLoading={isSubmitting} type="submit">Save</Button>
+                                <Button colorScheme='green' isLoading={isSubmitting} type="submit">Simpan</Button>
                             </DrawerFooter>
                         </DrawerContent>
                     </form>
@@ -201,8 +189,8 @@ export default function ModalEdit({ data, isOpen, onClose }) {
                                 >
                                     Cancel
                                 </Button>
-                                <Button colorScheme='blue' isLoading={isSubmitting} type="submit">
-                                    Save
+                                <Button colorScheme='green' isLoading={isSubmitting} type="submit">
+                                    Simpan
                                 </Button>
                             </ModalFooter>
                         </ModalContent>

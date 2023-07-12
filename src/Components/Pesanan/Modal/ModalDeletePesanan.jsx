@@ -8,10 +8,9 @@ import {
     Button,
     useToast
   } from '@chakra-ui/react'
-  import { useMediaQuery, Text } from "@chakra-ui/react";
+  import { useMediaQuery } from "@chakra-ui/react";
   import React from 'react'
   import { useState } from 'react'
-  import { useDispatch } from 'react-redux'
   import { useNavigate } from 'react-router-dom'
   import API from '../../../Service'
   
@@ -20,11 +19,9 @@ import {
     const [isSmallerThanSm] = useMediaQuery("(max-width: 640px)");
     const [isFetching, setIsFetching] = useState(false);
   
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const toast = useToast()
-  
-    // const { IdActionOrder } = useSelector(state => state.pesananMasuk)
+
   
     async function handleDelete() {
       setIsFetching(true);
@@ -35,16 +32,16 @@ import {
           status: "success",
           duration: 4000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
 
         onClose();
         if( statusOrder === 'masuk' ){
-          navigate('/pesanan_masuk')
+          navigate('/pesananmasuk')
         }else if( statusOrder === 'proses'){
-          navigate('/pesanan_proses')
+          navigate('/pesananproses')
         }else if( statusOrder === 'selesai'){
-          navigate('/pesanan_selesai')
+          navigate('/pesananselesai')
         }
         
       } catch (error) {
@@ -54,7 +51,7 @@ import {
           status: "error",
           duration: 4000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
         onClose();
       }

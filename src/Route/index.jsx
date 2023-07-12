@@ -12,7 +12,6 @@ import PesananDetail from "../Components/Pesanan/PesananDetail/PesananDetail";
 import Data from "../Pages/Data";
 import Setting from "../Pages/Setting";
 import OutRoute from "../Pages/OutRoute";
-import Invoice from "../Components/Pesanan/PesananDetail/Invoice";
 
 export default function AppRoute() {
 
@@ -22,11 +21,12 @@ export default function AppRoute() {
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route path="/dashboard" element={<SidebarWithHeader children={<Beranda />} />} />
-          <Route path="/pesanan_masuk" element={<SidebarWithHeader children={<TabelPesananMasuk />} />} />
-          <Route path="/pesanan_proses" element={<SidebarWithHeader children={<TabelPesananProses />} />} />
-          <Route path="/pesanan_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
-          <Route path="/pesanan_selesai" element={<SidebarWithHeader children={<TabelPesananSelesai />} />} />
-          {/* <Route path="/pesananmasuk_invoice/:id" element={<SidebarWithHeader children={<Invoice />} />} /> */}
+          <Route path="/pesananmasuk" element={<SidebarWithHeader children={<TabelPesananMasuk />} />} />
+          <Route path="/pesananproses" element={<SidebarWithHeader children={<TabelPesananProses />} />} />
+          <Route path="/pesananselesai" element={<SidebarWithHeader children={<TabelPesananSelesai />} />} />
+          <Route path="/pesananmasuk_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
+          <Route path="/pesananproses_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
+          <Route path="/pesananselesai_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
           <Route path="/pegawai" element={<SidebarWithHeader children={<Pegawai />} />} />
           <Route path="/data" element={<SidebarWithHeader children={<Data />} />} />
           <Route path="/setting" element={<SidebarWithHeader children={<Setting />} />} />

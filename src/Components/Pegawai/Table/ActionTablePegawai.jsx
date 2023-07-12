@@ -43,6 +43,7 @@ export default function ActionTablePegawai(props) {
             direction={{ sm: "column", md: "row" }}
             justify={'center'}
             gap='3'
+            fontSize={{ base:'md', lg:'lg' }}
         >
                 <Icon as={FaPencilAlt} color='#8D96AA' cursor={'pointer'} onClick={ActionUpdate(id, 'edit')}/>
                 <Icon as={FaTrashAlt} color='#8D96AA' cursor={'pointer'} onClick={ActionDelete(id, 'delete')}/>

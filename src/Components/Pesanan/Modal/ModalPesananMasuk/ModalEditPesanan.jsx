@@ -113,7 +113,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
         status: "success",
         duration: 3000,
         isClosable: true,
-        position: "bottom-right",
+        position: "top-right",
       });
       close();
     } catch (error) {
@@ -124,7 +124,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
         status: "error",
         duration: 3000,
         isClosable: true,
-        position: "bottom-right",
+        position: "top-right",
       });
     }
   }

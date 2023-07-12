@@ -11,10 +11,17 @@ import {
   StatLabel,
   StatNumber,
   Select,
-  useColorModeValue
+  useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { BsFillClipboardFill } from "react-icons/bs";
-import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from "@chakra-ui/react";
+import { 
+  NumberInput, 
+  NumberInputField, 
+  NumberInputStepper, 
+  NumberIncrementStepper, 
+  NumberDecrementStepper 
+} from "@chakra-ui/react";
 import {
   FaShoppingCart,
   FaCheck
@@ -36,6 +43,8 @@ export default function Beranda() {
   const [inputDateStartValue, setInputStartEndValue] = useState('2022-01-01')
   const [displayButton, setDisplayButton] = useState(false);
 
+  const toast = useToast();
+
   const dateToday = getDateToday();
   const currentDate = new Date();
   const this_year = currentDate.getFullYear();
@@ -43,9 +52,20 @@ export default function Beranda() {
   const [year, setYear] = useState(this_year);
 
   const getOrderCount = async () => {
-    const res = await API.getOrderCounts();
-    setData(res.data);
-    setOrdersByMonth(res.data.orderByMonth)
+    try{
+      const res = await API.getOrderCounts();
+      setData(res.data);
+      setOrdersByMonth(res.data.orderByMonth)
+    }catch(err){
+      toast({
+        title: "Something went wrong",
+        description: "Something went wrong...",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
     setTimeout(() => {
       setLoading(false)
     }, [500])
@@ -197,19 +217,19 @@ export default function Beranda() {
               title={'Total pesanan masuk'}
               stat={data.masuk}
               icon={<FaShoppingCart size={'2.5em'} />}
-              url={'/pesanan_masuk'}
+              url={'/pesananmasuk'}
             />
             <StatsCard
               title={'Total pesanan proses'}
               stat={data.proses}
               icon={<FaCheck size={'2.5em'} />}
-              url={'/pesanan_proses'}
+              url={'/pesananproses'}
             />
             <StatsCard
               title={'Total pesanan selesai'}
               stat={data.selesai}
               icon={<BsFillClipboardFill size={'2.5em'} />}
-              url={'/pesanan_selesai'}
+              url={'/pesananselesai'}
             />
           </SimpleGrid>
         </Box>

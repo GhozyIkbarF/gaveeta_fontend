@@ -6,7 +6,7 @@ import {
     useColorModeValue
 } from '@chakra-ui/react'
 import { useMediaQuery } from "@chakra-ui/react";
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, } from 'react-redux';
 import { setActionDetailOrder } from '../../../../Features/Pesanan/PesananDetail';
@@ -15,7 +15,7 @@ import jsPDF from 'jspdf'
 import 'jspdf-autotable';
 import logoGaveeta from '../../../../Assets/logo-gaveeta.png'
 import { useReactToPrint } from 'react-to-print';
-// import Invoice from '../Invoice';
+import Invoice from '../Invoice';
 
 
 export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
@@ -49,20 +49,19 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
         dispatch(setActionDetailOrder("delete"));
         onOpen();
     };
-    const Invoice = () => {
-        navigate(`/pesananmasuk_invoice/${dataDetailOrder.id}`);
-    };
+    // const Invoice = () => {
+    //     navigate(`/pesananmasuk_invoice/${dataDetailOrder.id}`);
+    // };
 
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-        documentTitle: 'invoice',
-        pageStyle: 'print',
-    });
+    // const handlePrint = useReactToPrint({
+    //     content: () => componentRef.current,
+    //     documentTitle: 'invoice',
+    //     pageStyle: 'print',
+    // });
 
 
     const generatePDF = (dataDetailOrder) => {
 
-        // Create a new jsPDF instance
         const doc = new jsPDF({
             orientation: 'portrait',
             unit: 'mm',
@@ -70,27 +69,21 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
         });
 
         doc.addImage(logoGaveeta, 'PNG', 27, 15, 28, 28);
-        // Set font styles
         doc.setFont('times', 'bold');
         doc.setFontSize(36);
 
-        // Add institution name
         doc.text(`${dataDetailOrder.company.name}`, doc.internal.pageSize.getWidth() / 4 + 6, 25, { align: 'left' });
 
-        // Set font styles for address, telephone, email, website
         doc.setFont('times', 'normal');
         doc.setFontSize(11);
 
-        // Add address
         const address = dataDetailOrder.company.address;
         doc.text(address, doc.internal.pageSize.getWidth() / 4 + 6, 32, { align: 'left' });
 
-        // Add telephone and email
         const telephone = dataDetailOrder.company.phone;
         const email = dataDetailOrder.company.email
         doc.text(`Telp: ${telephone}   Email: ${email}`, doc.internal.pageSize.getWidth() / 4 + 6, 37, { align: 'left' });
 
-        // Add website and Facebook
         const website = dataDetailOrder.company.website;
         const facebook = dataDetailOrder.company.facebook;
         doc.text(`Website: ${website}   Facebook: ${facebook}`, doc.internal.pageSize.getWidth() / 4 + 6, 42, { align: 'left' });
@@ -117,32 +110,13 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
             ['Harga peritem', ':', dataDetailOrder.pricePerItem ? formatToIDR(dataDetailOrder.pricePerItem) : 'harga peritem belum ditentukan'],
         ];
 
-        if (dataDetailOrder.status !== 'selesai') {
-            if (dataDetailOrder.shippingCost == null) {
-                tableContent.push(['Uang muka', ':', dataDetailOrder.payment ? formatToIDR(dataDetailOrder.payment) : 0]);
-                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
-                tableContent.push(['Keterangan', ':', 'total biaya belum termasuk ongkos kirim']);
-            } else if (parseInt(dataDetailOrder.shippingCost) === 0) {
-                tableContent.push(['Uang muka', ':', dataDetailOrder.payment ? formatToIDR(dataDetailOrder.payment) : 0]);
-                tableContent.push(['Ongkos kirim', ':', 'Gratis']);
-                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
-                tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
-            } else if (parseInt(dataDetailOrder.shippingCost) > 0) {
-                tableContent.push(['Uang muka', ':', dataDetailOrder.payment ? formatToIDR(dataDetailOrder.payment) : 0]);
+        if (dataDetailOrder.status === 'selesai') {
                 tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + parseInt(dataDetailOrder.shippingCost)) : 'total biaya belum ditentukan']);
-                tableContent.push(['Keterangan', ':', 'total biaya sudah termasuk ongkos kirim']);
-            }
+                tableContent.push(['Keterangan', ':', 'Lunas']);
         } else {
-            if (parseInt(dataDetailOrder.shippingCost) === 0) {
-                tableContent.push(['Ongkos kirim', ':', 'Gratis']);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
-                tableContent.push(['Keterangan', ':', 'lunas']);
-            } else if (parseInt(dataDetailOrder.shippingCost) > 0) {
-                tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
-                tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + parseInt(dataDetailOrder.shippingCost)) : 'total biaya belum ditentukan']);
-                tableContent.push(['Keterangan', ':', 'lunas']);
-            }
+                tableContent.push(['Keterangan', ':', 'Total biaya belum termasuk ongkos kirim']);
         }
 
         doc.autoTable({
@@ -162,7 +136,6 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
             margin: { left: 25, }
         });
 
-        // Save the PDF with a file name
         window.open(doc.output('bloburl'))
     };
 
@@ -191,7 +164,7 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                         variant="no-effects"
                         onClick={handleProses}
                     >
-                        proses pesanan
+                        Proses pesanan
                     </Button>
                 ) : status === 'proses' ? (
                     <Button
@@ -240,6 +213,9 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
                     >
                         Cetak laporan
                     </Button> : null
+                }
+                {status === 'masuk' || status === 'proses' ?
+                   <Invoice/> : null
                 }
                 <Button
                     py='6'

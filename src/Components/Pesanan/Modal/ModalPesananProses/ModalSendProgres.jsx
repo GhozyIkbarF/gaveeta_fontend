@@ -43,11 +43,6 @@ const ModalSendProgres = (props) => {
           };
           
         try {
-            // const formData = new FormData();
-            // formData.append('accountId', accountSid)
-            // formData.append('auth_token', authToken)
-            // formData.append('whatsapp_number', +6288983697711)
-            // formData.append('customer_phone', +628882582864)
           const res = await API.sendProgres(data)
           console.log(res.data)
         } catch (error) {
@@ -55,18 +50,6 @@ const ModalSendProgres = (props) => {
         }
       };
       
-    // const sendMessage = async (to, body) => {
-    //     try {
-    //       const message = await client.messages.create({
-    //         body: body,
-    //         from: 'whatsapp:+6288983697711',
-    //         to: `whatsapp:${to}`
-    //       });
-    //       console.log(message.sid);
-    //     } catch (error) {
-    //       console.error(error);
-    //     }
-    //   };
       
     return (
         <>

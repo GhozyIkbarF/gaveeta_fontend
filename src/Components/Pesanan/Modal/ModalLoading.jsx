@@ -1,9 +1,7 @@
 import {
-    Box,
     Modal,
     ModalOverlay,
     ModalContent,
-    ModalBody,
     Spinner
 } from '@chakra-ui/react'
 

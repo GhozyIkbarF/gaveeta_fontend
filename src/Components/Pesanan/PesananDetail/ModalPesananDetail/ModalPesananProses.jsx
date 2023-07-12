@@ -155,7 +155,6 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
         }
         else {
             try {
-                console.log(data)
                 const formBuktiBayar = new FormData();
                 if (typeof (data.buktiBayar) != 'string') {
                     formBuktiBayar.append('buktiBayar', finalBuktiBayar);
@@ -169,7 +168,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                     status: "success",
                     duration: 3000,
                     isClosable: true,
-                    position: "bottom-right",
+                    position: "top-right",
                 });
                 close();
                 if (status === 'masuk') {
@@ -184,7 +183,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                     status: "error",
                     duration: 3000,
                     isClosable: true,
-                    position: "bottom-right",
+                    position: "top-right",
                 });
             }
         }
@@ -200,7 +199,6 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
         setKonfirTotalHarga(false)
     }
 
-    console.log(dataDetailOrder.shippingCost);
     return (
         <>
             <Modal

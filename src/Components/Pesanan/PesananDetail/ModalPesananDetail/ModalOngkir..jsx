@@ -31,7 +31,6 @@ export default function ModalOngkir({ isOpen, onClose, id, shippingCost }) {
     const [radioValue, setRadioValue] = useState(null)
 
     const dispatch = useDispatch();
-    const { typeImage, IdRemoveImage } = useSelector(state => state.pesananDetail);
     const {
         handleSubmit,
         reset,

@@ -82,7 +82,7 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
           status: "error",
           duration: 3000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
       } else {
         toast({
@@ -91,7 +91,7 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
           status: "error",
           duration: 3000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
       }
     }

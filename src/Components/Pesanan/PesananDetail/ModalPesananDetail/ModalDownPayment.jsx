@@ -140,7 +140,7 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                     status: "success",
                     duration: 3000,
                     isClosable: true,
-                    position: "bottom-right",
+                    position: "top-right",
                 });
                 dispatch(setRefreshDetailPesanan())
                 close();
@@ -151,7 +151,7 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                     status: "error",
                     duration: 3000,
                     isClosable: true,
-                    position: "bottom-right",
+                    position: "top-right",
                 });
             }
         }

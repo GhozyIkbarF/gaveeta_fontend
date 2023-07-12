@@ -41,7 +41,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
     setValue,
     reset,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm(
     {
 
@@ -152,7 +152,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
           status: "error",
           duration: 3000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
       } else {
         toast({
@@ -161,7 +161,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
           status: "error",
           duration: 3000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
       }
     }

@@ -1,161 +1,132 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Box, Text, Table, Thead, Tbody, Tr, Th, Td, Flex, Button } from '@chakra-ui/react';
+import React, { useRef } from 'react';
+import { Box, Text, Table, Tbody, Tr, Td, Flex, Button } from '@chakra-ui/react';
+import {
+    ListItem,
+    UnorderedList,
+} from '@chakra-ui/react'
 import ReactToPrint from 'react-to-print';
-import API from '../../../../Service';
-import Loading from '../../../Loading';
+import { useSelector } from 'react-redux';
+import { formatToIDR } from '../../../../validation/format';
 
 export default function Invoice() {
     const componentRef = useRef();
-    const [orderer, setOrderer] = useState([]);
-    const [company, setCompany] = useState([]);
-    const [loading, setLoading] = useState(false);
 
-    const { id } = useParams();
-    
-    const getDataInit = async () => {
-        setLoading(true)
-        try {
-            const res = await API.getOrderDetail(id);
-            setOrderer(res.data);
-            setCompany(res.data.company);
-            console.log(res.data);
-        } catch (err) {
-            console.error(err);
-        }
-        setLoading(false)
-    };
-    useEffect(() => {
-        getDataInit();
-    }, [])
-
+    const { dataDetailOrder } = useSelector(state => state.pesananDetail);
 
     return (
         <>
-            {loading && <Loading />}
-            <Flex flexDir={'column'} justifyContent={'center'} bgColor={'white'} minH={'95vh'} mt={{ base:0, lg:5 }} justify={'center'} p={10}>
-                <ReactToPrint
-                    trigger={() => {
-                        return <Button colorScheme='blue' w={'28'} mb={5}>print invoce</Button>
-                    }}
-                    content={() => componentRef.current}
-                    documentTitle='invoice'
-                    pageStyle='print'
-                />
-                <div style={{ display: "none" }}>
-                    <Box ref={componentRef} border={'1px'} w={'full'} p={10} mb={10} className='page-break'>
-                        <Flex justifyContent={'space-between'}>
-                            <Box mb={6} mt={2}>
-                                <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                    Company Details
-                                </Text>
-                                <Text mb={2}>{company.name}</Text>
-                                <Text mb={2}>{company.address}</Text>
-                                <Text mb={2}>+{company.phone}</Text>
-                            </Box>
-                            <Text color={'red.500'} fontWeight={'extrabold'} fontSize={'3xl'}>INVOICE</Text>
-                        </Flex>
-
-                        <Box mb={6}>
-                            <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                Orderer Details
-                            </Text>
-                            <Text mb={2}>{orderer.name}</Text>
-                            <Text mb={2}>{orderer.address}</Text>
-                            <Text mb={2}>{orderer.phone}</Text>
-                        </Box>
-
-                        <Box mb={6}>
-                            <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                Item Details
-                            </Text>
-                            <Table variant='striped' colorScheme='greey.800'>
-                                <Tbody>
-                                    <Tr>
-                                        <Td>Deskripsi</Td>
-                                        <Td>:</Td>
-                                        <Td>{orderer.description}</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Jumlah</Td>
-                                        <Td>:</Td>
-                                        <Td>{orderer.quantity}</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Harga peritem</Td>
-                                        <Td>:</Td>
-                                        <Td>{orderer.pricePerItem}</Td>
-                                    </Tr>
-                                </Tbody>
-                            </Table>
-                        </Box>
-
-                        <Box mt={6}>
-                            <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                Total
-                            </Text>
-                            <Text mb={2}>Total: {orderer.pricePerItem*orderer.quantity}</Text>
-                        </Box>
-                    </Box>
-                </div>
-            </Flex>
+            <ReactToPrint
+                trigger={() => {
+                    return (
+                        <Button
+                            y='6'
+                            borderRadius="0"
+                            borderBottom={'1px'}
+                            fontWeight='bold'
+                            variant="no-effects"
+                        >
+                            {dataDetailOrder.status === 'masuk' ? 'Invoice uang muka' : 'Invoice pelunasan'}
+                        </Button>
+                    )
+                }}
+                content={() => componentRef.current}
+                documentTitle={`invoice_${dataDetailOrder.name}`}
+                pageStyle='print'
+            />
             <div style={{ display: "none" }}>
-                    <Box ref={componentRef} border={'1px'} w={'full'} p={10} mb={10} className='page-break'>
-                        <Flex justifyContent={'space-between'}>
-                            <Box mb={6} mt={2}>
-                                <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                    Company Details
-                                </Text>
-                                <Text mb={2}>{company.name}</Text>
-                                <Text mb={2}>{company.address}</Text>
-                                <Text mb={2}>+{company.phone}</Text>
-                            </Box>
-                            <Text color={'red.500'} fontWeight={'extrabold'} fontSize={'3xl'}>INVOICE</Text>
-                        </Flex>
-
-                        <Box mb={6}>
-                            <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                Orderer Details
-                            </Text>
-                            <Text mb={2}>{orderer.name}</Text>
-                            <Text mb={2}>{orderer.address}</Text>
-                            <Text mb={2}>{orderer.phone}</Text>
+                <Box ref={componentRef} w={'full'} p={10} mb={10} className='page-break' fontFamily="Roboto">
+                    <Flex justifyContent={'space-between'}>
+                        <Box mb={6} mt={2} pr={5}>
+                            <Text mb={2}>{dataDetailOrder.company.name}</Text>
+                            <Text mb={2}>{dataDetailOrder.company.address}</Text>
+                            <Text mb={2}>{dataDetailOrder.company.phone}</Text>
                         </Box>
+                        <Text color={'red.500'} fontWeight={'extrabold'} fontSize={'3xl'}>INVOICE</Text>
+                    </Flex>
 
-                        <Box mb={6}>
+                    <Box mb={6}>
+                        <Text fontSize="xl" fontWeight="bold" mb={2}>
+                            Data pemesan
+                        </Text>
+                        <Text mb={2}>Nama : {dataDetailOrder.name}</Text>
+                        <Text mb={2}>Alamat : {dataDetailOrder.address}</Text>
+                        <Text mb={2}>No Hp : {dataDetailOrder.phone}</Text>
+                    </Box>
+
+                    <Box mb={6}>
+                        <Text fontSize="xl" fontWeight="bold" mb={2}>
+                            Detail pesanan
+                        </Text>
+                        <Table variant='striped' colorScheme='greey.800'>
+                            <Tbody>
+                                <Tr>
+                                    <Td w={'25%'}>Deskripsi</Td>
+                                    <Td w={'5%'}>:</Td>
+                                    <Td>{dataDetailOrder.description}</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>Jumlah</Td>
+                                    <Td>:</Td>
+                                    <Td>{dataDetailOrder.quantity}</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td>Harga peritem</Td>
+                                    <Td>:</Td>
+                                    <Td>{formatToIDR(dataDetailOrder.pricePerItem)}</Td>
+                                </Tr>
+                                {dataDetailOrder.status === 'proses' ? (
+                                    <>
+                                        <Tr>
+                                            <Td>Ongkos kirim</Td>
+                                            <Td>:</Td>
+                                            <Td>{formatToIDR(parseInt(dataDetailOrder.shippingCost))}</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Total Biaya</Td>
+                                            <Td>:</Td>
+                                            <Td>{formatToIDR(parseInt(dataDetailOrder.shippingCost) + (dataDetailOrder.quantity * dataDetailOrder.pricePerItem))}</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Uang muka</Td>
+                                            <Td>:</Td>
+                                            <Td>{formatToIDR(dataDetailOrder.payment)}</Td>
+                                        </Tr>
+                                    </> 
+                                ) : null}
+                            </Tbody>
+                        </Table>
+                    </Box>
+
+                    <Flex mt={6} justifyContent={'space-between'}>
+                        <Box>
                             <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                Item Details
+                                {dataDetailOrder.status === 'masuk' ? 'Total' : 'Biaya pelunasan'}
                             </Text>
-                            <Table variant='striped' colorScheme='greey.800'>
-                                <Tbody>
-                                    <Tr>
-                                        <Td>Deskripsi</Td>
-                                        <Td>:</Td>
-                                        <Td>{orderer.description}</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Jumlah</Td>
-                                        <Td>:</Td>
-                                        <Td>{orderer.quantity}</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Harga peritem</Td>
-                                        <Td>:</Td>
-                                        <Td>{orderer.pricePerItem}</Td>
-                                    </Tr>
-                                    {/* Add more rows for other items */}
-                                </Tbody>
-                            </Table>
+                            <Text mb={2}>{
+                                dataDetailOrder.status === 'masuk' ?
+                                    formatToIDR(dataDetailOrder.pricePerItem * dataDetailOrder.quantity) :
+                                    formatToIDR(parseInt(dataDetailOrder.shippingCost) + parseInt((dataDetailOrder.quantity * dataDetailOrder.pricePerItem)) - parseInt(dataDetailOrder.payment))}
+                            </Text>
                         </Box>
-
+                        <Box>
+                            <Text fontSize="xl" fontWeight="bold" mb={2}>
+                                Pembayaran
+                            </Text>
+                            <Text mb={2}>No Rek: {dataDetailOrder.company.no_rek}</Text>
+                        </Box>
+                    </Flex>
+                    {dataDetailOrder.status === 'masuk' ?
                         <Box mt={6}>
                             <Text fontSize="xl" fontWeight="bold" mb={2}>
-                                Total
+                                Catatan
                             </Text>
-                            <Text mb={2}>Total: {orderer.pricePerItem*orderer.quantity}</Text>
-                        </Box>
-                    </Box>
-                </div>
+                            <UnorderedList>
+                                <ListItem>Minimal pembayaran uang muka setengah dari total biaya</ListItem>
+                                {dataDetailOrder.status === 'masuk' ? <ListItem>Total biaya belum termasuk ongkos kirim</ListItem> : null}
+                            </UnorderedList>
+                        </Box> : null}
+                </Box>
+            </div>
         </>
     )
 }

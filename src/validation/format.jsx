@@ -39,6 +39,24 @@ export const formatToIDR = (num) => {
     return date.toLocaleDateString('id-ID', options);
   };
   
+  export const indonesiaDateTime = (date) =>{
+    //convert datetime to indonesia format-----
+    const datetimeString = date;
+    // Create a new date object from the datetime string
+    const datetime = new Date(datetimeString);
+    // Convert the date to Indonesian date and time format
+    const optiondatetime = {
+        timeZone: 'Asia/Jakarta',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+    };
+    const indonesiaDateTimeString = datetime.toLocaleString('id-ID', optiondatetime);
+    return indonesiaDateTimeString
+}
 
 export const getDateToday = () => {
     const today = new Date();

@@ -12,7 +12,7 @@ import {
     setRefreshDetailPesanan,
     setRefreshModalRemoveImage
 } from '../../../Features/Pesanan/PesananDetail'
-import { formatMoneyIDR, convertToIndonesianDate } from '../../../validation/format';
+import { formatMoneyIDR, convertToIndonesianDate, indonesiaDateTime } from '../../../validation/format';
 
 
 //cakra component
@@ -46,10 +46,10 @@ export default function PesananDetail() {
     const [displayAction, setDisplayAction] = useState(true);
 
     const { actionDetailOrder, refreshDetailPesanan } = useSelector(state => state.pesananDetail);
-    
+
     const url = useLocation();
     const pathname = url.pathname.includes("pesananproses_detail")
-    const { id } = useParams();   
+    const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -81,22 +81,6 @@ export default function PesananDetail() {
 
     const totalHarga = (data.quantity * data.pricePerItem)
 
-    //convert datetime to indonesia format-----
-    const datetimeString = data.created_at;
-    // Create a new date object from the datetime string
-    const datetime = new Date(datetimeString);
-    // Convert the date to Indonesian date and time format
-    const optiondatetime = {
-        timeZone: 'Asia/Jakarta',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-    };
-    const indonesiaDateTimeString = datetime.toLocaleString('id-ID', optiondatetime);
-
     const ActionUpdate = () => (e) => {
         e.preventDefault();
         dispatch(setActionDetailOrder('edit'));
@@ -126,20 +110,49 @@ export default function PesananDetail() {
         onOpen()
     };
 
-    const Progres = ({progres, quantity}) => {
+    const Data = ({ title, data }) => {
+        return (
+            <Flex w='full' flexDirection='column' mb='5'>
+                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>{title}</Text>
+                <Text fontSize={{ base: 'md', md: 'lg' }}>{data}</Text>
+            </Flex>
+        )
+    }
+
+    const Progres = ({ progres, quantity }) => {
         return (
             <Text fontSize={{ base: 'md', md: 'lg' }}>{`${Math.floor((progres / quantity) * 100)}% / ${progres} picies`}</Text>
         )
     }
 
     return (
-        <Box px={{ base: 0, lg:5 }}>
-            <Flex mt={{ base: 0, lg:10 }} pt={5} w='full' minH={{ base:'100vh', lg:'fit-content' }} flexDirection='column'  align='center' bg={useColorModeValue('white', '#1E2023')} borderRadius={{ base:'none', lg:'md' }}>
-                <Flex w={{ base: 'full', lg: '90%' }} justifyContent='space-between' px={{ base: 0, lg:5 }} align='center'>
-                    <Button onClick={() => navigate(-1)} fontWeight='bold' variant="no-effects" gap='2'><FaArrowLeft /> <Text display={{ base: 'none', md: 'block' }}></Text></Button>
+        <Box px={{ base: 0, lg: 5 }}>
+            <Flex 
+                mt={{ base: 0, lg: 10 }} 
+                pt={5} w='full' 
+                minH={{ base: '100vh', lg: 'fit-content' }} 
+                flexDirection='column' 
+                align='center' 
+                bg={useColorModeValue('white', '#1E2023')} 
+                borderRadius={{ base: 'none', lg: 'md' }}
+            >
+                <Flex 
+                    w={{ base: 'full', lg: '90%' }} 
+                    justifyContent='space-between' 
+                    px={{ base: 0, lg: 5 }} 
+                    align='center'
+                >
+                    <Button 
+                        onClick={() => navigate(-1)} 
+                        fontWeight='bold' 
+                        variant="no-effects" 
+                        gap='2'
+                    >
+                        <FaArrowLeft /> 
+                    </Button>
                     <Text fontWeight='bold'>Detail Pesanan</Text>
                     <Box>
-                        {!displayAction ? null : <Button fontWeight='bold' fontSize='md' transform={{base: "rotate(0deg)", lg: "rotate(90deg)"}} variant="no-effects" gap='1' onClick={handleAction()}><FaEllipsisV /></Button>}
+                        {!displayAction ? null : <Button fontWeight='bold' fontSize='md' transform={{ base: "rotate(0deg)", lg: "rotate(90deg)" }} variant="no-effects" gap='1' onClick={handleAction()}><FaEllipsisV /></Button>}
                         {actionDetailOrder === '2action' && <ModalActionDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} status={data.status} />}
                         {actionDetailOrder === 'proses' &&
                             (
@@ -147,8 +160,8 @@ export default function PesananDetail() {
                                     <ModalPesananProses isOpen={isOpen} onOpen={onOpen} onClose={onClose} totalHarga={totalHarga} DP={data.payment} id={data.id} status={data.status} />
                             )
                         }
-                        {data.status === 'proses' && actionDetailOrder === 'ongkir' ?  <ModalOngkir isOpen={isOpen} onOpen={onOpen} onClose={onClose} id={data.id} status={data.status} shippingCost={data.shippingCost}/> : null}
-                        {data.status === 'proses' && actionDetailOrder === 'lihatDP' ?  <ModalDownPayment isOpen={isOpen} onOpen={onOpen} onClose={onClose} totalHarga={totalHarga} DP={data.payment} id={data.id} status={data.status}/> : null}
+                        {data.status === 'proses' && actionDetailOrder === 'ongkir' ? <ModalOngkir isOpen={isOpen} onOpen={onOpen} onClose={onClose} id={data.id} status={data.status} shippingCost={data.shippingCost} /> : null}
+                        {data.status === 'proses' && actionDetailOrder === 'lihatDP' ? <ModalDownPayment isOpen={isOpen} onOpen={onOpen} onClose={onClose} totalHarga={totalHarga} DP={data.payment} id={data.id} status={data.status} /> : null}
                         {actionDetailOrder === 'delete' && <AlertDeletePesanan id={data.id} isOpen={isOpen} onClose={onClose} statusOrder={data.status} />}
                     </Box>
                 </Flex>
@@ -164,63 +177,27 @@ export default function PesananDetail() {
                                 <TabPanel align='start'>
                                     <Flex>
                                         <Flex w='96%' flexDirection='column' justifyContent='start' align='start'>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Nama</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.name}</Text>
-                                            </Flex>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Nomer HP</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.phone}</Text>
-                                            </Flex>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Email</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{!data.email ? 'Tidak ada' : `${data.email}`}</Text>
-                                            </Flex>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Alamat</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.address}</Text>
-                                            </Flex>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Deskripsi</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{!data.description ? 'deskripsi pesanan belum dibuat': data.description}</Text>
-                                            </Flex>
+                                            <Data title={'Nama'} data={data.name}/>
+                                            <Data title={'Nomer HP'} data={data.phone}/>
+                                            <Data title={'Email'} data={!data.email ? 'Tidak ada' : `${data.email}`}/>
+                                            <Data title={'Alamat'} data={data.address}/>
+                                            <Data title={'Deskripsi'} data={!data.description ? 'deskripsi pesanan belum dibuat' : data.description}/>
                                             {data.status === 'proses' ?
                                                 <Flex w='full' flexDirection='column' mb='5'>
                                                     <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Progres</Text>
-                                                    <Progres progres={data.progres || 0} quantity={data.quantity}  />
+                                                    <Progres progres={data.progres || 0} quantity={data.quantity} />
                                                 </Flex> : null
                                             }
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Jumlah</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.quantity == null || data.quantity < 1 ? 'jumlah belum ditetapkan' : `${data.quantity} pieces`}</Text>
-                                            </Flex>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Ukuran</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{!data.size ? 'ukuran belum ditetapkan' : data.size}</Text>
-                                            </Flex>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Deadline</Text>
-                                                 <Text fontSize={{ base: 'md', md: 'lg' }}>{!data.deadline ? 'deadline belum ditetapkan' : convertToIndonesianDate(data.deadline)}</Text>
-                                            </Flex>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Harga peritem</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{data.pricePerItem == null || data.pricePerItem < 1 ? 'harga belum ditetapkan' : formatMoneyIDR(data.pricePerItem)}</Text>
-                                            </Flex>
-                                            <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Total Harga</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{totalHarga == null || totalHarga < 1 ? 'tentukan jumlah dan harga peritem dahulu' : formatMoneyIDR(totalHarga)}</Text>
-                                            </Flex>
-                                            {data.status === 'proses' &&
-                                                <Flex w='full' flexDirection='column' mb='5'>
-                                                    <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Uang muka</Text>
-                                                    <Text fontSize={{ base: 'md', md: 'lg' }}>{data.payment == null || data.payment < 1 ? 'tentukan jumlah dan harga peritem dahulu' : formatMoneyIDR(data.payment)}</Text>
-                                                </Flex>
+                                            <Data title={'Jumlah'} data={data.quantity == null || data.quantity < 1 ? 'jumlah belum ditetapkan' : `${data.quantity} pieces`}/>
+                                            <Data title={'Ukuran'} data={!data.size ? 'ukuran belum ditetapkan' : data.size}/>
+                                            <Data title={'Deadline'} data={!data.deadline ? 'deadline belum ditetapkan' : convertToIndonesianDate(data.deadline)}/>
+                                            <Data title={'Harga peritem'} data={data.pricePerItem == null || data.pricePerItem < 1 ? 'harga belum ditetapkan' : formatMoneyIDR(data.pricePerItem)}/>
+                                            <Data title={'Total Harga'} data={totalHarga == null || totalHarga < 1 ? 'tentukan jumlah dan harga peritem dahulu' : formatMoneyIDR(totalHarga)}/>
+                                            {data.status === 'proses' ?
+                                            <Data title={'Uang muka'} data={data.payment == null || data.payment < 1 ? 'tentukan jumlah dan harga peritem dahulu' : formatMoneyIDR(data.payment)}/>: null
                                             }
-                                            {data.status === 'masuk' &&  
-                                                <Flex w='full' flexDirection='column' mb='5'>
-                                                <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Di input pada</Text>
-                                                <Text fontSize={{ base: 'md', md: 'lg' }}>{indonesiaDateTimeString}</Text>
-                                            </Flex>
+                                            {data.status === 'masuk' ?
+                                                <Data title={'Di input pada'} data={indonesiaDateTime(data.created_at)}/> : null
                                             }
                                         </Flex>
                                         <Flex>
@@ -233,19 +210,19 @@ export default function PesananDetail() {
                                     {actionDetailOrder === 'edit' && (<ModalEditPesananMasuk onClose={onClose} isOpen={isOpen} />)}
                                 </TabPanel>
                                 <TabPanel>
-                                    <Flex 
-                                        mb='5' 
-                                        w='full' 
-                                        align='center' 
-                                        justifyContent='space-between' 
-                                        flexDirection={{ base: 'column', md: 'row' }} 
+                                    <Flex
+                                        mb='5'
+                                        w='full'
+                                        align='center'
+                                        justifyContent='space-between'
+                                        flexDirection={{ base: 'column', md: 'row' }}
                                         gap={{ base: '3', md: '0' }}
                                     >
-                                        <Text 
-                                            fontWeight='bold' 
+                                        <Text
+                                            fontWeight='bold'
                                             display={{ base: 'none', md: 'block' }}
                                         >
-                                                koleksi desain pesanan
+                                            koleksi desain pesanan
                                         </Text>
                                         <Button
                                             color='green.500'
@@ -258,10 +235,10 @@ export default function PesananDetail() {
                                             + Desain Baru
                                         </Button>
                                     </Flex>
-                                    <SimpleGrid 
-                                        w='full' 
-                                        columns={3} 
-                                        gap={1} 
+                                    <SimpleGrid
+                                        w='full'
+                                        columns={3}
+                                        gap={1}
                                         justify='center'
                                     >
                                         {designs.map((design, i) =>
@@ -280,19 +257,19 @@ export default function PesananDetail() {
                                     </SimpleGrid>
                                 </TabPanel>
                                 <TabPanel>
-                                    <Flex 
-                                        mb='5' 
-                                        w='full' 
-                                        align='center' 
-                                        justifyContent='space-between' 
-                                        flexDirection={{ base: 'column', md: 'row' }} 
+                                    <Flex
+                                        mb='5'
+                                        w='full'
+                                        align='center'
+                                        justifyContent='space-between'
+                                        flexDirection={{ base: 'column', md: 'row' }}
                                         gap={{ base: '3', md: '0' }}
                                     >
-                                        <Text 
-                                            fontWeight='bold' 
+                                        <Text
+                                            fontWeight='bold'
                                             display={{ base: 'none', md: 'block' }}
-                                            >
-                                                koleksi model pesanan
+                                        >
+                                            koleksi model pesanan
                                         </Text>
                                         <Button
                                             color='green.500'

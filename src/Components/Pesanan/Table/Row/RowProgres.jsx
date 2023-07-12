@@ -5,7 +5,7 @@ import { CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
 import { actionPesananProses } from '../../../../Features/Pesanan/PesananProses';
 
 export default function RowProgres(props) {
-    const {onOpen, id, quantity, progres } = props;
+    const { id, quantity, progres } = props;
     const [progresValue, setProgresValue] = useState(0);
     const dispatch = useDispatch()
 
@@ -16,7 +16,7 @@ export default function RowProgres(props) {
         return () => clearInterval(interval);
       });
 
-    const ActionShowProgres = ({idPesanan, action}) => (e) => {
+    const ActionShowProgres = ({action}) => (e) => {
         e.preventDefault();
         dispatch(actionPesananProses(action))
     }

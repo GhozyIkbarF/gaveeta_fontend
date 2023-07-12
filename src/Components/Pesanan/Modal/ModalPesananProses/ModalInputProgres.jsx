@@ -92,7 +92,7 @@ export default function ModalInputProgres(props) {
                 status: "success",
                 duration: 2000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top-right",
             });
             dispatch(setRefreshOrderProses())
             close();
@@ -103,7 +103,7 @@ export default function ModalInputProgres(props) {
                 status: "error",
                 duration: 2000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top-right",
             });
         }
     }

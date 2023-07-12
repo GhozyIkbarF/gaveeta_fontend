@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Button,
   Image,
   IconButton,
   Avatar,
@@ -23,7 +22,6 @@ import {
   MenuList,
   Collapse,
   useToast,
-  useColorMode
 } from '@chakra-ui/react';
 import { FiMenu } from 'react-icons/fi';
 import { BsFillFileTextFill } from 'react-icons/bs';
@@ -33,13 +31,11 @@ import {
   FaUsers,
   FaCog,
 } from 'react-icons/fa';
-import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import Logo from '../Assets/logo-gaveeta.png'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import API from '../Service';
-
 
 export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -194,7 +190,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
               Dashboard
           </Flex>
         </NavLink>
-        {/* <NavLink> */}
           <Flex 
             flexDirection='column' 
             p="4" 
@@ -202,13 +197,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
             gap='7' 
             borderRadius="lg" 
             cursor="pointer" 
-            onClick={handleToggle} 
             _hover={{ bg: `${orderAddress === 'pesanan' ? 'green.500' : 'green.200'}`, color: 'white', }} 
             bg={orderAddress === 'pesanan' ? 'green.500' : ''} 
             color={orderAddress === 'pesanan' ? 'white' : ''} >
             <Flex 
               flexDirection='row' 
-              justifyContent='space-between'>
+              justifyContent='space-between'
+              onClick={handleToggle}> 
               <Flex>
                 <Icon 
                   mr="4" 
@@ -231,23 +226,26 @@ const SidebarContent = ({ onClose, ...rest }) => {
                 gap='2' 
                 w='full'>
                   <NavLink 
-                    to="/pesanan_masuk" 
+                    to="/pesananmasuk" 
                     className='w-full'>
                     <Flex 
-                      onClick={onClose} 
+                      onClick={() => {
+                        onClose();
+                        setIsOpen(true);
+                      }} 
                       w='full' 
                       mr='6' 
                       pl='7' 
                       py='2' 
                       borderRadius="lg" 
                       _hover={{ bg:'green.500', color: 'white', }} 
-                      bg={pathname === '/pesanan_masuk' ? 'green.200' : ''} 
-                      color={pathname === '/pesanan_masuk' ? 'white' : ''}>
+                      bg={pathname.includes('pesananmasuk')  ? 'green.200' : ''} 
+                      color={pathname.includes('pesananmasuk') ? 'white' : ''}>
                         Pesanan masuk
                     </Flex>
                   </NavLink>
                   <NavLink 
-                    to="/pesanan_proses" 
+                    to="/pesananproses" 
                     className='w-full'>
                     <Flex 
                       onClick={onClose} 
@@ -257,12 +255,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
                       py='2' 
                       borderRadius="lg" 
                       _hover={{ bg:'green.500', color: 'white', }} 
-                      bg={pathname === '/pesanan_proses' ? 'green.200' : ''} 
-                      color={pathname === '/pesanan_proses' ? 'white' : ''}>
+                      bg={pathname.includes('pesananproses') ? 'green.200' : ''} 
+                      color={pathname.includes('pesananproses') ? 'white' : ''}>
                         Pesanan proses
                     </Flex>
                   </NavLink>
-                  <NavLink to="/pesanan_selesai" className='w-full'>
+                  <NavLink to="/pesananselesai" className='w-full'>
                     <Flex 
                       onClick={onClose} 
                       w='full' 
@@ -271,15 +269,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
                       py='2' 
                       borderRadius="lg" 
                       _hover={{ bg:'green.500', color: 'white', }}
-                      bg={pathname === '/pesanan_selesai' ? 'green.200' : ''} 
-                      color={pathname === '/pesanan_selesai' ? 'white' : ''}>
+                      bg={pathname.includes('pesananselesai') ? 'green.200' : ''} 
+                      color={pathname.includes('pesananselesai') ? 'white' : ''}>
                         Pesanan selesai
                     </Flex>
                   </NavLink>
               </Flex>
             </Collapse>
           </Flex>
-        {/* </NavLink> */}
         <NavLink to='/data'>
           <Flex 
             onClick={onClose} 
@@ -374,7 +371,8 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
         display={{ base: 'flex', xl: 'none' }}
         fontSize="lg"
         fontFamily="monospace"
-        fontWeight="bold">
+        fontWeight="bold"
+      >
         Gaveeta Packaging
       </Text>
       <HStack spacing={{ base: '0', md: '6' }}>
@@ -393,9 +391,6 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
                   spacing="1px"
                   ml="2">
                   <Text fontSize="sm">gaveeta</Text>
-                  <Text fontSize="xs" color="gray.600">
-                    Admin
-                  </Text>
                 </VStack>
                 <Avatar
                   size={'sm'}

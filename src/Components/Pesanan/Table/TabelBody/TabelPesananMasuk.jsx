@@ -7,7 +7,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
 import { useDisclosure } from '@chakra-ui/react'
 import API from '../../../../Service';
-import { actionPesananMasuk, actionOrderProses, setDataOrder } from '../../../../Features/Pesanan/PesananMasuk';
+import { actionPesananMasuk, setDataOrder } from '../../../../Features/Pesanan/PesananMasuk';
 import ActionOrder from '../Row/ActionOrder';
 import RowDesign from '../Row/RowDesign';
 import ModalAddPesananMasuk from '../../Modal/ModalPesananMasuk/ModalAddPesanan';
@@ -254,7 +254,7 @@ export default function TabelPesananMasuk() {
                 </Flex>
                 {actionOrderMasuk === 'create' && (<ModalAddPesananMasuk isOpen={isOpen} onClose={onClose} />)}
                 {actionOrderMasuk === 'delete' && <AlertDeletePesananMasuk onClose={onClose} isOpen={isOpen} />}
-                {actionOrderProses === 'design' && pathname === '/pesanan_masuk' ? <ModalDesign onClose={onClose} isOpen={isOpen} /> : null}
+                {actionOrderProses === 'design' && pathname === '/pesananmasuk' ? <ModalDesign onClose={onClose} isOpen={isOpen} /> : null}
             </TableContainer>
         </Box>
         </>

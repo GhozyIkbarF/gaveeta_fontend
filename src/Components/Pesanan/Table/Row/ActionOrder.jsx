@@ -1,13 +1,10 @@
 import {
-    Icon,
     Button,
     Flex,
-    useColorModeValue
 } from "@chakra-ui/react";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { FaPencilAlt, FaEye } from "react-icons/fa";
 import { useDispatch,useSelector } from "react-redux";
 import { actionPesananProses, setDataDetailOrderProses, setRefreshActionOrderProses  } from "../../../../Features/Pesanan/PesananProses";
 
@@ -23,7 +20,13 @@ export default function ActionOrder(props) {
 
     const ActionDetail =(id) => (e) => {
         e.preventDefault();
-        navigate(`/pesanan_detail/${id}`)
+        if(pathname === '/pesananmasuk'){
+            navigate(`/pesananmasuk_detail/${id}`)
+        }else if(pathname === '/pesananproses'){
+            navigate(`/pesananproses_detail/${id}`)
+        }else if(pathname === '/pesananselesai'){
+            navigate(`/pesananselesai_detail/${id}`)
+        }
     }
 
 
@@ -57,8 +60,7 @@ export default function ActionOrder(props) {
                 p="3" 
                 onClick={handleSetProgres(id, 'setProgres')}
             > 
-            Progres
-                {/* <Icon as={FaPencilAlt} me="4px" /> */}
+                Progres
             </Button>
             }
         </Flex>
