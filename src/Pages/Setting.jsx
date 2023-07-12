@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Button, Flex, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, Flex, Text, useColorModeValue, useToast } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import ModalEdit from '../Components/Company/ModalEdit';
@@ -11,6 +11,7 @@ export default function Setting() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [loading, setLoading] = useState(false)
     const [company, setCompany] = useState([]);
+    const toast = useToast();
 
     const { refreshEditCompany } = useSelector(state => state.company)
     const getDataInit = async () => {
@@ -19,7 +20,14 @@ export default function Setting() {
             const res = await API.getCompany();
             setCompany(res.data);
         } catch (err) {
-            console.log(err);
+            toast({
+                title: "Something went wrong",
+                description: "Something went wrong...",
+                status: "error",
+                duration: 3500,
+                isClosable: true,
+                position: "top-right",
+              });
         }
         setLoading(false)
     };

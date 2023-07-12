@@ -106,7 +106,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         status: "success",
         duration: 2000,
         isClosable: true,
-        position: "bottom-right",
+        position: "top-right",
       });
       close();
     } catch (error) {
@@ -116,7 +116,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         status: "error",
         duration: 2000,
         isClosable: true,
-        position: "bottom-right",
+        position: "top-right",
       });
     }
   }

@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useTable, usePagination, useGlobalFilter } from "react-table";
-import { Box, Text, Flex, Button, Input, useColorModeValue } from '@chakra-ui/react'
+import { Box, Text, Flex, Button, Input, useColorModeValue, useToast } from '@chakra-ui/react'
 import {
     Avatar,
     Table,
@@ -27,14 +27,27 @@ export default function Pegawai() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
-    const dispatch = useDispatch()
     const { action, result } = useSelector(state => state.pegawai)
+
+    const dispatch = useDispatch()
+    const toast = useToast();
 
     const getDataInit = async () => {
         setLoading(true)
-        const res = await API.getAllPegawai();
-        setData(res.data);
-        dispatch(setEmployes(res.data));
+        try{
+            const res = await API.getAllPegawai();
+            setData(res.data);
+            dispatch(setEmployes(res.data));
+        }catch(err){
+            toast({
+                title: "Something went wrong",
+                description: "Something went wrong...",
+                status: "error",
+                duration: 3500,
+                isClosable: true,
+                position: "top-right",
+              });
+        }
         setLoading(false)
     };
 

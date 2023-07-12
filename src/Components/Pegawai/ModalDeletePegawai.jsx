@@ -32,7 +32,7 @@ export default function AlertDeletePegawai({ onClose, isOpen }) {
         status: "success",
         duration: 2000,
         isClosable: true,
-        position: "bottom-right",
+        position: "top-right",
       });
       onClose();
       dispatch(changeDataPegawai())
@@ -43,7 +43,7 @@ export default function AlertDeletePegawai({ onClose, isOpen }) {
         status: "error",
         duration: 2000,
         isClosable: true,
-        position: "bottom-right",
+        position: "top-right",
       });
       onClose();
     }

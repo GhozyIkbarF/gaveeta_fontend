@@ -172,9 +172,9 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                 });
                 close();
                 if (status === 'masuk') {
-                    navigate('/pesanan_proses')
+                    navigate('/pesananproses')
                 } else if (status === 'proses') {
-                    navigate('/pesanan_selesai')
+                    navigate('/pesananselesai')
                 }
             } catch (error) {
                 toast({

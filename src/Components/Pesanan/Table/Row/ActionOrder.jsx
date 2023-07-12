@@ -53,7 +53,7 @@ export default function ActionOrder(props) {
             >
                 Detail
             </Button>
-            {pathname === '/pesanan_proses' && 
+            {pathname === '/pesananproses' && 
             <Button
                 colorScheme='green' 
                 color={'white'}

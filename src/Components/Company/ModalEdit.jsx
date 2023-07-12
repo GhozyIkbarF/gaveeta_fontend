@@ -81,7 +81,7 @@ export default function ModalEdit({ data, isOpen, onClose }) {
                 status: "success",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top-right",
             });
             onClose();
         } catch (error) {
@@ -92,7 +92,7 @@ export default function ModalEdit({ data, isOpen, onClose }) {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top-right",
             });
         }
     }

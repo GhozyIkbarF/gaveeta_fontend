@@ -78,7 +78,7 @@ export default function Data() {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top-right",
             });
             console.error(err);
         }
