@@ -17,7 +17,6 @@ import {
   useDisclosure,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Collapse,
@@ -29,9 +28,10 @@ import {
   FaHome,
   FaShoppingCart,
   FaUsers,
-  FaCog,
+  FaAngleDown,
+  FaBuilding,
+  FaAngleUp,
 } from 'react-icons/fa';
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import Logo from '../Assets/logo-gaveeta.png'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -334,8 +334,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
             color: 'white', }} bg={pathname === '/setting' ? 'green.500' : ''} 
             color={pathname === '/setting' ? 'white' : ''}
             {...rest}>
-            <Icon mr="4" mb='1' fontSize="16" _groupHover={{ color: 'white', }} as={FaCog} />
-            Setting
+            <Icon mr="4" mb='1' fontSize="16" _groupHover={{ color: 'white', }} as={FaBuilding} />
+            Perusahaan
           </Flex>
         </NavLink>
       </Flex>
@@ -401,9 +401,9 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
             </MenuButton>
             <MenuList
               zIndex='tooltip'>
-              <MenuItem>Settings</MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
+              {/* <MenuItem>Settings</MenuItem> */}
+              {/* <MenuDivider /> */}
+              <MenuItem onClick={handleLogout}>Keluar</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

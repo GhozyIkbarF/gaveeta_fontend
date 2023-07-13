@@ -4,7 +4,6 @@ import {
     Flex,
     Text,
     Input,
-    FormLabel,
     InputGroup,
     Button,
     Table,
@@ -43,7 +42,6 @@ export default function Data() {
     const [company, setCompany] = useState([])
     let [pendapatan, setPendapatan] = useState(0)
 
-    console.log(data);
     const toast = useToast();
     const {
         handleSubmit,

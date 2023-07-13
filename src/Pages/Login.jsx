@@ -97,7 +97,7 @@ export default function Login() {
                                     w={'full'} 
                                     maxW={'md'}>
                                     <FormControl id="email">
-                                        <FormLabel>Email address</FormLabel>
+                                        <FormLabel>Email</FormLabel>
                                         <Input 
                                             type="email" 
                                             id="email" 
@@ -122,11 +122,11 @@ export default function Login() {
                                     </FormControl>
                                     <Stack spacing={6}>
                                         <Button 
-                                            colorScheme={'blue'} 
+                                            colorScheme={'green'} 
                                             variant={'solid'} 
                                             type="submit" 
                                             isLoading={isSubmitting}>
-                                            Sign in
+                                            Masuk
                                         </Button>
                                     </Stack>
                                 </Stack>
