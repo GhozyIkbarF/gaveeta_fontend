@@ -9,7 +9,6 @@ import {
     ModalBody,
     ModalCloseButton,
     FormLabel,
-    FormErrorMessage,
     Wrap,
     WrapItem,
     Button,
@@ -72,7 +71,6 @@ export default function ModalEdit({ data, isOpen, onClose }) {
     },[triggerEditData])
 
     async function onSubmit(data) {
-        console.log(data.no_rek);
         try {
             const res = await API.updateCompany(data)
             dispatch(setRefreshEditCompany())
