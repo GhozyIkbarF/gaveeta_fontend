@@ -39,7 +39,7 @@ export default function ActionTablePegawai(props) {
             fontSize={{ base:'md', lg:'lg' }}
         >
                 <Icon as={FaPencilAlt} color='#8D96AA' cursor={'pointer'} onClick={ActionUpdate(id, 'edit')}/>
-                <Icon as={FaTrashAlt} color='#8D96AA' cursor={'pointer'} onClick={ActionDelete(id, 'delete')}/>
+                <Icon as={FaTrashAlt} color='red' cursor={'pointer'} onClick={ActionDelete(id, 'delete')}/>
         </Flex>
     );
 }
