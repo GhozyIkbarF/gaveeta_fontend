@@ -30,7 +30,7 @@ import {
         toast({
           title: "Delete pesanan success",
           status: "success",
-          duration: 4000,
+          duration: 2000,
           isClosable: true,
           position: "top-right",
         });
@@ -49,7 +49,7 @@ import {
           title: "Delete pesanan failed",
           description: "Something went wrong...",
           status: "error",
-          duration: 4000,
+          duration: 2000,
           isClosable: true,
           position: "top-right",
         });

@@ -46,7 +46,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
     const randomID = Math.random().toString(36).substring(2, length + 2);
     return prefix + randomID;
   }
-  const id = generateID("ODR-", 6);
+  const id = generateID("odr", 6);
 
   const {
     handleSubmit,
@@ -186,7 +186,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
       toast({
         title: "Add pesanan success",
         status: "success",
-        duration: 6000,
+        duration: 2000,
         isClosable: true,
         position: "top-right",
       });
@@ -197,7 +197,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
         title: "Add pesanan failed",
         description: "Something went wrong...",
         status: "error",
-        duration: 6000,
+        duration: 2000,
         isClosable: true,
         position: "top-right",
       });

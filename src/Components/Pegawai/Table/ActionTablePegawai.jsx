@@ -1,18 +1,11 @@
 import {
-    Avatar,
     Icon,
-    Button,
     Flex,
-    Td,
-    Text,
-    Tr,
-    useColorModeValue
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
-import { FaPencilAlt, FaTrashAlt, FaEye  } from "react-icons/fa";
+import React from "react";
+import { FaPencilAlt, FaTrashAlt  } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { actionPegawai, IdActionPegawai, setDataEditPegawai } from "../../../Features/Pegawai";
-import { rootImg } from "../../../Service/Config";
 
 export default function ActionTablePegawai(props) {
     const { onOpen, id } = props;

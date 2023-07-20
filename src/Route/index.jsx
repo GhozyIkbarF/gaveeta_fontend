@@ -10,8 +10,10 @@ import TabelPesananProses from "../Components/Pesanan/Table/TabelBody/TabelPesan
 import TabelPesananSelesai from "../Components/Pesanan/Table/TabelBody/TabelPesananSelesai";
 import PesananDetail from "../Components/Pesanan/PesananDetail/PesananDetail";
 import Data from "../Pages/Data";
-import Setting from "../Pages/Setting";
+import Company from "../Pages/Company";
+import EditCompany from "../Components/Company/EditCompany";
 import OutRoute from "../Pages/OutRoute";
+import { userRole } from "../Features/Utils";
 
 export default function AppRoute() {
 
@@ -27,9 +29,13 @@ export default function AppRoute() {
           <Route path="/pesananmasuk_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
           <Route path="/pesananproses_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
           <Route path="/pesananselesai_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
+          {userRole === 'superAdmin' ? 
+          <>
           <Route path="/pegawai" element={<SidebarWithHeader children={<Pegawai />} />} />
           <Route path="/data" element={<SidebarWithHeader children={<Data />} />} />
-          <Route path="/setting" element={<SidebarWithHeader children={<Setting />} />} />
+          <Route path="/company" element={<SidebarWithHeader children={<Company />} />} />
+          <Route path="/company_setting" element={<SidebarWithHeader children={<EditCompany />} />} />
+          </> : null}
           <Route path="*" element={<OutRoute/>} />
         </Routes>
       </Box>

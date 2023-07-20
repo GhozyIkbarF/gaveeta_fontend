@@ -58,18 +58,18 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
         toast({
           title: "Delete design success",
           status: "success",
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
       } else {
         await API.deleteModel(IdRemoveImage)
         toast({
           title: "Delete model success",
           status: "success",
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
       }
       dispatch(setRefreshDetailPesanan())
@@ -80,7 +80,7 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
           title: "Delete design failed",
           description: "Something went wrong...",
           status: "error",
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
           position: "top-right",
         });
@@ -89,7 +89,7 @@ export default function ModalRemoveImage({ isOpen, onClose }) {
           title: "Delete model failed",
           description: "Something went wrong...",
           status: "error",
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
           position: "top-right",
         });

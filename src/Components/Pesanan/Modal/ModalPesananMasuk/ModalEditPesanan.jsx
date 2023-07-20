@@ -89,7 +89,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
       toast({
         title: "Edit pesanan success",
         status: "success",
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
         position: "top-right",
       });
@@ -100,7 +100,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
         title: "Edit pesanan failed",
         description: "Something went wrong...",
         status: "error",
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
         position: "top-right",
       });

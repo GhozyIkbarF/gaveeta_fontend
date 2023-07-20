@@ -36,6 +36,7 @@ import Logo from '../Assets/logo-gaveeta.png'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import API from '../Service';
+import { userRole, username } from '../Features/Utils';
 
 export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -52,12 +53,13 @@ export default function SidebarWithHeader({ children }) {
 
   }, [])
 
-
   async function handleLogout() {
     try {
       API.signOut();
       localStorage.removeItem('accessToken');
       localStorage.removeItem('userId');
+      localStorage.removeItem('name');
+      localStorage.removeItem('role');
       toast({
         title: "Sign out success",
         status: "success",
@@ -103,13 +105,13 @@ export default function SidebarWithHeader({ children }) {
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} handleLogout={handleLogout} />
-      <Box 
-        position='relative' 
-        px={{ base:0, lg:5 }} 
-        ml={{ base: 0, xl: 60 }} 
-        bg={useColorModeValue('gray.100', '#18191C')} 
-        minH="100vh" 
-        display="flex" 
+      <Box
+        position='relative'
+        px={{ base: 0, lg: 5 }}
+        ml={{ base: 0, xl: 60 }}
+        bg={useColorModeValue('gray.100', '#18191C')}
+        minH="100vh"
+        display="flex"
         flexDirection="column">
         {children}
       </Box>
@@ -124,13 +126,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
   let address = pathname.match(/pesanan/i)
 
   useEffect(() => {
-    if(address != null){
+    if (address != null) {
       setOrderAddress(address[0])
-    }else{
+    } else {
       setOrderAddress('')
     }
-  },[pathname])
-  
+  }, [pathname])
+
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => setIsOpen(prevState => !prevState);
   return (
@@ -140,204 +142,215 @@ const SidebarContent = ({ onClose, ...rest }) => {
       pos="fixed"
       h="full"
       py={4}
-      borderRightWidth={{ base:1, lg:1 }}
+      borderRightWidth={{ base: 1, lg: 1 }}
       bg={useColorModeValue('white', '#1E2023')}
       borderRightColor={useColorModeValue('gray.200', 'transparent')}
       {...rest}>
-      <Flex 
-        h="20" 
-        alignItems="center" 
-        mx="8" 
+      <Flex
+        h="20"
+        alignItems="center"
+        mx="8"
         mb={10}
-        justifyContent="center" 
+        justifyContent="center"
         gap='2'>
-          <Image src={Logo} alt="Image Description" h={24} mt={5} display={{ base:'none', xl:'block' }}/>
-        <Text 
+        <Image src={Logo} alt="Image Description" h={24} mt={5} display={{ base: 'none', xl: 'block' }} />
+        <Text
           fontSize='xl'
-          fontFamily="monospace" 
-          fontWeight="bold" 
+          fontFamily="monospace"
+          fontWeight="bold"
           w='full'
-          display={{ base:'block', xl:'none' }}>
+          display={{ base: 'block', xl: 'none' }}>
           Gaveeta Packaging
         </Text>
-        <CloseButton 
-          display={{ base: 'flex', xl: 'none' }} 
+        <CloseButton
+          display={{ base: 'flex', xl: 'none' }}
           onClick={onClose} />
       </Flex>
-      <Flex 
-        flexDirection='column' 
-        mt='5' 
+      <Flex
+        flexDirection='column'
+        mt='5'
         gap='2'>
         <NavLink to='/dashboard'>
-          <Flex 
-            onClick={onClose} 
-            alignItems="center" 
-            p="4" 
-            mx="4" 
-            borderRadius="lg" 
-            role="group" 
-            cursor="pointer" 
-            _hover={{ bg: `${pathname === '/dashboard' ? 'green.500' : 'green.200'}`, color: 'white', }} 
-            bg={pathname === '/dashboard' ? 'green.500' : ''} 
+          <Flex
+            onClick={onClose}
+            alignItems="center"
+            p="4"
+            mx="4"
+            borderRadius="lg"
+            role="group"
+            cursor="pointer"
+            _hover={{ bg: `${pathname === '/dashboard' ? 'green.500' : 'green.200'}`, color: 'white', }}
+            bg={pathname === '/dashboard' ? 'green.500' : ''}
             color={pathname === '/dashboard' ? 'white' : ''}
             {...rest}>
-            <Icon 
-              mr="4" 
-              mb='1' 
-              fontSize="16" 
-              _groupHover={{ color: 'white', }} 
-              as={FaHome}/>
-              Dashboard
+            <Icon
+              mr="4"
+              mb='1'
+              fontSize="16"
+              _groupHover={{ color: 'white', }}
+              as={FaHome} />
+            Dashboard
           </Flex>
         </NavLink>
-          <Flex 
-            flexDirection='column' 
-            p="4" 
-            mx="4" 
-            gap='7' 
-            borderRadius="lg" 
-            cursor="pointer" 
-            _hover={{ bg: `${orderAddress === 'pesanan' ? 'green.500' : 'green.200'}`, color: 'white', }} 
-            bg={orderAddress === 'pesanan' ? 'green.500' : ''} 
-            color={orderAddress === 'pesanan' ? 'white' : ''} >
-            <Flex 
-              flexDirection='row' 
-              justifyContent='space-between'
-              onClick={handleToggle}> 
-              <Flex>
-                <Icon 
-                  mr="4" 
-                  mt='1' 
-                  fontSize="16" 
-                  _groupHover={{ color: 'white', }} 
-                  as={FaShoppingCart}/> 
-                <Text>Pesanan</Text>
-              </Flex>
-              <Icon 
-                mt='1.5' 
-                fontSize="16" 
-                _groupHover={{ color: 'white', }} 
-                as={isOpen ? FaAngleUp : FaAngleDown}/>
+        <Flex
+          flexDirection='column'
+          p="4"
+          mx="4"
+          gap='7'
+          borderRadius="lg"
+          cursor="pointer"
+          _hover={{ bg: `${orderAddress === 'pesanan' ? 'green.500' : 'green.200'}`, color: 'white', }}
+          bg={orderAddress === 'pesanan' ? 'green.500' : ''}
+          color={orderAddress === 'pesanan' ? 'white' : ''} >
+          <Flex
+            flexDirection='row'
+            justifyContent='space-between'
+            onClick={handleToggle}>
+            <Flex>
+              <Icon
+                mr="4"
+                mt='1'
+                fontSize="16"
+                _groupHover={{ color: 'white', }}
+                as={FaShoppingCart} />
+              <Text>Pesanan</Text>
             </Flex>
-            <Collapse in={isOpen} animateOpacity>
-              <Flex 
-                flexDirection='column' 
-                align='center' 
-                gap='2' 
-                w='full'>
-                  <NavLink 
-                    to="/pesananmasuk" 
-                    className='w-full'>
-                    <Flex 
-                      onClick={() => {
-                        onClose();
-                        setIsOpen(true);
-                      }} 
-                      w='full' 
-                      mr='6' 
-                      pl='7' 
-                      py='2' 
-                      borderRadius="lg" 
-                      _hover={{ bg:'green.500', color: 'white', }} 
-                      bg={pathname.includes('pesananmasuk')  ? 'green.200' : ''} 
-                      color={pathname.includes('pesananmasuk') ? 'white' : ''}>
-                        Pesanan masuk
-                    </Flex>
-                  </NavLink>
-                  <NavLink 
-                    to="/pesananproses" 
-                    className='w-full'>
-                    <Flex 
-                      onClick={onClose} 
-                      w='full' 
-                      mr='6' 
-                      pl='7' 
-                      py='2' 
-                      borderRadius="lg" 
-                      _hover={{ bg:'green.500', color: 'white', }} 
-                      bg={pathname.includes('pesananproses') ? 'green.200' : ''} 
-                      color={pathname.includes('pesananproses') ? 'white' : ''}>
-                        Pesanan proses
-                    </Flex>
-                  </NavLink>
-                  <NavLink to="/pesananselesai" className='w-full'>
-                    <Flex 
-                      onClick={onClose} 
-                      w='full' 
-                      mr='6' 
-                      pl='7' 
-                      py='2' 
-                      borderRadius="lg" 
-                      _hover={{ bg:'green.500', color: 'white', }}
-                      bg={pathname.includes('pesananselesai') ? 'green.200' : ''} 
-                      color={pathname.includes('pesananselesai') ? 'white' : ''}>
-                        Pesanan selesai
-                    </Flex>
-                  </NavLink>
-              </Flex>
-            </Collapse>
+            <Icon
+              mt='1.5'
+              fontSize="16"
+              _groupHover={{ color: 'white', }}
+              as={isOpen ? FaAngleUp : FaAngleDown} />
           </Flex>
-        <NavLink to='/data'>
-          <Flex 
-            onClick={onClose} 
-            alignItems="center" 
-            p="4" 
-            mx="4" 
-            borderRadius="lg" 
-            role="group" 
-            cursor="pointer" 
-            _hover={{ bg: `${pathname === '/data' ? 'green.500' : 'green.200'}`, 
-            color: 'white', }} bg={pathname === '/data' ? 'green.500' : ''} 
-            color={pathname === '/data' ? 'white' : ''}
-            {...rest}>
-            <Icon 
-              mr="4" 
-              mb='1' 
-              fontSize="16" 
-              _groupHover={{ color: 'white', }} 
-              as={BsFillFileTextFill}/>
-            Laporan
-          </Flex>
-        </NavLink>
-        <NavLink to='/pegawai'>
-          <Flex 
-            onClick={onClose} 
-            alignItems="center" 
-            p="4" 
-            mx="4" 
-            borderRadius="lg" 
-            role="group"
-            cursor="pointer" 
-            _hover={{ bg: `${pathname === '/pegawai' ? 'green.500' : 'green.200'}`, 
-            color: 'white', }} bg={pathname === '/pegawai' ? 'green.500' : ''} 
-            color={pathname === '/pegawai' ? 'white' : ''}
-            {...rest}>
-            <Icon 
-              mr="4" 
-              mb='1' 
-              fontSize="16" 
-              _groupHover={{ color: 'white', }} 
-              as={FaUsers} />
-                Pegawai
-          </Flex>
-        </NavLink>
-        <NavLink to='/setting'>
-          <Flex 
-            onClick={onClose} 
-            alignItems="center" 
-            p="4" 
-            mx="4" 
-            borderRadius="lg" 
-            role="group" 
-            cursor="pointer" 
-            _hover={{ bg: `${pathname === '/setting' ? 'green.500' : 'green.200'}`, 
-            color: 'white', }} bg={pathname === '/setting' ? 'green.500' : ''} 
-            color={pathname === '/setting' ? 'white' : ''}
-            {...rest}>
-            <Icon mr="4" mb='1' fontSize="16" _groupHover={{ color: 'white', }} as={FaBuilding} />
-            Perusahaan
-          </Flex>
-        </NavLink>
+          <Collapse in={isOpen} animateOpacity>
+            <Flex
+              flexDirection='column'
+              align='center'
+              gap='2'
+              w='full'>
+              <NavLink
+                to="/pesananmasuk"
+                className='w-full'>
+                <Flex
+                  onClick={() => {
+                    onClose();
+                    setIsOpen(true);
+                  }}
+                  w='full'
+                  mr='6'
+                  pl='7'
+                  py='2'
+                  borderRadius="lg"
+                  _hover={{ bg: 'green.500', color: 'white', }}
+                  bg={pathname.includes('pesananmasuk') ? 'green.200' : ''}
+                  color={pathname.includes('pesananmasuk') ? 'white' : ''}>
+                  Pesanan masuk
+                </Flex>
+              </NavLink>
+              <NavLink
+                to="/pesananproses"
+                className='w-full'>
+                <Flex
+                  onClick={onClose}
+                  w='full'
+                  mr='6'
+                  pl='7'
+                  py='2'
+                  borderRadius="lg"
+                  _hover={{ bg: 'green.500', color: 'white', }}
+                  bg={pathname.includes('pesananproses') ? 'green.200' : ''}
+                  color={pathname.includes('pesananproses') ? 'white' : ''}>
+                  Pesanan proses
+                </Flex>
+              </NavLink>
+              <NavLink to="/pesananselesai" className='w-full'>
+                <Flex
+                  onClick={onClose}
+                  w='full'
+                  mr='6'
+                  pl='7'
+                  py='2'
+                  borderRadius="lg"
+                  _hover={{ bg: 'green.500', color: 'white', }}
+                  bg={pathname.includes('pesananselesai') ? 'green.200' : ''}
+                  color={pathname.includes('pesananselesai') ? 'white' : ''}>
+                  Pesanan selesai
+                </Flex>
+              </NavLink>
+            </Flex>
+          </Collapse>
+        </Flex>
+        {
+          userRole === 'superAdmin' ?
+            <>
+              <NavLink to='/data'>
+                <Flex
+                  onClick={onClose}
+                  alignItems="center"
+                  p="4"
+                  mx="4"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  _hover={{
+                    bg: `${pathname === '/data' ? 'green.500' : 'green.200'}`,
+                    color: 'white',
+                  }} bg={pathname === '/data' ? 'green.500' : ''}
+                  color={pathname === '/data' ? 'white' : ''}
+                  {...rest}>
+                  <Icon
+                    mr="4"
+                    mb='1'
+                    fontSize="16"
+                    _groupHover={{ color: 'white', }}
+                    as={BsFillFileTextFill} />
+                  Laporan
+                </Flex>
+              </NavLink>
+              <NavLink to='/pegawai'>
+                <Flex
+                  onClick={onClose}
+                  alignItems="center"
+                  p="4"
+                  mx="4"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  _hover={{
+                    bg: `${pathname === '/pegawai' ? 'green.500' : 'green.200'}`,
+                    color: 'white',
+                  }} bg={pathname === '/pegawai' ? 'green.500' : ''}
+                  color={pathname === '/pegawai' ? 'white' : ''}
+                  {...rest}>
+                  <Icon
+                    mr="4"
+                    mb='1'
+                    fontSize="16"
+                    _groupHover={{ color: 'white', }}
+                    as={FaUsers} />
+                  Pegawai
+                </Flex>
+              </NavLink>
+              <NavLink to='/company'>
+                <Flex
+                  onClick={onClose}
+                  alignItems="center"
+                  p="4"
+                  mx="4"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  _hover={{
+                    bg: `${pathname.includes('company') ? 'green.500' : 'green.200'}`,
+                    color: 'white',
+                  }} bg={pathname.includes('company') ? 'green.500' : ''}
+                  color={pathname.includes('company') ? 'white' : ''}
+                  {...rest}>
+                  <Icon mr="4" mb='1' fontSize="16" _groupHover={{ color: 'white', }} as={FaBuilding} />
+                  Perusahaan
+                </Flex>
+              </NavLink>
+            </> : null
+        }
       </Flex>
     </Box>
   );
@@ -355,7 +368,7 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      borderBottomWidth={{ base:2, lg:2 }}
+      borderBottomWidth={{ base: 2, lg: 2 }}
       bg={useColorModeValue('white', '#1E2023')}
       borderBottomColor={useColorModeValue('gray.200', 'transparent')}
       justifyContent={{ base: 'space-between', xl: 'flex-end' }}
@@ -390,7 +403,7 @@ const MobileNav = ({ onOpen, handleLogout, ...rest }) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">gaveeta</Text>
+                  <Text fontSize="sm">{username}</Text>
                 </VStack>
                 <Avatar
                   size={'sm'}

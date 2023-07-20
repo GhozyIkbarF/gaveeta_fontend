@@ -124,7 +124,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
           status: "success",
           duration: 2000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
       } else {
         if (typeof (data.model) != 'string') {
@@ -137,7 +137,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
           status: "success",
           duration: 2000,
           isClosable: true,
-          position: "bottom-right",
+          position: "top-right",
         });
       }
       dispatch(setRefreshDetailPesanan())
@@ -150,7 +150,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
           title: "Add new design failed",
           description: "Something went wrong...",
           status: "error",
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
           position: "top-right",
         });
@@ -159,7 +159,7 @@ export default function ModalAddImage({ isOpen, onClose }) {
           title: "Add new model failed",
           description: "Something went wrong...",
           status: "error",
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
           position: "top-right",
         });

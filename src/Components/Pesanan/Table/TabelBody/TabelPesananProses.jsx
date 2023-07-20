@@ -78,6 +78,10 @@ export default function TabelPesananProses() {
                 accessor: 'phone',
             },
             {
+                Header: 'kode',
+                accessor: 'id',
+            },
+            {
                 Header: 'deadline',
                 accessor: 'deadline',
                 Cell: ({ cell: { row } }) => (

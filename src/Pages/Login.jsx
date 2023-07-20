@@ -58,6 +58,8 @@ export default function Login() {
             })
             localStorage.setItem('accessToken', res.data.accessToken);
             localStorage.setItem('userId', res.data.id);
+            localStorage.setItem('name', res.data.name);
+            localStorage.setItem('role', res.data.role);
             toast({
                 title: "Login success",
                 status: "success",

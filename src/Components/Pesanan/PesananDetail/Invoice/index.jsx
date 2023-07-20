@@ -12,6 +12,7 @@ export default function Invoice() {
     const componentRef = useRef();
 
     const { dataDetailOrder } = useSelector(state => state.pesananDetail);
+    console.log(dataDetailOrder.company.bank_accounts);
 
     return (
         <>
@@ -59,6 +60,12 @@ export default function Invoice() {
                         </Text>
                         <Table variant='striped' colorScheme='greey.800'>
                             <Tbody>
+                                {dataDetailOrder.status === 'proses' ?
+                                    <Tr>
+                                        <Td w={'25%'}>Kode pesanan</Td>
+                                        <Td w={'5%'}>:</Td>
+                                        <Td>{dataDetailOrder.id}</Td>
+                                    </Tr> : null}
                                 <Tr>
                                     <Td w={'25%'}>Deskripsi</Td>
                                     <Td w={'5%'}>:</Td>
@@ -91,7 +98,7 @@ export default function Invoice() {
                                             <Td>:</Td>
                                             <Td>{formatToIDR(dataDetailOrder.payment)}</Td>
                                         </Tr>
-                                    </> 
+                                    </>
                                 ) : null}
                             </Tbody>
                         </Table>
@@ -108,12 +115,14 @@ export default function Invoice() {
                                     formatToIDR(parseInt(dataDetailOrder.shippingCost) + parseInt((dataDetailOrder.quantity * dataDetailOrder.pricePerItem)) - parseInt(dataDetailOrder.payment))}
                             </Text>
                         </Box>
-                        <Box>
+                        <Flex flexDir={'column'}>
                             <Text fontSize="xl" fontWeight="bold" mb={2}>
                                 Pembayaran
                             </Text>
-                            <Text mb={2}>No Rek: {dataDetailOrder.company.no_rek}</Text>
-                        </Box>
+                            {dataDetailOrder.company.bank_accounts.map((value, index)=> (
+                                <Text key={index} mb={2}>{`${value.bank_name} : ${value.number}`}</Text>
+                            ))}
+                        </Flex>
                     </Flex>
                     {dataDetailOrder.status === 'masuk' ?
                         <Box mt={6}>

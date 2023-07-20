@@ -101,21 +101,23 @@ export default function ModalActionDetail({ isOpen, onOpen, onClose, status }) {
 
         const totalBiaya = dataDetailOrder.quantity * dataDetailOrder.pricePerItem;
         let tableContent = [
+            ['Kode pesanan', ':', dataDetailOrder.id],
             ['Nama', ':', dataDetailOrder.name],
             ['No. Hp', ':', dataDetailOrder.phone],
             ['Alamat', ':', dataDetailOrder.address],
             ['Deskripsi', ':', dataDetailOrder.description ? dataDetailOrder.description : 'deskripsi kosong'],
             ['Jumlah', ':', dataDetailOrder.quantity ? `${dataDetailOrder.quantity} pcs` : 0],
-            ['Deadline', ':', dataDetailOrder.deadline ? convertToIndonesianDate(dataDetailOrder.deadline) : 'deadline belum ditentukan'],
-            ['Harga peritem', ':', dataDetailOrder.pricePerItem ? formatToIDR(dataDetailOrder.pricePerItem) : 'harga peritem belum ditentukan'],
         ];
 
         if (dataDetailOrder.status === 'selesai') {
+                tableContent.push(['Harga peritem', ':', dataDetailOrder.pricePerItem ? formatToIDR(dataDetailOrder.pricePerItem) : 'harga peritem belum ditentukan']);
                 tableContent.push(['Ongkos kirim', ':', formatToIDR(dataDetailOrder.shippingCost)]);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya + parseInt(dataDetailOrder.shippingCost)) : 'total biaya belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'Lunas']);
-        } else {
+            } else {
+                tableContent.push(['Harga peritem', ':', dataDetailOrder.pricePerItem ? formatToIDR(dataDetailOrder.pricePerItem) : 'harga peritem belum ditentukan']);
                 tableContent.push(['Total biaya', ':', totalBiaya !== null && totalBiaya > 0 ? formatToIDR(totalBiaya) : 'total biaya belum ditentukan']);
+                tableContent.push(['Deadline', ':', dataDetailOrder.deadline ? convertToIndonesianDate(dataDetailOrder.deadline) : 'deadline belum ditentukan']);
                 tableContent.push(['Keterangan', ':', 'Total biaya belum termasuk ongkos kirim']);
         }
 

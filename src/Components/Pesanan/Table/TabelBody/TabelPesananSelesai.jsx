@@ -69,6 +69,10 @@ export default function TabelPesananSelesai() {
                 accessor: 'description',
             },
             {
+                Header: 'tgl selesai',
+                accessor: 'endDate',
+            },
+            {
                 Header: 'desain',
                 Cell: ({ cell: { row } }) => (
                     <RowDesign link={row.original.designs} onOpen={onOpen} id={row.original.id} />
