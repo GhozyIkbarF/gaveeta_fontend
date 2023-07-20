@@ -178,7 +178,7 @@ export default function EditCompany() {
                                         <Textarea type="text" name="address" {...register('address')} placeholder='Alamat' required />
                                     </WrapItem>
                                     <WrapItem w='100%' mt={10} display='flex' flexDirection='column'>
-                                       <Text fontWeight={'bold'} fontSize={'2xl'}>Akun bank</Text>
+                                        <Text fontWeight={'bold'} fontSize={'xl'} pt={5}>Akun bank</Text>
                                     </WrapItem>
                                     {bank_accounts.map((inputField, index) => (
                                             <Flex w={'full'} gap={3} align={'end'} justifyContent={'space-between'}>

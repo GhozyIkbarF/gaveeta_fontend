@@ -12,7 +12,6 @@ export default function Invoice() {
     const componentRef = useRef();
 
     const { dataDetailOrder } = useSelector(state => state.pesananDetail);
-    console.log(dataDetailOrder.company.bank_accounts);
 
     return (
         <>
