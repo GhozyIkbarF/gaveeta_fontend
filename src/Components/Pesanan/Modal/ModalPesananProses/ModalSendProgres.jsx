@@ -44,7 +44,6 @@ const ModalSendProgres = (props) => {
           
         try {
           const res = await API.sendProgres(data)
-          console.log(res.data)
         } catch (error) {
           console.error(error.message);
         }
@@ -59,7 +58,6 @@ const ModalSendProgres = (props) => {
                     backdropFilter='blur(10px)' />
                 <ModalContent>
                     <ModalHeader>Data progres</ModalHeader>
-                    {/* <ModalCloseButton /> */}
                     <ModalBody>
                         <Wrap>
                             <WrapItem w='40%'>

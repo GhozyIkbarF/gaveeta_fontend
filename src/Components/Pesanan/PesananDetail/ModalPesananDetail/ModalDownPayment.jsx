@@ -14,7 +14,6 @@ import {
     ModalFooter,
     FormControl,
     FormLabel,
-    FormErrorMessage,
     Button,
     useToast,
     ModalBody,
@@ -28,7 +27,6 @@ import { formatInputMoneyIDR, formatMoneyIDR, formatToIDR } from '../../../../va
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from 'react-redux';
 import { setRefreshDetailPesanan } from '../../../../Features/Pesanan/PesananDetail';
-import { string } from 'yup';
 
 
 
@@ -40,6 +38,7 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
     const [money, setMoney] = useState("");
     const [checkDP, setCheckDP] = useState(false)
     const [checkBP, setCheckBP] = useState(false)
+    console.log(money);
 
     const { dataDetailOrder } = useSelector(state => state.pesananDetail);
 
@@ -52,7 +51,6 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
         formState: { isSubmitting },
     } = useForm(
         {
-            // resolver: yupResolver(CREATE_POST_VALIDATION),
             defaultValues: {
                 id: dataDetailOrder.id,
                 id_DP: dataDetailOrder.bukti_bayars[0].id,
@@ -77,7 +75,7 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
     useEffect(() => {
         setValue('payment', dataDetailOrder.payment)
         setMoney(formatToIDR(dataDetailOrder.payment))
-        if(dataDetailOrder.bukti_bayars[0]){
+        if (dataDetailOrder.bukti_bayars[0]) {
             setFinalBuktiBayar(dataDetailOrder.bukti_bayars[0].buktiBayar)
         }
     }, [])
@@ -107,7 +105,7 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
             canvas.height = image.height;
             canvas.getContext('2d').drawImage(image, 0, 0);
             canvas.toBlob((blob) => {
-                if(buktiBayar[0]){
+                if (buktiBayar[0]) {
                     const file = new File([blob], buktiBayar[0].name, { type: 'image/webp' });
                     setFinalBuktiBayar(file)
                 }
@@ -120,9 +118,9 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
         e.preventDefault();
         if (totalHarga === 0) {
             setKonfirTotalHarga(true)
-        }else if(data.payment < (totalHarga / 2)){
+        } else if (data.payment < (totalHarga / 2)) {
             setCheckDP(true)
-        }else if(finalBuktiBayar.length < 1){
+        } else if (finalBuktiBayar.length < 1) {
             setCheckBP(true)
         } else {
             try {
@@ -179,7 +177,7 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                 <ModalOverlay />
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <ModalContent maxW={isSmallerThanSm ? '320px' : 'lg'}>
-                        <ModalCloseButton onClose={reset}/>
+                        <ModalCloseButton onClose={reset} />
                         <ModalHeader fontSize={{ base: 'md', md: 'lg' }}>Uang muka</ModalHeader>
                         <ModalBody pb={5}>
                             <Wrap spacing='10px' justify={'space-between'}>
@@ -209,8 +207,8 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                                 <WrapItem w={{ base: 'full' }}>
                                     <FormControl>
                                         <FormLabel>Edit uang muka</FormLabel>
-                                        <Input type="number" value={money} onChange={handleChangeMoney} placeholder='masukkan nominal' required />
-                                        {checkDP && <Text color='red'>minimal DP 1/2 dari total harga</Text> }                                       
+                                        <Input type="text" value={money} onChange={handleChangeMoney} placeholder='masukkan nominal' required />
+                                        {checkDP && <Text color='red'>minimal DP 1/2 dari total harga</Text>}
                                     </FormControl>
                                 </WrapItem>
                                 <WrapItem w='100%'>
@@ -247,37 +245,47 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                                         )}
                                         {finalBuktiBayar === "" ?
                                             <Flex flexDirection='column' w='full'>
-                                                <label
-                                                    htmlFor="fileInputDesign"
-                                                    className="bg-blue-500 cursor-pointer border-white rounded-lg h-10  flex items-center justify-center  text-white "
+                                                <FormLabel
+                                                    py='2'
+                                                    htmlFor="fileInputDownpayment"
+                                                    w='full'
+                                                    bg='green.500'
+                                                    cursor='pointer'
+                                                    borderColor='white'
+                                                    borderRadius='lg'
+                                                    display='flex'
+                                                    alignItems='center'
+                                                    justifyContent='center'
+                                                    color='white'
                                                 >
                                                     <MdInsertPhoto />
                                                     <Input
                                                         {...register("buktiBayar")}
                                                         type="file"
-                                                        id="fileInputDesign"
+                                                        id="fileInputDownpayment"
                                                         className="hidden"
                                                         accept="image/*"
                                                     />
                                                     <p className="font-semibold">Bukti pembayaran</p>
-                                                </label>
-                                                {checkBP && <Text color='red'>sertakan bukti pembayaran</Text> }
-                                             </Flex>
-                                              : null}
+                                                </FormLabel>
+                                                {checkBP && <Text color='red'>sertakan bukti pembayaran</Text>}
+                                            </Flex>
+                                            : null}
                                     </FormControl>
                                 </WrapItem>
                             </Wrap>
                         </ModalBody>
                         <ModalFooter gap='2'>
                             <Button
+                                colorScheme='red'
                                 disabled={isSubmitting}
                                 onClick={isSubmitting ? null : close}
                             >
                                 Batal
                             </Button>
-                            <Button colorScheme='blue' isLoading={isSubmitting} type="submit">
+                            <Button colorScheme='green' isLoading={isSubmitting} type="submit">
                                 Edit
-                            </Button>   
+                            </Button>
                         </ModalFooter>
                     </ModalContent>
                 </form>
