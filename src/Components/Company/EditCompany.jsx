@@ -128,7 +128,7 @@ export default function EditCompany() {
 
     const inputField = [
         { label: "Nama perusahaan", type: "text", name: "name" },
-        { label: "No HP", type: "text", name: "phone" },
+        { label: "No HP", type: "number", name: "phone" },
         { label: "Email", type: "email", name: "email" },
         { label: "Website", type: "text", name: "website" },
         { label: "Facebook", type: "text", name: "facebook" },
@@ -136,7 +136,7 @@ export default function EditCompany() {
     return (
         <>
             {loading && <Loading />}
-            <Box p={{ base: 0, lg: 5 }} >
+            <Box py={{ base: 0, lg: 5 }} >
                 <Flex
                     justify={'center'}
                     position='relative'

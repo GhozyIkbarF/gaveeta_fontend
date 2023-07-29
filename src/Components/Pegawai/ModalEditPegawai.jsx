@@ -28,6 +28,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form';
 import { changeDataPegawai } from '../../Features/Pegawai';
 import API from '../../Service'
+import {ReviewImage, ButtonRemoveImage} from '../InputImage';
 
 export default function ModalEditPegawai({ isOpen, onClose }) {
     const [profilePicture, setProfilePicture] = useState()
@@ -120,24 +121,6 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         }
     }
 
-
-    const ButtonDelete = () => {
-        const removeSelectedImage = () => {
-            setValue('photo', '');
-        };
-        return (
-            <Center>
-                <Button
-                    onClick={removeSelectedImage}
-                    className=" text-white w-full cursor-pointer mt-1 p-15"
-                    colorScheme="red"
-                >
-                    Hapus foto
-                </Button>
-            </Center>
-        )
-    }
-
     const handleChange = (event) => {
         const photo = event.target.files
         const changeExtentionDesign = async () => {
@@ -163,14 +146,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         if (typeof (photo) == 'object') {
             setProfilePicture(
                 <Box>
-                    <Image
-                        borderRadius='lg'
-                        h='auto'
-                        w='full'
-                        objectFit='cover'
-                        src={URL.createObjectURL(photo)}
-                        alt="ssadas"
-                    />
+                    <ReviewImage alt={'photo'} src={photo}/>
                     <ButtonDelete />
                 </Box>
             )
@@ -192,14 +168,21 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         } else {
             setProfilePicture(
                 <Box>
-                    <Avatar src={'https://bit.ly/broken-link'} w="full" h='auto' borderRadius="12px" me="18px" mb='1' />
+                    <Avatar w="full" h='auto' borderRadius="12px" me="18px" mb='1' />
                 </Box>
             )
         }
-
     }, [photo])
 
 
+    const ButtonDelete = () => {
+        const handleRemoveSelectedImage = () => {
+            setValue('photo', '');
+        };
+        return (
+            <ButtonRemoveImage handle={handleRemoveSelectedImage} image={'foto'} />
+        )
+    }
 
     return (
         <>
@@ -224,6 +207,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                     <FormControl>
                                         <FormLabel>Nama</FormLabel>
                                         <Input
+                                            type='text'
                                             name="name"
                                             {...register('name')}
                                             focusBorderColor='#00AA5D'
@@ -247,6 +231,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                     <FormControl>
                                         <FormLabel>No HP</FormLabel>
                                         <Input
+                                            type='number'
                                             name="phone"
                                             {...register('phone')}
                                             focusBorderColor='#00AA5D'
@@ -267,6 +252,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                     <FormControl>
                                         <FormLabel>Alamat</FormLabel>
                                         <Textarea
+                                            type='text'
                                             name="address"
                                             {...register('address')}
                                             focusBorderColor='#00AA5D'

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import API from '../../../Service';
 import {
@@ -13,7 +13,6 @@ import {
     setRefreshModalRemoveImage
 } from '../../../Features/Pesanan/PesananDetail'
 import { formatMoneyIDR, convertToIndonesianDate, indonesiaDateTime } from '../../../validation/format';
-
 
 //cakra component
 import { useDisclosure } from '@chakra-ui/react'
@@ -47,8 +46,6 @@ export default function PesananDetail() {
 
     const { actionDetailOrder, refreshDetailPesanan } = useSelector(state => state.pesananDetail);
 
-    const url = useLocation();
-    const pathname = url.pathname.includes("pesananproses_detail")
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -119,14 +116,8 @@ export default function PesananDetail() {
         )
     }
 
-    const Progres = ({ progres, quantity }) => {
-        return (
-            <Text fontSize={{ base: 'md', md: 'lg' }}>{`${Math.floor((progres / quantity) * 100)}% / ${progres} picies`}</Text>
-        )
-    }
-
     return (
-        <Box px={{ base: 0, lg: 5 }}>
+        <Box mb={{ base: 0, lg: 10 }}>
             <Flex 
                 mt={{ base: 0, lg: 10 }} 
                 pt={5} w='full' 
@@ -166,7 +157,7 @@ export default function PesananDetail() {
                     </Box>
                 </Flex>
                 {isLoading ?
-                    <Flex flexDirection='column' px='5' py="8" borderRadius={'md'} w={{ base: 'full', lg: '90%' }}>
+                    <Flex flexDirection='column' px='5' pt="8" borderRadius={'md'} w={{ base: 'full', lg: '90%' }}>
                         <Tabs align='center' colorScheme='green'>
                             <TabList gap='2'>
                                 <Tab fontWeight='bold' gap='1'>Data</Tab>
@@ -177,17 +168,13 @@ export default function PesananDetail() {
                                 <TabPanel align='start'>
                                     <Flex>
                                         <Flex w='96%' flexDirection='column' justifyContent='start' align='start'>
+                                            <Data title={'Kode pesanan'} data={data.id}/>
                                             <Data title={'Nama'} data={data.name}/>
                                             <Data title={'Nomer HP'} data={data.phone}/>
                                             <Data title={'Email'} data={!data.email ? 'Tidak ada' : `${data.email}`}/>
                                             <Data title={'Alamat'} data={data.address}/>
                                             <Data title={'Deskripsi'} data={!data.description ? 'deskripsi pesanan belum dibuat' : data.description}/>
-                                            {data.status === 'proses' ?
-                                                <Flex w='full' flexDirection='column' mb='5'>
-                                                    <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>Progres</Text>
-                                                    <Progres progres={data.progres || 0} quantity={data.quantity} />
-                                                </Flex> : null
-                                            }
+                                            {data.status === 'proses' ? <Data title={'Progres'} data={!data.progres === null ? 0 : `${data.progres} pieces`}/> : null}
                                             <Data title={'Jumlah'} data={data.quantity == null || data.quantity < 1 ? 'jumlah belum ditetapkan' : `${data.quantity} pieces`}/>
                                             <Data title={'Ukuran'} data={!data.size ? 'ukuran belum ditetapkan' : data.size}/>
                                             <Data title={'Deadline'} data={!data.deadline ? 'deadline belum ditetapkan' : convertToIndonesianDate(data.deadline)}/>
@@ -224,16 +211,18 @@ export default function PesananDetail() {
                                         >
                                             koleksi desain pesanan
                                         </Text>
-                                        <Button
-                                            color='green.500'
-                                            bg='transparent'
-                                            fontWeight='bold'
-                                            variant="no-effects"
-                                            w='120px'
-                                            onClick={handleAddImage('design')}
-                                        >
-                                            + Desain Baru
-                                        </Button>
+                                        {data.status !== 'selesai' ?
+                                            <Button
+                                                color='green.500'
+                                                bg='transparent'
+                                                fontWeight='bold'
+                                                variant="no-effects"
+                                                w='120px'
+                                                onClick={handleAddImage('design')}
+                                            >
+                                                + Desain Baru
+                                            </Button>
+                                        : null}
                                     </Flex>
                                     <SimpleGrid
                                         w='full'
@@ -271,16 +260,18 @@ export default function PesananDetail() {
                                         >
                                             koleksi model pesanan
                                         </Text>
-                                        <Button
-                                            color='green.500'
-                                            bg='transparent'
-                                            fontWeight='bold'
-                                            variant="no-effects"
-                                            w='120px'
-                                            onClick={handleAddImage('model')}
-                                        >
-                                            + Model Baru
-                                        </Button>
+                                        {data.status !== 'selesai' ?
+                                            <Button
+                                                color='green.500'
+                                                bg='transparent'
+                                                fontWeight='bold'
+                                                variant="no-effects"
+                                                w='120px'
+                                                onClick={handleAddImage('model')}
+                                            >
+                                                + Model Baru
+                                            </Button>
+                                        : null}
                                     </Flex>
                                     <SimpleGrid w='full' columns={3} gap={1} justify='center'>
                                         {models.map((model, i) =>

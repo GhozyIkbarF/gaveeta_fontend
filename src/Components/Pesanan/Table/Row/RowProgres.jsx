@@ -23,7 +23,8 @@ export default function RowProgres(props) {
     return (
         <Box cursor='pointer' onClick={ActionShowProgres(id, 'progres')}>
             <CircularProgress value={progresValue} color='green.400'>
-                <CircularProgressLabel >{progresValue === null || progresValue < 1 ? `0%` : `${progresValue}%`}</CircularProgressLabel>
+                {/* <CircularProgressLabel >{progresValue === null || progresValue < 1 ? `0%` : `${progresValue}%`}</CircularProgressLabel> */}
+                <CircularProgressLabel >{progresValue === null || progresValue < 1 ? `0/${quantity}` : `${progres}/${quantity}`}</CircularProgressLabel>
             </CircularProgress>
         </Box>
     )

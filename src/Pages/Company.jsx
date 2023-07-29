@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Box, Button, Flex, Text, useColorModeValue, useToast } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Components/Loading';
+import { userRole } from '../Features/Utils';
 import API from '../Service';
 
 export default function Company() {
@@ -18,7 +19,7 @@ export default function Company() {
             setCompany(res.data);
         } catch (err) {
             toast({
-                title: "Something went wrong",
+                title: "Get company data failed",
                 description: "Something went wrong...",
                 status: "error",
                 duration: 2000,
@@ -74,7 +75,7 @@ export default function Company() {
     return (
         <>
             {loading && <Loading />}
-            <Box p={{ base: 0, lg: 5 }} >
+            <Box py={{ base: 0, lg: 5 }} >
                 <Box
                     position='relative'
                     w='full'
@@ -110,12 +111,14 @@ export default function Company() {
                                 <RowTableBankAccount data={company.bank_accounts}/>
                             </tbody>
                         </table>
-                        <Button
-                            onClick={handleEdit}
-                            mb={5}
-                        >
-                            Edit
-                        </Button>
+                        {userRole === 'superAdmin' ? 
+                            <Button
+                                onClick={handleEdit}
+                                mb={5}
+                            >
+                                Edit
+                            </Button> : null
+                        }
                     </Flex>
                 </Box>
             </Box>

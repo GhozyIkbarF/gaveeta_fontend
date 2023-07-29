@@ -23,11 +23,11 @@ import { useMediaQuery } from "@chakra-ui/react";
 import { MdInsertPhoto } from "react-icons/md";
 import React, { useState, useEffect } from 'react'
 import API from '../../../../Service';
+import InputImage, { ButtonRemoveImage, ReviewImage } from '../../../InputImage';
 import { formatInputMoneyIDR, formatMoneyIDR, formatToIDR } from '../../../../validation/format';
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from 'react-redux';
 import { setRefreshDetailPesanan } from '../../../../Features/Pesanan/PesananDetail';
-
 
 
 export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, DP }) {
@@ -38,7 +38,6 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
     const [money, setMoney] = useState("");
     const [checkDP, setCheckDP] = useState(false)
     const [checkBP, setCheckBP] = useState(false)
-    console.log(money);
 
     const { dataDetailOrder } = useSelector(state => state.pesananDetail);
 
@@ -164,6 +163,11 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
         e.preventDefault();
         setKonfirTotalHarga(false)
     }
+
+    const paymentData = [
+        {payment: 'Harga total', data:totalHarga === 0 ? 'tentukan jumlah dan harga peritem dahulu' : formatMoneyIDR(totalHarga)},
+        {payment: 'Uang muka', data:formatMoneyIDR(DP)},
+    ]
     return (
         <>
             <Modal
@@ -181,29 +185,17 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                         <ModalHeader fontSize={{ base: 'md', md: 'lg' }}>Uang muka</ModalHeader>
                         <ModalBody pb={5}>
                             <Wrap spacing='10px' justify={'space-between'}>
-                                {status === 'masuk' ?
-                                    <WrapItem w='full'>
-                                        <Flex flexDirection='column' w='full'>
-                                            <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Harga total:</Text>
-                                            {totalHarga === 0 ? <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>tentukan jumlah dan harga peritem dahulu</Text> : <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(totalHarga)}</Text>}
-                                        </Flex>
-                                    </WrapItem>
-                                    :
-                                    <>
-                                        <WrapItem w={{ base: 'full', md: '40%' }}>
+                                {paymentData?.map((value, i) => {
+                                    return (
+                                        <WrapItem key={i} w={{ base: 'full', md: '40%' }}>
                                             <Flex flexDirection='column' w='full'>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Harga total:</Text>
-                                                {totalHarga === 0 ? <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>tentukan jumlah dan harga peritem dahulu</Text> : <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(totalHarga)}</Text>}
+                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{value.payment}</Text>
+                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{value.data}</Text>
                                             </Flex>
                                         </WrapItem>
-                                        <WrapItem w={{ base: 'full', md: '45%' }}>
-                                            <Flex flexDirection='column' w='full'>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Uang muka:</Text>
-                                                {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatMoneyIDR(DP)}</Text>}
-                                            </Flex>
-                                        </WrapItem>
-                                    </>
-                                }
+                                    )
+                                })}
+                               
                                 <WrapItem w={{ base: 'full' }}>
                                     <FormControl>
                                         <FormLabel>Edit uang muka</FormLabel>
@@ -216,58 +208,23 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                                         {finalBuktiBayar && (
                                             <Box>
                                                 {typeof finalBuktiBayar !== 'string' ?
+                                                    <ReviewImage alt={'buktiBayar'} src={finalBuktiBayar} />
+                                                    :
                                                     <Image
-                                                        borderRadius='lg'
-                                                        h='auto'
-                                                        w='full'
-                                                        objectFit='cover'
-                                                        src={URL.createObjectURL(finalBuktiBayar)}
-                                                        alt="ssadas"
-                                                    /> : <Image
                                                         borderRadius='lg'
                                                         h='auto'
                                                         w='full'
                                                         objectFit='cover'
                                                         src={finalBuktiBayar}
                                                         alt="ssadas"
-                                                    />}
-
-                                                <Center>
-                                                    <Button
-                                                        onClick={removeSelectedBuktiBayar}
-                                                        className=" text-white w-full cursor-pointer mt-1 p-15"
-                                                        colorScheme="red"
-                                                    >
-                                                        Remove bukti pembayaran
-                                                    </Button>
-                                                </Center>
+                                                    />
+                                                }
+                                                <ButtonRemoveImage handle={removeSelectedBuktiBayar} image={'bukti pembayaran'} />
                                             </Box>
                                         )}
                                         {finalBuktiBayar === "" ?
                                             <Flex flexDirection='column' w='full'>
-                                                <FormLabel
-                                                    py='2'
-                                                    htmlFor="fileInputDownpayment"
-                                                    w='full'
-                                                    bg='green.500'
-                                                    cursor='pointer'
-                                                    borderColor='white'
-                                                    borderRadius='lg'
-                                                    display='flex'
-                                                    alignItems='center'
-                                                    justifyContent='center'
-                                                    color='white'
-                                                >
-                                                    <MdInsertPhoto />
-                                                    <Input
-                                                        {...register("buktiBayar")}
-                                                        type="file"
-                                                        id="fileInputDownpayment"
-                                                        className="hidden"
-                                                        accept="image/*"
-                                                    />
-                                                    <p className="font-semibold">Bukti pembayaran</p>
-                                                </FormLabel>
+                                                <InputImage inputId={'fileInputDownpayment'} inputName={'Bukti Pembayaran'} registerName={{ ...register("buktiBayar") }} />
                                                 {checkBP && <Text color='red'>sertakan bukti pembayaran</Text>}
                                             </Flex>
                                             : null}
@@ -277,7 +234,6 @@ export default function ModalDownPayment({ isOpen, onClose, status, totalHarga, 
                         </ModalBody>
                         <ModalFooter gap='2'>
                             <Button
-                                colorScheme='red'
                                 disabled={isSubmitting}
                                 onClick={isSubmitting ? null : close}
                             >

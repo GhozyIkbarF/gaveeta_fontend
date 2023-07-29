@@ -31,11 +31,11 @@ export default function AppRoute() {
           <Route path="/pesananselesai_detail/:id" element={<SidebarWithHeader children={<PesananDetail />} />} />
           {userRole === 'superAdmin' ? 
           <>
-          <Route path="/pegawai" element={<SidebarWithHeader children={<Pegawai />} />} />
-          <Route path="/data" element={<SidebarWithHeader children={<Data />} />} />
-          <Route path="/company" element={<SidebarWithHeader children={<Company />} />} />
+          <Route path="/laporan" element={<SidebarWithHeader children={<Data />} />} />
           <Route path="/company_setting" element={<SidebarWithHeader children={<EditCompany />} />} />
           </> : null}
+          <Route path="/pegawai" element={<SidebarWithHeader children={<Pegawai />} />} />
+          <Route path="/company" element={<SidebarWithHeader children={<Company />} />} />
           <Route path="*" element={<OutRoute/>} />
         </Routes>
       </Box>

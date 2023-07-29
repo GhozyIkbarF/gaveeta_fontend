@@ -8,20 +8,18 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  FormLabel,
   Button,
-  Input,
   useToast,
   Flex,
   Spinner,
 } from '@chakra-ui/react'
 import { useMediaQuery } from "@chakra-ui/react";
-import { MdInsertPhoto } from "react-icons/md";
 import React, { useState, useEffect } from 'react'
 import API from '../../../../Service';
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { setRefreshDetailPesanan } from '../../../../Features/Pesanan/PesananDetail';
+import InputImage, {ButtonRemoveImage, ReviewImage} from '../../../InputImage';
 
 
 export default function ModalAddImage({ isOpen, onClose }) {
@@ -55,43 +53,32 @@ export default function ModalAddImage({ isOpen, onClose }) {
   const design = watch('design')
   const model = watch('model')
 
-  useEffect(() => {
-    const changeExtentionDesign = async () => {
-      if (design.length === 0) return;
-      const image = await createImageBitmap(design[0]);
-      setIsLoading(true)
-      const canvas = document.createElement('canvas');
-      canvas.width = image.width;
-      canvas.height = image.height;
-      canvas.getContext('2d').drawImage(image, 0, 0);
-      canvas.toBlob((blob) => {
-        if (design[0]) {
-          const file = new File([blob], design[0].name, { type: 'image/webp' });
+  const changeExtentionImage = async (paramImage, param) => {
+    if (paramImage.length === 0) return;
+    const image = await createImageBitmap(paramImage[0]);
+    setIsLoading(true)
+    const canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    canvas.getContext('2d').drawImage(image, 0, 0);
+    canvas.toBlob((blob) => {
+      if (paramImage[0]) {
+        const file = new File([blob], paramImage[0].name, { type: 'image/webp' });
+        if(param === 'design') {
           setFinalDesign(file)
+        }else{
+          setFinalModel(file)
         }
-      }, 'image/webp');
-    }
+      }
+    }, 'image/webp');
+  }
 
-    changeExtentionDesign();
+  useEffect(() => {
+    changeExtentionImage(design, 'design');
   }, [design]);
 
-
   useEffect(() => {
-    const changeExtentionModel = async () => {
-      if (model.length === 0) return;
-
-      const image = await createImageBitmap(model[0]);
-      setIsLoading(true)
-      const canvas = document.createElement('canvas');
-      canvas.width = image.width;
-      canvas.height = image.height;
-      canvas.getContext('2d').drawImage(image, 0, 0);
-      canvas.toBlob((blob) => {
-        const file = new File([blob], model[0].name, { type: 'image/webp' });
-        setFinalModel(file)
-      }, 'image/webp');
-    }
-    changeExtentionModel()
+    changeExtentionImage(model, 'model')
   }, [model])
 
   useEffect(() => {
@@ -108,8 +95,16 @@ export default function ModalAddImage({ isOpen, onClose }) {
   };
 
   const toast = useToast();
+  const itemToast = (title, status) => toast({
+    title: title,
+    status: status,
+    duration: 2000,
+    isClosable: true,
+    position: "top-right",
+  });
 
-  async function onSubmit(data) {
+  const onSubmit = async (data, e) =>{
+    e.preventDefault()
     try {
 
       const formData = new FormData();
@@ -119,26 +114,14 @@ export default function ModalAddImage({ isOpen, onClose }) {
           formData.append('order_id', dataDetailOrder.id);
           await API.addDesign(formData)
         }
-        toast({
-          title: "Add new design success",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-          position: "top-right",
-        });
+        itemToast('Add new design success', 'success')
       } else {
         if (typeof (data.model) != 'string') {
           formData.append('model', finalModel);
           formData.append('order_id', dataDetailOrder.id);
           await API.addModel(formData)
         }
-        toast({
-          title: "Add new model success",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-          position: "top-right",
-        });
+        itemToast('Add new model success', 'success')
       }
       dispatch(setRefreshDetailPesanan())
       setFinalDesign('')
@@ -146,32 +129,18 @@ export default function ModalAddImage({ isOpen, onClose }) {
       close();
     } catch (error) {
       if (typeImage === 'design') {
-        toast({
-          title: "Add new design failed",
-          description: "Something went wrong...",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-          position: "top-right",
-        });
+        itemToast('Add new design failed', 'error')
       } else {
-        toast({
-          title: "Add new model failed",
-          description: "Something went wrong...",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-          position: "top-right",
-        });
+        itemToast('Add new model failed', 'error')
       }
     }
   }
 
-  const removeSelectedDesign = () => {
+  const handleRemoveSelectedDesign = () => {
     setValue('design', '');
     setFinalDesign('')
   };
-  const removeSelectedModel = () => {
+  const handleRemoveSelectedModel = () => {
     setValue('model', '');
     setFinalModel('')
   };
@@ -192,7 +161,13 @@ export default function ModalAddImage({ isOpen, onClose }) {
           backdropFilter='blur(10px)' />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalContent maxW={isSmallerThanSm ? '320px' : 'lg'}>
-            {typeImage === 'design' ? <ModalHeader fontSize={{ base: 'md', md: 'lg' }} borderBottom='1px' borderColor='gray.100'>Add new design</ModalHeader> : <ModalHeader fontSize={{ base: 'md', md: 'lg' }} borderBottom='1px' borderColor='gray.100'>Add new model</ModalHeader>}
+            <ModalHeader 
+              fontSize={{ base: 'md', md: 'lg' }} 
+              borderBottom='1px' 
+              borderColor='gray.100'
+            >
+              {typeImage === 'design' ? 'Add new design': 'Add new model'}
+            </ModalHeader>
             <ModalBody>
               {isLoading &&
                 <Flex w='full' justifyContent='center' align='center' h='80'>
@@ -203,95 +178,25 @@ export default function ModalAddImage({ isOpen, onClose }) {
                 <Box align='center'>
                   {finalDesign && (
                     <Box >
-                      <Image
-                        w='full'
-                        objectFit='cover'
-                        src={URL.createObjectURL(finalDesign)}
-                        alt="ssadas"
-                      />
-                      <Center>
-                        <Button
-                          onClick={removeSelectedDesign}
-                          className=" text-white w-full cursor-pointer mt-1 p-15"
-                          colorScheme="red"
-                        >
-                          Remove design
-                        </Button>
-                      </Center>
+                      <ReviewImage alt={'design'} src={finalDesign}/>
+                      <ButtonRemoveImage handle={handleRemoveSelectedDesign} image={'desain'}/>
                     </Box>
                   )}
                   {finalDesign === "" ?
-                    <FormLabel
-                      py='2'
-                      htmlFor="fileInputDesign"
-                      w='full'
-                      bg='green.500'
-                      cursor='pointer'
-                      borderColor='white'
-                      borderRadius='lg'
-                      display='flex'
-                      alignItems='center'
-                      justifyContent='center'
-                      color='white'
-                    >
-                      <MdInsertPhoto />
-                      <Input
-                        {...register("design")}
-                        type="file"
-                        id="fileInputDesign"
-                        className="hidden"
-                        accept="image/*"
-                        required
-                      />
-                      <p className="font-semibold">Design</p>
-                    </FormLabel> : null}
+                  <InputImage inputId={"fileInputDesign"} registerName={{...register('design')}} inputName={'Desain'}/>
+                    : null}
                 </Box>
                 :
                 <Box align='center'>
                   {finalModel && (
                     <Box w='full'>
-                      <Image
-                        w='full'
-                        objectFit='cover'
-                        src={URL.createObjectURL(finalModel)}
-                        alt="ssadas"
-                      />
-                      <Center>
-                        <Button
-                          onClick={removeSelectedModel}
-                          className=" text-white w-full cursor-pointer mt-1 p-15"
-                          colorScheme="red"
-                        >
-                          Remove model
-                        </Button>
-                      </Center>
+                      <ReviewImage alt={'model'} src={finalModel}/>
+                      <ButtonRemoveImage handle={handleRemoveSelectedModel} image={'model'}/>
                     </Box>
                   )}
                   {finalModel === "" ?
-                    <FormLabel
-                      py='2'
-                      htmlFor="fileInputDesign"
-                      w='full'
-                      bg='green.500'
-                      cursor='pointer'
-                      borderColor='white'
-                      borderRadius='lg'
-                      display='flex'
-                      alignItems='center'
-                      justifyContent='center'
-                      color='white'
-                    >
-                      <MdInsertPhoto />
-                      <Input
-                        {...register("model")}
-                        type="file"
-                        id="fileInputDesign"
-                        className="hidden"
-                        accept="image/*"
-                        required
-                      />
-                      <p className="font-semibold">Model</p>
-                    </FormLabel> : null}
+                    <InputImage inputId={"fileInputModel"} registerName={{...register('model')}} inputName={'Model'}/>
+                   : null}
                 </Box>
               }
             </ModalBody>

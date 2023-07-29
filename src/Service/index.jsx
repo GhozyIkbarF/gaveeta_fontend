@@ -14,11 +14,12 @@ const getAllOrderProses = () => Get('ordersProses')
 const getAllOrderSelesai = () => Get('ordersSelesai')
 const getOrderDetail = (id) => Get(`orderDetail/${id}`)
 const getOrderDesign = (id) => Get(`orderDesign/${id}`)
+const getNumbersOrderPerYear = (param) => Get(`numbersOrderPerYear/${param}`)
+const getOrderPerMonth = (data) => Post(`orderPerMonth`, data)
+const getOrderReportPerDay = (startDate, endDate) => Get(`getOrderReportPerDay/${startDate}/${endDate}`)
 const getAllPegawai = () => Get('employes')
 const getPegawai = (id) => Get(`employe/${id}`)
 const getCompany = () => Get(`company`)
-const getOrderPerMonth = (data) => Post(`orderPerMonth`, data)
-const getNumbersOrderPerYear = (param) => Get(`numbersOrderPerYear/${param}`)
 const getOrdersPerDay = (data) => Post(`getOrdersPerDay`, data)
 const signOut = () => Get('logout')
 
@@ -67,9 +68,10 @@ const API = {
     getAllPegawai,
     getPegawai,
     getCompany,
-    getOrderPerMonth,
     getNumbersOrderPerYear,
     getOrdersPerDay,
+    getOrderPerMonth,
+    getOrderReportPerDay,
 
     updateOrder,
     updateProgres,

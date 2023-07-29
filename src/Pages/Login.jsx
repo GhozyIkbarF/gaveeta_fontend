@@ -72,7 +72,7 @@ export default function Login() {
         } catch (error) {
             toast({
                 title: "Login failed",
-                description: "Password is wrong",
+                description: "Masukkkan email atau password yang benar",
                 status: "error",
                 duration: 3000,
                 isClosable: true,

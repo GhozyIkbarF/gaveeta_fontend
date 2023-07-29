@@ -6,6 +6,7 @@ import {
   Text,
   Button,
   Input,
+  Icon,
   SimpleGrid,
   Stat,
   StatLabel,
@@ -58,7 +59,7 @@ export default function Beranda() {
       setOrdersByMonth(res.data.orderByMonth)
     }catch(err){
       toast({
-        title: "Something went wrong",
+        title: "Get data failed",
         description: "Something went wrong...",
         status: "error",
         duration: 3000,
@@ -199,6 +200,12 @@ export default function Beranda() {
     };
   }, [ordersByMonth])
 
+  const dataStateCard = [
+    {title:'Pesanan masuk', stat:data.masuk, icon:FaShoppingCart ,url:'/pesananmasuk' },
+    {title:'Pesanan proses', stat:data.proses, icon:FaCheck ,url:'/pesananproses' },
+    {title:'Pesanan selesai', stat:data.selesai, icon:BsFillClipboardFill ,url:'/pesananselesai' },
+  ]
+
   return (
     <>
       {loading && <Loading />}
@@ -212,25 +219,18 @@ export default function Beranda() {
           <SimpleGrid 
             columns={{ base: 1, md: 3 }} 
             spacing={5}
-          >
-            <StatsCard
-              title={'Total pesanan masuk'}
-              stat={data.masuk}
-              icon={<FaShoppingCart size={'2.5em'} />}
-              url={'/pesananmasuk'}
-            />
-            <StatsCard
-              title={'Total pesanan proses'}
-              stat={data.proses}
-              icon={<FaCheck size={'2.5em'} />}
-              url={'/pesananproses'}
-            />
-            <StatsCard
-              title={'Total pesanan selesai'}
-              stat={data.selesai}
-              icon={<BsFillClipboardFill size={'2.5em'} />}
-              url={'/pesananselesai'}
-            />
+            >
+            {dataStateCard?.map((value, i) => {
+              return (
+                <StatsCard
+                 key={i}
+                  title={value.title}
+                  stat={value.stat}
+                  icon={value.icon}
+                  url={value.url}
+                />
+              )
+            })}
           </SimpleGrid>
         </Box>
 
@@ -404,7 +404,7 @@ const StatsCard = ({ title, stat, icon, url }) => {
             mr="2"
             my={'auto'}
             alignContent={'center'}>
-            {icon}
+            <Icon fontSize={'5xl'} as={icon} />
           </Box>
         </Flex>
       </Stat>

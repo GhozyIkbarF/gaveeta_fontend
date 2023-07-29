@@ -40,10 +40,10 @@ export default function Pegawai() {
             dispatch(setEmployes(res.data));
         }catch(err){
             toast({
-                title: "Something went wrong",
+                title: "Get employes data failed",
                 description: "Something went wrong...",
                 status: "error",
-                duration: 3500,
+                duration: 3000,
                 isClosable: true,
                 position: "top-right",
               });
@@ -143,7 +143,6 @@ export default function Pegawai() {
             <Box
                 mt={{ base: 0, lg: 5 }}
                 mb={{ base: 0, lg: 10 }}
-                px={{ base: 0, lg: 5 }}
                 pt={{ base: 0, lg: 5 }}>
                 <TableContainer
                     borderRadius={'md'}

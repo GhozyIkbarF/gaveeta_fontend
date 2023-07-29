@@ -4,7 +4,7 @@ import {
     Flex,
     Text,
     Input,
-    InputGroup,
+    Select,
     Button,
     Table,
     Thead,
@@ -25,70 +25,113 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-    formatMoneyIDR,
     formatToIDR,
-    convertToIndonesianDate,
-    getThisMonth
+    getThisMonth,
+    getDateToday,
 } from '../validation/format';
+import { generatePDFLaporan } from '../Features/Utils';
 import Loading from '../Components/Loading';
 import API from '../Service';
-import jsPDF from 'jspdf'
-import 'jspdf-autotable';
-import logoGaveeta from '../Assets/logo-gaveeta.png'
+
+
 
 export default function Data() {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
     const [company, setCompany] = useState([])
+    const [selectReportData, setSelectReportData] = useState({select:'month', toggleInput: false})
+    const [isDisabled, setIsDisabled] = useState(true)
     let [pendapatan, setPendapatan] = useState(0)
 
     const toast = useToast();
     const {
-        handleSubmit,
         setValue,
-        register,
         watch,
     } = useForm(
         {
             defaultValues: {
-                date: ''
+                paramMonth: '',
+                startDate: '',
+                endDate: ''
             },
         }
     );
-    const valueDate = watch('date')
-    const date = new Date()
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const dateToday = `${year}-${month}`;
+    const paramMonth = watch('paramMonth')
+    const startDate = watch('startDate')
+    const endDate = watch('endDate')
 
-    //function get api
     const getDataInit = async (data) => {
         setLoading(true)
         setData([]);
         try {
             const res = await API.getOrderPerMonth(data);
+            setValue('paramMonth', getThisMonth())
             setData(res.data.orderPerMonth);
             setCompany(res.data.company);
         } catch (err) {
             toast({
-                title: "Something went wrong",
+                title: "Get data order report failed",
                 description: "Something went wrong...",
                 status: "error",
                 duration: 3000,
                 isClosable: true,
                 position: "top-right",
             });
-            console.error(err);
         }
         setLoading(false)
     };
 
+    const handleOnChangeInputPerMonth = async (param) => {
+        try {
+            const res = await API.getOrderPerMonth({ 'date': param });
+            if(res.data){
+                setValue('paramMonth', param)
+                setValue('startDate', '')
+                setValue('endDate', '')
+                setIsDisabled(true)
+                setData(res.data.orderPerMonth);
+                setCompany(res.data.company);
+            }
+        } catch (err) {
+            toast({
+                title: "Get data order report failed",
+                description: "Something went wrong...",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top-right",
+            });
+        }
+    }
+
+    const handleOnChangeInputEndDate = async (param) => {
+        try {
+            const res = await API.getOrderReportPerDay(startDate, param);
+            console.log(res.data);
+            if(res.data){
+                setValue('endDate', param)
+                setValue('paramMonth', '')
+                setData(res.data);
+            }
+        } catch (err) {
+            toast({
+                title: "Get data order report failed",
+                description: "Something went wrong...",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top-right",
+            });
+        }
+    }
+
     useEffect(() => {
         window.scrollTo(0, 0);
+        setValue('startDate', '')
+        setValue('endDate', '')
         setData([])
         pendapatan = 0
-        setValue('date', dateToday)
-        getDataInit({ 'date': dateToday })
+        getDataInit({ 'date': getThisMonth() })
     }, []);
 
     useEffect(() => {
@@ -101,27 +144,23 @@ export default function Data() {
         setPendapatan(totalPendapatan);
     }, [data]);
 
+    const handlePrintPDF = () => {
+        generatePDFLaporan({data, company, pendapatan, paramMonth, startDate, endDate})
+    }
+
+    const handleSelectReportData = (e) => {
+        if (e.target.value === 'Day') {
+            setSelectReportData({select:'Day', toggleInput: true})
+        } else {
+            setSelectReportData({select:'Month', toggleInput: false})
+        }
+    }
+
     const columns = useMemo(
         () => [
             {
                 Header: 'Nama',
                 accessor: 'name',
-                Cell: ({ cell: { row } }) => (
-                    <Flex
-                        align="center"
-                        minWidth="100%"
-                        flexWrap="nowrap">
-                        <Flex direction="column">
-                            <Text
-                                fontSize="md"
-                                fontWeight="bold"
-                                minWidth="100%"
-                            >
-                                {row.original.name}
-                            </Text>
-                        </Flex>
-                    </Flex>
-                ),
             },
             {
                 Header: 'No Hp',
@@ -176,85 +215,10 @@ export default function Data() {
 
     const { pageIndex } = state;
 
-    const generatePDF = () => {
-
-        // Create a new jsPDF instance
-        const doc = new jsPDF({
-            orientation: 'portrait',
-            unit: 'mm',
-            format: 'a4',
-        })
-
-        doc.addImage(logoGaveeta, 'PNG', 27, 15, 28, 28);
-        // Set font styles
-        doc.setFont('times', 'bold');
-        doc.setFontSize(36);
-
-        // Add institution name
-        doc.text(company.name, doc.internal.pageSize.getWidth() / 4 + 6, 25, { align: 'left' });
-
-        // Set font styles for address, telephone, email, website
-        doc.setFont('times', 'normal');
-        doc.setFontSize(11);
-
-        // Add address
-        const address = company.address;
-        doc.text(address, doc.internal.pageSize.getWidth() / 4 + 6, 32, { align: 'left' });
-
-        // Add telephone and email
-        const telephone = company.phone;
-        const email = company.email;
-        doc.text(`Telp: ${telephone}   Email: ${email}`, doc.internal.pageSize.getWidth() / 4 + 6, 37, { align: 'left' });
-
-        // Add website and Facebook
-        const website = company.website;
-        const facebook = company.facebook;
-        doc.text(`Website: ${website}   Facebook: ${facebook}`, doc.internal.pageSize.getWidth() / 4 + 6, 42, { align: 'left' });
-
-        doc.setLineWidth(1);
-        doc.line(25, 45, 185, 45);
-
-        const monthYear = convertToIndonesianDate(valueDate).toLowerCase().slice(2, convertToIndonesianDate(valueDate).length)
-        doc.text(`Data pesanan bulan ${monthYear} `, doc.internal.pageSize.getWidth() / 2, 53, { align: 'center' });
-
-        const headers = [['No', 'Nama', 'No.Hp', 'Deskripsi', 'Jumlah', 'Harga peritem', 'Total pembayaran']];
-        const dataTable = [];
-
-        if (data.length > 0) {
-            data.forEach((element, index) => {
-                dataTable.push(
-                    [index + 1, element.name, element.phone, element.description, element.quantity, formatToIDR(element.pricePerItem), formatToIDR(element.payment)],
-                )
-            })
-            dataTable.push(['', '', '', '', '', '', formatToIDR(pendapatan)])
-        }
-
-        const tableConfig = {
-            head: headers,
-            body: dataTable,
-            startY: 58,
-            styles: {
-                halign: 'center',
-                font: 'times',
-                fontSize: 10,
-            },
-            headStyles: {
-                fillColor: '#000000',
-                color: '#ffffff',
-            }
-        };
-
-        doc.autoTable(tableConfig);
-        window.open(doc.output('bloburl'))
-    };
-
-    const handlePrintPDF = () => {
-        generatePDF()
-    }
     return (
         <>
             {loading && <Loading />}
-            <Box p={{ base: 0, lg: 5 }} minH={{ base: '90vh', lg: 'min-content' }}>
+            <Box py={{ base: 0, lg: 5 }} minH={{ base: '90vh', lg: 'min-content' }}>
                 <Box
                     borderRadius='lg'
                     bg={useColorModeValue('white', '#1E2023')}
@@ -267,41 +231,73 @@ export default function Data() {
                         bg={useColorModeValue('white', '#1E2023')}
                         borderRadius={'md'}
                         overflowX='auto'>
-                        <Text pl='5' fontWeight='bold' fontSize='lg'>Laporan Bulanan</Text>
+                        <Text pl='5' fontWeight='bold' fontSize='lg'>Laporan Pesanan</Text>
                         <Flex w='full' justifyContent='space-between' direction={{ base: 'column', md: 'row' }} gap='3' p={5}>
                             <Button
                                 colorScheme='green'
                                 color='white'
                                 onClick={handlePrintPDF}
                             >
-                                cetak PDF
+                                cetak
                             </Button>
-                            <form onSubmit={handleSubmit(getDataInit)}>
-                                <InputGroup>
+                            <Flex gap={2}>
+                                <Select
+                                    minW={'85px'}
+                                    maxW={'95px'}
+                                    value={selectReportData.select}
+                                    onChange={(e) => {
+                                        handleSelectReportData(e);
+                                    }}
+                                >
+                                    <option value='Month'>Bulan</option>
+                                    <option value='Day'>Hari</option>
+                                </Select>
+                                {selectReportData.toggleInput ?
+                                    <Flex gap={1} align={'center'}>
+                                        <Input
+                                            type="date"
+                                            id="myDate"
+                                            name="inputDateStart"
+                                            min="2022-02-01"
+                                            value={startDate}
+                                            max={getDateToday()}
+                                            onChange={(e) => {
+                                                setValue('startDate', e.target.value)
+                                                setValue('endDate', '')
+                                                setIsDisabled(false)
+                                            }} 
+                                        />
+                                        <Text>-</Text>
+                                        <Input
+                                            type="date"
+                                            id="myDate"
+                                            name="inputDateEnd"
+                                            value={endDate}
+                                            min={startDate}
+                                            max={getDateToday()}
+                                            isDisabled={isDisabled}
+                                            onChange={(e) => {
+                                                handleOnChangeInputEndDate(e.target.value)
+                                            }}
+                                        />
+                                    </Flex>
+                                    :
                                     <Input
                                         type="month"
                                         id="date"
-                                        name="date"
-                                        {...register('date')}
-                                        borderEndRadius='none'
+                                        name="paramMonth"
+                                        value={paramMonth}
+                                        onChange={(e) => handleOnChangeInputPerMonth(e.target.value)}
                                         max={getThisMonth()}
                                         focusBorderColor='#00AA5D'
                                     />
-                                    <Button
-                                        color='white'
-                                        bgColor='black'
-                                        cursor='pointer'
-                                        type="submit"
-                                        borderLeftRadius='none'
-                                    >
-                                        Cari
-                                    </Button>
-                                </InputGroup>
-                            </form>
+                                }
+
+                            </Flex>
                         </Flex>
                         <Table
                             variant='simple'
-                            size='lg'
+                            size='md'
                             {...getTableProps()}>
                             <Thead bg='blackAlpha.900' >
                                 {headerGroups.map((headerGroup) => (
@@ -310,6 +306,7 @@ export default function Data() {
                                             <Th
                                                 {...column.getHeaderProps()}
                                                 color='white'
+                                                textAlign='center'
                                                 borderLeftRadius={index === 0 ? 'lg' : 0}
                                                 borderRightRadius={index === headerGroup.headers.length - 1 ? 'lg' : 0}
                                             >
@@ -325,24 +322,24 @@ export default function Data() {
                                     prepareRow(row);
                                     return (
                                         <Tr key={i} {...row.getRowProps()}>
-                                            {row.cells.map((cell) => {
-                                                return <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>;
+                                            {row.cells.map((cell, i) => {
+                                                return <Td textAlign='center' key={i} {...cell.getCellProps()}>{cell.render('Cell')}</Td>;
                                             })}
                                         </Tr>
                                     );
                                 })}
                                 {data.length !== 0 &&
                                     <Tr>
-                                        <Td>
-                                            <Text fontWeight='bold' fontSize='lg'>Total: {data.length}</Text>
+                                        <Td textAlign='center'>
+                                            <Text fontWeight='bold'>Total: {data.length}</Text>
                                         </Td>
                                         {[...new Array(4)]
                                             .map(
-                                                () =>
-                                                    <Td></Td>
+                                                (index) =>
+                                                    <Td key={index}></Td>
                                             )}
-                                        <Td>
-                                            <Text fontWeight='bold'>{`${formatMoneyIDR(pendapatan)}`}</Text>
+                                        <Td textAlign='center'>
+                                            <Text fontWeight='bold'>{`${formatToIDR(pendapatan)}`}</Text>
                                         </Td>
                                     </Tr>
                                 }
@@ -355,7 +352,7 @@ export default function Data() {
                                     py='5'
                                     justifyContent='space-between'>
                                 </Flex>
-                                <Box my='3' pl='7'>
+                                <Box pl='7'>
                                     <Button
                                         onClick={() => previousPage()}
                                         disabled={!canPreviousPage}>

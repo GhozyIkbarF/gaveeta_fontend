@@ -14,7 +14,6 @@ import RowDesign from '../Row/RowDesign';
 import Deadline from '../Row/Deadline';
 
 //modal
-// import ModalLoading from '../../Modal/ModalLoading';
 import Loading from '../../../Loading';
 import ModalInputProgres from '../../Modal/ModalPesananProses/ModalInputProgres';
 import ModalSendProgres from '../../Modal/ModalPesananProses/ModalSendProgres';
@@ -54,32 +53,16 @@ export default function TabelPesananProses() {
     const columns = useMemo(
         () => [
             {
-                Header: 'Data  diri',
+                Header: 'kode',
+                accessor: 'id',
+            },
+            {
+                Header: 'Nama',
                 accessor: 'name',
-                Cell: ({ cell: { row } }) => (
-                    <Flex align="center" minWidth="100%" flexWrap="nowrap">
-                        <Flex direction="column">
-                            <Text
-                                fontSize="md"
-                                fontWeight="bold"
-                                minWidth="100%"
-                            >
-                                {row.original.name}
-                            </Text>
-                            <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                                {row.original.email}
-                            </Text>
-                        </Flex>
-                    </Flex>
-                ),
             },
             {
                 Header: 'No Hp',
                 accessor: 'phone',
-            },
-            {
-                Header: 'kode',
-                accessor: 'id',
             },
             {
                 Header: 'deadline',
@@ -92,7 +75,7 @@ export default function TabelPesananProses() {
                 Header: 'progres',
                 accessor: 'progres',
                 Cell: ({ cell: { row } }) => (
-                    <RowProgres onOpen={onOpen} quantity={row.original.quantity} progres={row.original.progres} id={row.original.id} />
+                <Text>{`${row.original.progres}/${row.original.quantity}`}</Text>
                 )
             },
             {
@@ -146,7 +129,6 @@ export default function TabelPesananProses() {
         {loading && <Loading/>}
         <Box 
             mt={{ base:0, lg:5 }} 
-            px={{ base:0, lg:5 }} 
             pt={{ base:0, lg:5 }}
             minH={{ base:'100vh', lg:'fit-content' }}
             bg={{ base:'white', lg:'transparent' }}
@@ -177,7 +159,7 @@ export default function TabelPesananProses() {
                         onChange={(e) => setGlobalFilter(e.target.value)}
                     />
                 </Flex>
-                <Table variant='simple' size='lg' {...getTableProps()}>
+                <Table variant='simple' size='md' {...getTableProps()}>
                     <Thead bg='blackAlpha.900' >
                         {headerGroups.map((headerGroup) => (
                             <Tr {...headerGroup.getHeaderGroupProps()} >
@@ -185,7 +167,7 @@ export default function TabelPesananProses() {
                                     <Th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         color='white'
-                                        textAlign={index !== 0 ? 'center' : 'left'}
+                                        textAlign='center'
                                         borderLeftRadius={index === 0 ? 'lg' : 0}
                                         borderRightRadius={index === headerGroup.headers.length - 1 ? 'lg' : 0}
                                     >
@@ -211,7 +193,7 @@ export default function TabelPesananProses() {
                                         return (
                                             <Td
                                                 {...cell.getCellProps()}
-                                                textAlign={index !== 0 ? 'center' : 'left'}
+                                                textAlign='center'
                                                 w={index !== 0 ? 'auto' : '20%'}
                                             >
                                                 {cell.render('Cell')}

@@ -55,25 +55,8 @@ export default function TabelPesananMasuk() {
     const columns = useMemo(
         () => [
             {
-                Header: 'Data  diri',
+                Header: 'Nama',
                 accessor: 'name',
-                Cell: ({ cell: { row } }) => (
-                    <Flex align="center" minWidth="100%" flexWrap="nowrap">
-
-                        <Flex direction="column">
-                            <Text
-                                fontSize="md"
-                                fontWeight="bold"
-                                minWidth="100%"
-                            >
-                                {row.original.name}
-                            </Text>
-                            <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                                {row.original.email}
-                            </Text>
-                        </Flex>
-                    </Flex>
-                ),
             },
             {
                 Header: 'No HP',
@@ -136,7 +119,6 @@ export default function TabelPesananMasuk() {
         <Box 
             mt={{ base:0, lg:5 }} 
             mb={{ base:0, lg:10 }} 
-            px={{ base:0, lg:5 }} 
             pt={{ base:0, lg:5 }}
             minH={{ base:'100vh', lg:'fit-content' }}
             bg={{ base:'white', lg:'transparent' }}
@@ -175,7 +157,7 @@ export default function TabelPesananMasuk() {
                         />
                     </Flex>
                 </Flex>
-                <Table variant='simple' size='lg' {...getTableProps()}>
+                <Table variant='simple' size='md' {...getTableProps()}>
                     <Thead bg={'blackAlpha.900'}>
                         {headerGroups.map((headerGroup) => (
                             <Tr {...headerGroup.getHeaderGroupProps()} >
@@ -183,7 +165,7 @@ export default function TabelPesananMasuk() {
                                     <Th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         color='white'
-                                        textAlign={index !== 0 ? 'center' : 'left'}
+                                        textAlign='center'
                                         borderLeftRadius={index === 0 ? 'lg' : 0}
                                         borderRightRadius={index === headerGroup.headers.length - 1 ? 'lg' : 0}
                                     >
@@ -210,7 +192,7 @@ export default function TabelPesananMasuk() {
                                             <Td
                                                 key={index}
                                                 {...cell.getCellProps()}
-                                                textAlign={index !== 0 ? 'center' : 'left'}
+                                                textAlign='center'
                                                 w={index !== 0 ? 'auto' : '20%'}
                                             >
                                                 {cell.render('Cell')}

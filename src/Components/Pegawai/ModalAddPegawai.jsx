@@ -27,6 +27,7 @@ import API from '../../Service'
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { changeDataPegawai } from '../../Features/Pegawai';
+import InputImage, {ReviewImage, ButtonRemoveImage} from '../InputImage';
 
 export default function ModalEditPegawai({ isOpen, onClose }) {
   const initialRef = React.useRef(null);
@@ -40,7 +41,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
     setValue,
     watch,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm(
     {
 
@@ -48,7 +49,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         name: "",
         phone: "",
         email: "",
-        gender: "Male",
+        gender: "",
         address: "",
         photo: "",
       },
@@ -89,9 +90,9 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
 
 
   const toast = useToast();
-  async function onSubmit(data) {
+  async function onSubmit(data, e) {
+    e.preventDefault()
     try {
-      console.log(finalPhoto);
       const formData = new FormData();
       formData.append('name', data.name);
       formData.append('phone', data.phone);
@@ -121,7 +122,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
     }
   }
 
-  const removeSelectedImage = () => {
+  const handleRemoveSelectedImage = () => {
     setValue('photo', '');
     setFinalPhoto('')
   };
@@ -153,20 +154,20 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Email</FormLabel>
-                    <Input type="email" id="email" {...register('email')} focusBorderColor='#00AA5D' />
+                    <Input type="email" id="email" {...register('email')} focusBorderColor='#00AA5D' required/>
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>No Hp</FormLabel>
-                    <Input type="text" id="phone" {...register('phone')} focusBorderColor='#00AA5D' required />
+                    <Input type="number" id="phone" {...register('phone')} focusBorderColor='#00AA5D' required />
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Jenis kelamin</FormLabel>
                     <Select name='gender' {...register('gender')} focusBorderColor='#00AA5D' required>
-                      <option value="Laki -laki">Laki -laki</option>
+                      <option value="Laki-laki">Laki-laki</option>
                       <option value="Perempuan">Perempuan</option>
                     </Select>
                   </FormControl>
@@ -185,49 +186,11 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                   <FormControl>
                     {finalPhoto && (
                       <Box>
-                        <Image
-                          borderRadius='lg'
-                          h='auto'
-                          w='full'
-                          objectFit='cover'
-                          src={URL.createObjectURL(finalPhoto)}
-                          alt="ssadas"
-                        />
-                        <Center>
-                          <Button
-                            onClick={removeSelectedImage}
-                            className=" text-white w-full cursor-pointer mt-1 p-15"
-                            colorScheme="red"
-                          >
-                            Hapus foto
-                          </Button>
-                        </Center>
+                        <ReviewImage src={finalPhoto} alt={'photo'}/>
+                        <ButtonRemoveImage handle={handleRemoveSelectedImage} image={'foto'}/>
                       </Box>
                     )}
-                    {photo == "" ?
-                      <FormLabel
-                        py='2'
-                        htmlFor="fileInput"
-                        w='full'
-                        bg='green.500'
-                        cursor='pointer'
-                        borderColor='white'
-                        borderRadius='lg'
-                        display='flex'
-                        alignItems='center'
-                        justifyContent='center'
-                        color='white'
-                      >
-                        <MdInsertPhoto />
-                        <Input
-                          {...register("photo")}
-                          type="file"
-                          id="fileInput"
-                          className="hidden"
-                          accept="image/*"
-                        />
-                        <p className="font-semibold">Foto</p>
-                      </FormLabel> : null}
+                    {photo === "" ? <InputImage inputId={"fileInput"} registerName={{...register('photo')}} inputName={'Foto'}/> : null}
                   </FormControl>
                 </WrapItem>
               </Wrap>

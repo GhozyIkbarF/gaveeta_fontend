@@ -36,29 +36,12 @@ export default function TabelPesananSelesai() {
     const columns = useMemo(
         () => [
             {
-                Header: 'Data  diri',
+                Header: 'kode',
+                accessor: 'id',
+            },
+            {
+                Header: 'Nama',
                 accessor: 'name',
-                Cell: ({ cell: { row } }) => (
-                    <Flex 
-                        justify='start' 
-                        align="start" 
-                        minWidth="100%" 
-                        flexWrap="nowrap"
-                    >
-                        <Flex direction="column">
-                            <Text
-                                fontSize="md"
-                                fontWeight="bold"
-                                minWidth="100%"
-                            >
-                                {row.original.name}
-                            </Text>
-                            <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                                {row.original.email}
-                            </Text>
-                        </Flex>
-                    </Flex>
-                ),
             },
             {
                 Header: 'No Hp',
@@ -126,7 +109,6 @@ export default function TabelPesananSelesai() {
             bg={{ base:'white', lg:'transparent' }}
             mt={{ base:0, lg:5 }} 
             mb={{ base:0, lg:10 }} 
-            px={{ base:0, lg:5 }} 
             pt={{ base:0, lg:5 }}>
             <TableContainer px='5' py="8" bg={useColorModeValue('white', '#1E2023')} shadow={'lg'} borderRadius={'md'} overflowX='auto'>
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Selesai: {data.length}</Text>
@@ -154,7 +136,7 @@ export default function TabelPesananSelesai() {
                         onChange={(e) => setGlobalFilter(e.target.value)}
                     />
                 </Flex>
-                <Table variant='simple' size='lg' {...getTableProps()}>
+                <Table variant='simple' size='md' {...getTableProps()}>
                     <Thead bg='blackAlpha.900' >
                         {headerGroups.map((headerGroup) => (
                             <Tr {...headerGroup.getHeaderGroupProps()} >
@@ -162,7 +144,7 @@ export default function TabelPesananSelesai() {
                                     <Th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         color='white'
-                                        textAlign={ index !== 0 ? 'center' : 'left' }
+                                        textAlign='center'
                                         borderLeftRadius={ index === 0 ? 'lg': 0}
                                         borderRightRadius={ index === headerGroup.headers.length - 1 ? 'lg' : 0}
                                     >
@@ -188,7 +170,7 @@ export default function TabelPesananSelesai() {
                                         return (
                                             <Td 
                                                 {...cell.getCellProps()}
-                                                textAlign={ index !== 0 ? 'center' : 'left' } 
+                                                textAlign='center'
                                                 w={ index !== 0 ? 'auto' : '20%' } 
                                             >
                                                 {cell.render('Cell')}

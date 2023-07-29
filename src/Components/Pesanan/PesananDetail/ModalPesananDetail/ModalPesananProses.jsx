@@ -26,9 +26,10 @@ import { MdInsertPhoto } from "react-icons/md";
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import API from '../../../../Service';
-import { formatInputMoneyIDR, formatMoneyIDR, formatToIDR, getDateToday } from '../../../../validation/format';
+import { formatInputMoneyIDR, formatToIDR, getDateToday } from '../../../../validation/format';
 import { useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
+import InputImage, {ButtonRemoveImage, ReviewImage} from '../../../InputImage';
 
 
 
@@ -199,6 +200,16 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
         setKonfirTotalHarga(false)
     }
 
+    const paymentData = [
+        {name:'Uang muka', data:formatToIDR(DP)},
+        {name:'Biaya ongkir', data:dataDetailOrder.shippingCost ? formatToIDR(dataDetailOrder.shippingCost) : 'biaya ongkir belum ditentukan'},
+        {name:'Harga total', data:totalHarga === 0
+        ? 'Tentukan jumlah dan harga per item terlebih dahulu'
+        : dataDetailOrder.shippingCost !== null
+            ? formatToIDR(totalHarga + parseInt(dataDetailOrder.shippingCost))
+            : formatToIDR(totalHarga)},
+        {name:'Kurang bayar', data:dataDetailOrder.shippingCost ? `${formatToIDR(totalHarga + parseInt(dataDetailOrder.shippingCost) - DP)}` : formatToIDR(totalHarga - DP)},
+    ]
     return (
         <>
             <Modal
@@ -231,41 +242,21 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                     </WrapItem>
                                     :
                                     <>
-                                        <WrapItem w={{ base: 'full', md: '45%' }}>
-                                            <Flex flexDirection='column' w='full'>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Uang muka:</Text>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{formatToIDR(DP)}</Text>
-                                            </Flex>
-                                        </WrapItem>
-                                        <WrapItem w={{ base: 'full', md: '40%' }}>
-                                            <Flex flexDirection='column' w='full'>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Biaya ongkir:</Text>
-                                                {<Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{dataDetailOrder.shippingCost ? formatToIDR(dataDetailOrder.shippingCost) : 'biaya ongkir belum ditentukan'}</Text>}
-                                            </Flex>
-                                        </WrapItem>
-                                        <WrapItem w={{ base: 'full', md: '40%' }}>
-                                            <Flex flexDirection='column' w='full'>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Harga total:</Text>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>
-                                                    {totalHarga === 0
-                                                        ? 'Tentukan jumlah dan harga per item terlebih dahulu'
-                                                        : dataDetailOrder.shippingCost !== null
-                                                            ? formatToIDR(totalHarga + parseInt(dataDetailOrder.shippingCost))
-                                                            : formatToIDR(totalHarga)}
-                                                </Text>
-                                            </Flex>
-                                        </WrapItem>
-                                        <WrapItem w={{ base: 'full', md: '40%' }}>
-                                            <Flex flexDirection='column' w='full'>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Kurang bayar:</Text>
-                                                <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{dataDetailOrder.shippingCost ? `${formatToIDR(totalHarga + parseInt(dataDetailOrder.shippingCost) - DP)}` : formatToIDR(totalHarga - DP)}</Text>
-                                            </Flex>
-                                        </WrapItem>
+                                    {paymentData.map((value, i) => {
+                                        return (
+                                            <WrapItem w={{ base: 'full', md: '40%' }}>
+                                                <Flex flexDirection='column' w='full'>
+                                                    <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{value.name}</Text>
+                                                    <Text fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>{value.data}</Text>
+                                                </Flex>
+                                            </WrapItem>
+                                        )
+                                    })}
                                     </>
                                 }
                                 <WrapItem w={{ base: 'full' }}>
                                     <FormControl>
-                                        {status === 'masuk' ? <FormLabel>Pembayaran awal</FormLabel> : <FormLabel>Pelunasan</FormLabel>}
+                                        <FormLabel>{status === 'masuk' ? 'Uang muka' : 'Pelunasan'}</FormLabel>
                                         <Input type="text" value={money} onChange={handleChangeMoney} placeholder='masukkan nominal' focusBorderColor='#00AA5D' required />
                                         {checkDP && <Text color='red'>minimal DP 1/2 dari total harga</Text>}
                                         {checkLunas && <Text color='red'>jumlah pembayaran tidak sesuai</Text>}
@@ -279,50 +270,13 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                                             </Flex>}
                                         {finalBuktiBayar && (
                                             <Box>
-                                                <Image
-                                                    borderRadius='lg'
-                                                    h='auto'
-                                                    w='full'
-                                                    objectFit='cover'
-                                                    src={URL.createObjectURL(finalBuktiBayar)}
-                                                    alt="ssadas"
-                                                />
-                                                <Center>
-                                                    <Button
-                                                        onClick={removeSelectedBuktiBayar}
-                                                        className=" text-white w-full cursor-pointer mt-1 p-15"
-                                                        colorScheme="red"
-                                                    >
-                                                        Remove bukti pembayaran
-                                                    </Button>
-                                                </Center>
+                                                <ReviewImage alt={'buktiBayar'} src={finalBuktiBayar}/>
+                                                <ButtonRemoveImage handle={removeSelectedBuktiBayar} image={'bukti bayar'}/>
                                             </Box>
                                         )}
                                         {finalBuktiBayar === "" ?
                                             <Flex flexDirection='column' w='full'>
-                                                <FormLabel
-                                                    py='2'
-                                                    htmlFor="fileInputDesign"
-                                                    w='full'
-                                                    bg='green.500'
-                                                    cursor='pointer'
-                                                    borderColor='white'
-                                                    borderRadius='lg'
-                                                    display='flex'
-                                                    alignItems='center'
-                                                    justifyContent='center'
-                                                    color='white'
-                                                >
-                                                <MdInsertPhoto />
-                                                <Input
-                                                    {...register("buktiBayar")}
-                                                    type="file"
-                                                    id="fileInputDesign"
-                                                    className="hidden"
-                                                    accept="image/*"
-                                                    />
-                                                <p className="font-semibold">Bukti pembayaran</p>
-                                                </FormLabel>
+                                                <InputImage inputId={'fileInput'} inputName={'Bukti pembayaran'} registerName={{...register("buktiBayar")}}/> 
                                                 {checkBP && <Text color='red'>sertakan bukti pembayaran</Text>}
                                             </Flex>
                                             : null}
@@ -351,6 +305,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
                     </ModalContent>
                 </form>
             </Modal>
+
             {konfirTotalHarga === true ?
                 <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} isCentered>
                     <ModalOverlay />
