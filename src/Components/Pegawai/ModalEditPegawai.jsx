@@ -1,6 +1,7 @@
 import {
     Box,
     Image,
+    Text,
     Center,
     Modal,
     ModalOverlay,
@@ -29,6 +30,8 @@ import { useForm } from 'react-hook-form';
 import { changeDataPegawai } from '../../Features/Pegawai';
 import API from '../../Service'
 import {ReviewImage, ButtonRemoveImage} from '../InputImage';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { CREATE_PEGAWAI_VALIDATION } from '../../validation';
 
 export default function ModalEditPegawai({ isOpen, onClose }) {
     const [profilePicture, setProfilePicture] = useState()
@@ -44,8 +47,9 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         setValue,
         watch,
         reset,
-        formState: { isSubmitting },
+        formState: { errors, isSubmitting },
     } = useForm({
+        resolver: yupResolver(CREATE_PEGAWAI_VALIDATION),
         defaultValues: {
             id: "",
             name: "",
@@ -211,8 +215,8 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                             name="name"
                                             {...register('name')}
                                             focusBorderColor='#00AA5D'
-                                            required
                                         />
+                                        {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text>}
                                     </FormControl>
                                 </WrapItem>
                                 <WrapItem w={{ base: 'full', md: '45%' }}>
@@ -223,8 +227,8 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                             {...register('email')}
                                             type='email'
                                             focusBorderColor='#00AA5D'
-                                            required
                                         />
+                                        {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text>}
                                     </FormControl>
                                 </WrapItem>
                                 <WrapItem w={{ base: 'full', md: '45%' }}>
@@ -235,8 +239,8 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                             name="phone"
                                             {...register('phone')}
                                             focusBorderColor='#00AA5D'
-                                            required
                                         />
+                                        {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text>}
                                     </FormControl>
                                 </WrapItem>
                                 <WrapItem w={{ base: 'full', md: '45%' }}>
@@ -246,6 +250,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                             <option value="Laki-laki">Laki-laki</option>
                                             <option value="Perempuan">Perempuan</option>
                                         </Select>
+                                        {errors.gender && <Text color={'red'} fontSize={'sm'}>{errors.gender.message}</Text>}
                                     </FormControl>
                                 </WrapItem>
                                 <WrapItem w='full'>
@@ -256,8 +261,8 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                                             name="address"
                                             {...register('address')}
                                             focusBorderColor='#00AA5D'
-                                            required
                                         />
+                                        {errors.address && <Text color={'red'} fontSize={'sm'}>{errors.address.message}</Text>}
                                     </FormControl>
                                 </WrapItem>
                                 {isLoadingPhoto ?

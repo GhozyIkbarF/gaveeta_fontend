@@ -2,8 +2,8 @@ import React from 'react'
 import { useState, useEffect, useMemo } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import { useSelector, useDispatch } from 'react-redux';
-import { useTable, usePagination, useGlobalFilter } from "react-table";
-import { Box, Text, Flex, Button, Input, useColorModeValue, useToast } from '@chakra-ui/react'
+import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
+import { Box, Text, Flex, Button, Input, Select, useColorModeValue, useToast } from '@chakra-ui/react'
 import {
     Avatar,
     Table,
@@ -21,6 +21,7 @@ import ModalAddPegawai from '../Components/Pegawai/ModalAddPegawai'
 import ModalEditPegawai from '../Components/Pegawai/ModalEditPegawai';
 import Loading from '../Components/Loading';
 import { actionPegawai, setEmployes } from '../Features/Pegawai';
+import { userRole } from '../Features/Utils';
 import API from '../Service'
 
 export default function Pegawai() {
@@ -34,11 +35,11 @@ export default function Pegawai() {
 
     const getDataInit = async () => {
         setLoading(true)
-        try{
+        try {
             const res = await API.getAllPegawai();
             setData(res.data);
             dispatch(setEmployes(res.data));
-        }catch(err){
+        } catch (err) {
             toast({
                 title: "Get employes data failed",
                 description: "Something went wrong...",
@@ -46,7 +47,7 @@ export default function Pegawai() {
                 duration: 3000,
                 isClosable: true,
                 position: "top-right",
-              });
+            });
         }
         setLoading(false)
     };
@@ -60,9 +61,8 @@ export default function Pegawai() {
         getDataInit();
     }, [result]);
 
-
-    const columns = useMemo(
-        () => [
+    const columns = useMemo(() => {
+        const defaultColumns = [
             {
                 Header: 'Nama',
                 accessor: 'name',
@@ -96,16 +96,22 @@ export default function Pegawai() {
                 Header: 'jenis kelamin',
                 accessor: 'gender',
             },
-            {
-                Header: 'aksi',
-                Cell: ({ row }) => (
-                    <ActionTablePegawai id={row.original.id} onOpen={onOpen} />
-                )
-            },
+        ];
 
-        ],
-        []
-    );
+        const isSuperAdmin = userRole
+        return isSuperAdmin === 'superAdmin'
+            ? [
+                ...defaultColumns,
+                {
+                    Header: 'aksi',
+                    Cell: ({ row }) => (
+                        <ActionTablePegawai id={row.original.id} onOpen={onOpen} />
+                    ),
+                },
+            ]
+            : defaultColumns;
+    }, []);
+
 
     const {
         getTableProps,
@@ -114,22 +120,26 @@ export default function Pegawai() {
         prepareRow,
         page,
         pageOptions,
+        gotoPage,
         nextPage,
         previousPage,
         canNextPage,
         canPreviousPage,
         state,
-        setGlobalFilter
+        setGlobalFilter,
+        setPageSize
     } = useTable(
         {
             columns,
             data,
+            initialState: { pageIndex: 0 },
         },
         useGlobalFilter,
+        useSortBy,
         usePagination
     );
 
-    const { globalFilter, pageIndex } = state;
+    const { globalFilter, pageIndex, pageSize  } = state;
 
     const handleAddPegawai = (action) => (e) => {
         e.preventDefault();
@@ -164,19 +174,38 @@ export default function Pegawai() {
                         direction={{ base: 'column', md: 'row' }}
                         gap='3'
                         p='5'>
-                        <Button
-                            colorScheme='green'
-                            onClick={handleAddPegawai('create')}
-                        >
-                            + Pegawai
-                        </Button>
-                        <Input
-                            placeholder='search...'
-                            size='md'
-                            width='auto'
-                            value={globalFilter || ''}
-                            onChange={(e) => setGlobalFilter(e.target.value)}
-                        />
+                        {userRole === 'superAdmin' ?
+                            <Button
+                                colorScheme='green'
+                                onClick={handleAddPegawai('create')}
+                            >
+                                + Pegawai
+                            </Button> :
+                            null}
+                        <Box display={'flex'}>
+                            <Select
+                                borderEndRadius='none'
+                                w="auto"
+                                value={pageSize}
+                                onChange={e => {
+                                    setPageSize(Number(e.target.value))
+                                }}
+                            >
+                                {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                                    <option key={pageSize} value={pageSize}>
+                                        {pageSize}
+                                    </option>
+                                ))}
+                            </Select>
+                            <Input
+                                placeholder='search...'
+                                size='md'
+                                borderLeftRadius='none'
+                                width='auto'
+                                value={globalFilter || ''}
+                                onChange={(e) => setGlobalFilter(e.target.value)}
+                            />
+                        </Box>
                     </Flex>
                     <Table
                         variant='simple'
@@ -187,7 +216,7 @@ export default function Pegawai() {
                                 <Tr {...headerGroup.getHeaderGroupProps()}>
                                     {headerGroup.headers.map((column, index) => (
                                         <Th
-                                            {...column.getHeaderProps()}
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
                                             color='white'
                                             textAlign={index !== 0 ? 'center' : 'left'}
                                             borderLeftRadius={index === 0 ? 'lg' : 0}
@@ -219,22 +248,36 @@ export default function Pegawai() {
                             })}
                         </Tbody>
                     </Table>
-                    <Box
-                        my='2'
-                        pl='8'>
-                        <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                            <FaAngleLeft />
-                        </Button>
-                        <span>
-                            {' '}Page{' '}
-                            <strong>
-                                {pageIndex + 1} of {pageOptions.length}
-                            </strong>{' '}
-                        </span>
-                        <Button onClick={() => nextPage()} disabled={!canNextPage}>
-                            <FaAngleRight />
-                        </Button>
-                    </Box>
+                    <Flex my='3' px='7' justify='space-between' gap='2' alignItems='center' w='full'>
+                        <Box>
+                            <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                                <FaAngleLeft />
+                            </Button>
+                            <span>
+                                {' '}Page{' '}
+                                <strong>
+                                    {pageIndex + 1} of {pageOptions.length}
+                                </strong>{' '}
+                            </span>
+                            <Button onClick={() => nextPage()} disabled={!canNextPage}>
+                                <FaAngleRight />
+                            </Button>
+                        </Box>
+                        <Box>
+                            <span>
+                                Go to page:{' '}
+                                <Input
+                                    type="number"
+                                    defaultValue={pageIndex + 1}
+                                    onChange={e => {
+                                        const page = e.target.value ? Number(e.target.value) - 1 : 0
+                                        gotoPage(page)
+                                    }}
+                                    style={{ width: '100px' }}
+                                />
+                            </span>
+                        </Box>
+                    </Flex>
                     {action === 'create' && (<ModalAddPegawai isOpen={isOpen} onClose={onClose} />)}
                     {action === 'delete' && <AlertDeletePegawai onClose={onClose} isOpen={isOpen} />}
                     {action === 'edit' && (<ModalEditPegawai onClose={onClose} isOpen={isOpen} />)}

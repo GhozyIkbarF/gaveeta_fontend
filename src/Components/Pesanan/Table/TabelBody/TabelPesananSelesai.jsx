@@ -112,29 +112,31 @@ export default function TabelPesananSelesai() {
             pt={{ base:0, lg:5 }}>
             <TableContainer px='5' py="8" bg={useColorModeValue('white', '#1E2023')} shadow={'lg'} borderRadius={'md'} overflowX='auto'>
                 <Text pl='5' fontWeight='bold' fontSize='lg'>Total Pesanan Selesai: {data.length}</Text>
-                <Flex w='auto' p='5'>
-                    <Select
-                        borderEndRadius='none'
-                        w="auto"
-                        value={pageSize}
-                        onChange={e => {
-                            setPageSize(Number(e.target.value))
-                        }}
-                    >
-                        {[5, 10, 20, 30, 40, 50].map(pageSize => (
-                            <option key={pageSize} value={pageSize}>
-                                {pageSize}
-                            </option>
-                        ))}
-                    </Select>
-                    <Input
-                        borderLeftRadius='none'
-                        placeholder='search...'
-                        size='md'
-                        width='auto'
-                        value={globalFilter || ''}
-                        onChange={(e) => setGlobalFilter(e.target.value)}
-                    />
+                <Flex justifyContent={'space-between'} align={'center'}>
+                    <Flex w='auto' p='5'>
+                        <Select
+                            borderEndRadius='none'
+                            w="auto"
+                            value={pageSize}
+                            onChange={e => {
+                                setPageSize(Number(e.target.value))
+                            }}
+                        >
+                            {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                                <option key={pageSize} value={pageSize}>
+                                    {pageSize}
+                                </option>
+                            ))}
+                        </Select>
+                        <Input
+                            borderLeftRadius='none'
+                            placeholder='search...'
+                            size='md'
+                            width='auto'
+                            value={globalFilter || ''}
+                            onChange={(e) => setGlobalFilter(e.target.value)}
+                        />
+                    </Flex>
                 </Flex>
                 <Table variant='simple' size='md' {...getTableProps()}>
                     <Thead bg='blackAlpha.900' >

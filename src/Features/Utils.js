@@ -154,7 +154,7 @@ export const generatePDFLaporan = ({data, company, pendapatan, paramMonth, start
     if (data.length > 0) {
         data.forEach((element, index) => {
             dataTable.push(
-                [index + 1, element.name, element.phone, element.description, element.quantity, formatToIDR(element.pricePerItem), formatToIDR(element.payment)],
+                [`${index + 1}.`, element.name, element.phone, element.description, element.quantity, formatToIDR(element.pricePerItem), formatToIDR(element.payment)],
             )
         })
         dataTable.push(['', '', '', '', '', '', formatToIDR(pendapatan)])

@@ -234,8 +234,11 @@ export default function PesananDetail() {
                                             <Image
                                                 key={i}
                                                 w='full'
-                                                h='auto'
-                                                objectFit='contain'
+                                                display='block'
+                                                objectPosition='center'
+                                                objectFit='cover'
+                                                aspectRatio="1"
+                                                h={{ base: 24, lg: 80}}
                                                 src={design.design}
                                                 alt="design"
                                                 _hover={{ filter: 'auto', brightness: '40%' }}
@@ -278,8 +281,11 @@ export default function PesananDetail() {
                                             <Image
                                                 key={i}
                                                 w='full'
-                                                h='auto'
-                                                objectFit='contain'
+                                                display='block'
+                                                objectPosition='center'
+                                                objectFit='cover'
+                                                aspectRatio="1"
+                                                h={{ base: 24, lg: 80}}
                                                 src={model.model}
                                                 alt="design"
                                                 _hover={{ filter: 'auto', brightness: '40%' }}

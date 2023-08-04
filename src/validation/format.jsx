@@ -40,11 +40,8 @@ export const formatToIDR = (num) => {
   };
   
   export const indonesiaDateTime = (date) =>{
-    //convert datetime to indonesia format-----
     const datetimeString = date;
-    // Create a new date object from the datetime string
     const datetime = new Date(datetimeString);
-    // Convert the date to Indonesian date and time format
     const optiondatetime = {
         timeZone: 'Asia/Jakarta',
         year: 'numeric',
@@ -71,7 +68,11 @@ export const formatDateDMY = (param) => {
   const parts = param.split('-');
   const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
   return formattedDate
-
+}
+export const formatInputFilterDate = (param) => {
+  const parts = param.split('-');
+  const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+  return formattedDate
 }
 
 export const  getThisMonth = () => {

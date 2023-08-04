@@ -18,7 +18,6 @@ import {
   Textarea,
   useColorModeValue
 } from '@chakra-ui/react'
-import { MdInsertPhoto } from "react-icons/md";
 import React, { useState, useEffect } from 'react'
 import API from '../../../../Service';
 import { yupResolver } from "@hookform/resolvers/yup";

@@ -1,6 +1,8 @@
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Flex,
+  Text,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -16,18 +18,16 @@ import {
   Wrap,
   WrapItem,
   useToast,
-  Center,
-  Image,
   Textarea,
   Spinner,
 } from '@chakra-ui/react'
-import { MdInsertPhoto } from "react-icons/md";
-import React, { useEffect, useState } from 'react'
 import API from '../../Service'
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { changeDataPegawai } from '../../Features/Pegawai';
 import InputImage, {ReviewImage, ButtonRemoveImage} from '../InputImage';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { CREATE_PEGAWAI_VALIDATION } from '../../validation';
 
 export default function ModalEditPegawai({ isOpen, onClose }) {
   const initialRef = React.useRef(null);
@@ -41,10 +41,10 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
     setValue,
     watch,
     reset,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm(
     {
-
+      resolver: yupResolver(CREATE_PEGAWAI_VALIDATION),
       defaultValues: {
         name: "",
         phone: "",
@@ -110,7 +110,8 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
         position: "top-right",
       });
       close();
-    } catch (error) {
+    } catch (err) {
+      console.log(errors);
       toast({
         title: "Create pewagai failed",
         description: "Something went wrong...",
@@ -148,34 +149,39 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Nama</FormLabel>
-                    <Input type="text" id="name" {...register('name')} focusBorderColor='#00AA5D' required />
+                    <Input type="text" id="name" {...register('name')} focusBorderColor='#00AA5D'/>
+                    {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text>}
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Email</FormLabel>
-                    <Input type="email" id="email" {...register('email')} focusBorderColor='#00AA5D' required/>
+                    <Input type="email" id="email" {...register('email')} focusBorderColor='#00AA5D'/>
+                    {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text>}
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>No Hp</FormLabel>
-                    <Input type="number" id="phone" {...register('phone')} focusBorderColor='#00AA5D' required />
+                    <Input type="number" id="phone" {...register('phone')} focusBorderColor='#00AA5D'/>
+                    {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text>}
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Jenis kelamin</FormLabel>
-                    <Select name='gender' {...register('gender')} focusBorderColor='#00AA5D' required>
+                    <Select name='gender' {...register('gender')} focusBorderColor='#00AA5D'>
                       <option value="Laki-laki">Laki-laki</option>
                       <option value="Perempuan">Perempuan</option>
                     </Select>
+                    {errors.gender && <Text color={'red'} fontSize={'sm'}>{errors.gender.message}</Text>}
                   </FormControl>
                 </WrapItem>
                 <WrapItem w='full'>
                   <FormControl>
                     <FormLabel>Alamat</FormLabel>
-                    <Textarea type="text" id="address" {...register('address')} focusBorderColor='#00AA5D' required />
+                    <Textarea type="text" id="address" {...register('address')} focusBorderColor='#00AA5D'/>
+                    {errors.address && <Text color={'red'} fontSize={'sm'}>{errors.address.message}</Text>}
                   </FormControl>
                 </WrapItem>
                 {isLoadingPhoto ?
