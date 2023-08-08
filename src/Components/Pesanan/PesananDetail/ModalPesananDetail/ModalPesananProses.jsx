@@ -202,7 +202,7 @@ export default function ModalPesananProses({ isOpen, onClose, status, totalHarga
 
     const paymentData = [
         {name:'Uang muka', data:formatToIDR(DP)},
-        {name:'Biaya ongkir', data:dataDetailOrder.shippingCost ? formatToIDR(dataDetailOrder.shippingCost) : 'biaya ongkir belum ditentukan'},
+        {name:'Biaya ongkir', data:dataDetailOrder.shippingCost > 0 ? formatToIDR(dataDetailOrder.shippingCost) : dataDetailOrder.shippingCost == 0 ? 'gratis' : 'biaya ongkir belum ditentukan'},
         {name:'Harga total', data:totalHarga === 0
         ? 'Tentukan jumlah dan harga per item terlebih dahulu'
         : dataDetailOrder.shippingCost !== null

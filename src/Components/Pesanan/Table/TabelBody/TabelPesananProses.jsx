@@ -75,7 +75,7 @@ export default function TabelPesananProses() {
                 Header: 'progres',
                 accessor: 'progres',
                 Cell: ({ cell: { row } }) => (
-                <Text>{`${row.original.progres}/${row.original.quantity}`}</Text>
+                <Text>{`${row.original.progres !== null ?  row.original.progres : 0}/${row.original.quantity}`}</Text>
                 )
             },
             {

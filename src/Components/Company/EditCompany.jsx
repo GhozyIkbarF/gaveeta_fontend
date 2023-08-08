@@ -19,6 +19,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading';
 import API from '../../Service';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { UPDATE_COMPANY_VALIDATION } from '../../validation';
 
 export default function EditCompany() {
     const [loading, setLoading] = useState(false)
@@ -28,9 +30,10 @@ export default function EditCompany() {
         register,
         handleSubmit,
         setValue,
-        formState: { isSubmitting },
+        formState: { errors, isSubmitting },
     } = useForm(
         {
+            resolver: yupResolver(UPDATE_COMPANY_VALIDATION),
             defaultValues: {
                 name: '',
                 address: "",
@@ -167,12 +170,29 @@ export default function EditCompany() {
                                 flexDir={'column'}
                             >
                                 <Wrap w={'full'} justify={'space-between'}>
-                                    {inputField.map((inputField, i) => (
-                                        <WrapItem key={i} w={{ base: 'full', md: '48%' }} display='flex' flexDirection='column'>
-                                            <FormLabel>{inputField.label}</FormLabel>
-                                            <Input type={inputField.type} name={inputField.name} {...register(inputField.name)} required />
+                                        <WrapItem w={{ base: 'full', md: '48%' }} display='flex' flexDirection='column'>
+                                            <FormLabel>Nama perusahaan</FormLabel>
+                                            <Input type='text' name='name' {...register('name')} required />
+                                            {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text>}
                                         </WrapItem>
-                                    ))}
+                                        <WrapItem w={{ base: 'full', md: '48%' }} display='flex' flexDirection='column'>
+                                            <FormLabel>email</FormLabel>
+                                            <Input type='email' name='name' {...register('email')} required />
+                                            {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text>}
+                                        </WrapItem>
+                                        <WrapItem w={{ base: 'full', md: '48%' }} display='flex' flexDirection='column'>
+                                            <FormLabel>No HP</FormLabel>
+                                            <Input type='number' name='phone' {...register('phone')} required />
+                                            {errors.phone && <Text color={'red'} fontSize={'sm'}>{errors.phone.message}</Text>}
+                                        </WrapItem>
+                                        <WrapItem w={{ base: 'full', md: '48%' }} display='flex' flexDirection='column'>
+                                            <FormLabel>Website</FormLabel>
+                                            <Input type='text' name='website' {...register('website')} required />
+                                        </WrapItem>
+                                        <WrapItem w={{ base: 'full', md: '48%' }} display='flex' flexDirection='column'>
+                                            <FormLabel>Facebook</FormLabel>
+                                            <Input type='text' name='facebook' {...register('facebook')} required />
+                                        </WrapItem>
                                     <WrapItem w='100%' display='flex' flexDirection='column'>
                                         <FormLabel>Alamat</FormLabel>
                                         <Textarea type="text" name="address" {...register('address')} placeholder='Alamat' required />
