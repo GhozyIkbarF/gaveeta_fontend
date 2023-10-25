@@ -5,7 +5,6 @@ const accessToken = localStorage.getItem('accessToken');
 const headers = {
     'Authorization': `Bearer ${accessToken}`,
     'Content-Type': "multipart/form-data"
-    // 'Content-Type': 'application/json'
 };
 
 const Post = async (path, data) => {

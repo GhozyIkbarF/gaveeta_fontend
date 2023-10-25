@@ -151,12 +151,14 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
                   <FormControl>
                     <FormLabel>Alamat</FormLabel>
                     <Textarea type="text" name="address" {...register('address')} focusBorderColor='#00AA5D'/>
+                    {errors.address && <Text color={'red'} fontSize={'sm'}>{errors.address.message}</Text> }
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
                   <FormControl>
                     <FormLabel>Jumlah pesanan</FormLabel>
                     <Input type="number" name="quantity" {...register('quantity')} focusBorderColor='#00AA5D'/>
+                    {errors.quantity && <Text color={'red'} fontSize={'sm'}>{errors.quantity.message}</Text> }
                   </FormControl>
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }}>
@@ -181,6 +183,7 @@ export default function ModalEditPesananMasuk({ isOpen, onClose }) {
                   <FormControl>
                     <FormLabel>Deskripsi</FormLabel>
                     <Textarea type="text" name="description" {...register('description')} focusBorderColor='#00AA5D'/>
+                    {errors.description && <Text color={'red'} fontSize={'sm'}>{errors.description.message}</Text> }
                   </FormControl>
                 </WrapItem>
               </Wrap>

@@ -197,6 +197,7 @@ export default function ModalEditPegawai({ isOpen, onClose }) {
                       </Box>
                     )}
                     {photo === "" ? <InputImage inputId={"fileInput"} registerName={{...register('photo')}} inputName={'Foto'}/> : null}
+                    {errors.photo && <Text color={'red'} fontSize={'sm'}>{errors.photo.message}</Text>}
                   </FormControl>
                 </WrapItem>
               </Wrap>

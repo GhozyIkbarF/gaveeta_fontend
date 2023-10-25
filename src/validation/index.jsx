@@ -20,7 +20,11 @@ export const CREATE_PESANAN_MASUK_VALIDATION = Yup.object().shape({
     .min(11, "minimal 11 digit")
     .max(13, "maksimal 13 digit"),
   address: Yup.string().required("alamat harus diisi"),
-  status: Yup.string().required("Required")
+  status: Yup.string().required("Required"),
+  description: Yup.string().required("deskripsi harus diisi"),
+  quantity: Yup.string()
+    .required("jumlah pesanan harus diisi")
+    .matches(/^[0-9]+$/, "Harus berupa angka")
 });
 
 
@@ -46,6 +50,10 @@ export const UPDATE_PESANAN_MASUK_VALIDATION = Yup.object().shape({
     .max(13, "maksimal 13 digit")
     .required("nomer hp harus diisi"),
   address: Yup.string().required("alamat harus diisi"),
+  description: Yup.string().required("deskripsi harus diisi"),
+  quantity: Yup.string()
+    .required("jumlah pesanan harus diisi")
+    .matches(/^[0-9]+$/, "Harus berupa angka")
 });
 
 
@@ -70,6 +78,7 @@ export const CREATE_PEGAWAI_VALIDATION = Yup.object().shape({
     .max(13, "maksimal 13 digit"),
   gender: Yup.string().required("jenis kelamin harus diisi"),
   address: Yup.string().required("alamat harus diisi"),
+  photo: Yup.string().required("foto pegawai harus diisi"),
 });
 
 export const UPDATE_COMPANY_VALIDATION = Yup.object().shape({

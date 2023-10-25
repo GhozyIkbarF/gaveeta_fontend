@@ -29,8 +29,7 @@ import {
 } from 'react-icons/fa';
 import Loading from '../Components/Loading';
 import API from '../Service';
-import { formatDateDMY } from '../validation/format';
-import { getDateToday } from '../validation/format';
+import { formatDateDMY, getDateToday, formatToIDR } from '../validation/format';
 import { Link } from 'react-router-dom';
 
 export default function Beranda() {
@@ -43,6 +42,8 @@ export default function Beranda() {
   const [inputDateEndValue, setInputDateEndValue] = useState('')
   const [inputDateStartValue, setInputStartEndValue] = useState('2022-01-01')
   const [displayButton, setDisplayButton] = useState(false);
+
+  console.log(data);
 
   const toast = useToast();
 
@@ -204,6 +205,7 @@ export default function Beranda() {
     {title:'Pesanan masuk', stat:data.masuk, icon:FaShoppingCart ,url:'/pesananmasuk' },
     {title:'Pesanan proses', stat:data.proses, icon:FaCheck ,url:'/pesananproses' },
     {title:'Pesanan selesai', stat:data.selesai, icon:BsFillClipboardFill ,url:'/pesananselesai' },
+    // {title: 'pendapatan Total', stat:formatToIDR(data.pendapatanTotal), icon:BsFillClipboardFill}
   ]
 
   return (

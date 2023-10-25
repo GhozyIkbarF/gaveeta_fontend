@@ -1,5 +1,6 @@
 
 export const formatMoneyIDR = (num) => {
+  const {} = this.props.first
      const formatter = new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',

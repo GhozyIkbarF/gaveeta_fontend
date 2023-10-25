@@ -204,32 +204,6 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
     setFinalModel('')
   };
 
-
-  // const InputRequired = ({label, name, error, errorMessage, input}) => {
-
-  //   const InputItem = () => {
-  //     if(input ==){
-
-  //     }
-  //   }
-  //   return(
-  //     <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
-  //       <FormLabel>{label}</FormLabel>
-  //       {input === 'input' ? <Input type="text" name={name} {...register({name})} focusBorderColor='#00AA5D' /> 
-  //       : 
-  //       <Textarea type="text" name={name} {...register({name})} focusBorderColor='#00AA5D' />
-  //       }
-  //       {error && <Text color={'red'} fontSize={'sm'}>{errorMessage}</Text>}
-  //     </WrapItem>
-  //   )
-  // }
-  // const InputRequired = [
-  //   {label:'Nama', name:'name', error: errors.name, errorMessage:errors.name.message ,input:'input' },
-  //   {label:'Email', name:'email', error: errors.email, errorMessage:errors.email.message ,input:'input' },
-  //   {label:'No Hp', name:'phone', error: errors.phone, errorMessage:errors.phone.message ,input:'input' },
-  //   {label:'Alamat', name:'address', error: errors.address, errorMessage:errors.address.message ,input:'textarea' },
-  //   ]
-
   return (
     <>
       <Modal
@@ -256,7 +230,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                   {errors.name && <Text color={'red'} fontSize={'sm'}>{errors.name.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email (tidak wajib diisi)</FormLabel>
                   <Input type='email' name="email" {...register('email')} focusBorderColor='#00AA5D' />
                   {errors.email && <Text color={'red'} fontSize={'sm'}>{errors.email.message}</Text>}
                 </WrapItem>
@@ -273,6 +247,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Jumlah pesanan</FormLabel>
                   <Input type="number" name="quantity" {...register('quantity')} focusBorderColor='#00AA5D' />
+                  {errors.quantity && <Text color={'red'} fontSize={'sm'}>{errors.quantity.message}</Text>}
                 </WrapItem>
                 <WrapItem w={{ base: 'full', md: '45%' }} display='flex' flexDirection='column'>
                   <FormLabel>Harga peritem</FormLabel>
@@ -289,6 +264,7 @@ export default function ModalAddPesananMasuk({ isOpen, onClose }) {
                 <WrapItem w='100%' display='flex' flexDirection='column'>
                   <FormLabel>Deskripsi</FormLabel>
                   <Textarea type="text" name="description" {...register('description')} focusBorderColor='#00AA5D' />
+                  {errors.description && <Text color={'red'} fontSize={'sm'}>{errors.description.message}</Text>}
                 </WrapItem>
                 <WrapItem w='100%' display='flex' flexDirection='column'>
                   {isLoadingDesign &&
